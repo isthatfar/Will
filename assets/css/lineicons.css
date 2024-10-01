@@ -773,7 +773,7 @@ Author: lineicons.com
   content: "\eaad";
 }
 
-.lni-envelope::before {
+.lni-layout::before {
   content: "\eaae";
 }
 
@@ -1157,7 +1157,7 @@ Author: lineicons.com
   content: "\eb0d";
 }
 
-.lni-layout::before {
+.lni-envelope::before {
   content: "\eb0e";
 }
 
