@@ -1153,11 +1153,11 @@ Author: lineicons.com
   content: "\eb0c";
 }
 
-.lni-checkmark-circle::before {
+.lni-layers::before {
   content: "\eb0d";
 }
 
-.lni-send::before {
+.lni-envelope::before {
   content: "\eb0e";
 }
 
