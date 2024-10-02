@@ -75,7 +75,7 @@
   }
   
   .mobnav .progress .done {
-    background: #0ac672;
+    background: #3056d3;
     height: 11px;
     width: 5%;
     border-radius: 11px;
@@ -205,7 +205,7 @@
   .bri .item .helptxt,
   .detail_help {
     display: none;
-    background: #f9f2e2;
+    background: #ece2f9;
     line-height: 1.7;
     border-radius: 10px;
     padding: 20px 35px;

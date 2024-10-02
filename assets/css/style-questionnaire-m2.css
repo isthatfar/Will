@@ -122,12 +122,12 @@
   }
   
   .bri .next .button:hover {
-    background-color: #13d880;
+    background-color: #3864f5;
   }
   
   .bri .next .button:active {
-    background-color: #19ea8d;
-    box-shadow: 1px 3px 4px #0ac67230;
+    background-color: #3056d3;
+    box-shadow: 1px 3px 4px #0a30c630;
     transition: all 0.07s ease;
   }
   
