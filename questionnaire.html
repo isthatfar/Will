@@ -1,412 +1,364 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./style2.css" />
+  </head>
+  <body>
+    <div class="container" id="container">
+      <div class="displayStep" id="displayStep">
+        <div class="circle">
+          <div class="circle1" id="circle1"><p>1</p></div>
+          <div class="circle2" id="circle2"><p>2</p></div>
+          <div class="circle3" id="circle3"><p>3</p></div>
+          <div class="circle4" id="circle4"><p>4</p></div>
+        </div>
+        <div class="steps">
+          <div class="step1">
+            <p>STEP 1</p>
+            <span>YOUR INFO</span>
+          </div>
+          <div class="step1">
+            <p>STEP 2</p>
+            <span>SELECT PLAN</span>
+          </div>
+          <div class="step1">
+            <p>STEP 3</p>
+            <span>ADD-ONS</span>
+          </div>
+          <div class="step1">
+            <p>STEP 4</p>
+            <span>SUMMARY</span>
+          </div>
+        </div>
+      </div>
+      <div class="stepContainer" id="stepContainer">
+        <!--PERSO INFOS -------------------------------------------------------------------->
+        <div class="affichStep">
+          <div class="stepInfo" id="stepInfo">
+            <h1>Personal Info</h1>
+            <p class="descrition">
+              Please provide vour name, email address, and phone number.
+            </p>
+            <div class="flexError">
+              <p>Name</p>
+              <span id="errorName"></span>
+            </div>
+            <input
+              type="text"
+              name=""
+              id="infoName"
+              placeholder="e.g. Stephen king"
+            />
+            <div class="flexError">
+              <p>Email Address</p>
+              <span id="errorMail"></span>
+            </div>
+            <input
+              type="text"
+              name=""
+              id="infoMail"
+              placeholder="e.g. stephenking@lorem.com"
+            />
+            <div class="flexError">
+              <p>PhoneNumber</p>
+              <span id="errorNum"></span>
+            </div>
+            <input
+              type="text"
+              name=""
+              id="infoNumber"
+              placeholder="e.g. +1 234 567 890"
+            />
+            <div class="buttonContainerStepOne">
+              <button onclick="goStepTwo()" class="nextStep">Next Step</button>
+            </div>
+          </div>
+          <!--SELECT PLAN ------------------------------------------------------------------------>
+          <div class="stepPlan" id="stepPlan">
+            <h1>Select your plan</h1>
+            <p class="descrition">
+              You have the option of monthly or yearly billing.
+            </p>
+            <div class="planMonth" id="planMonth">
+              <button class="planButton" id="moisArcade" onclick="getPrice1()">
+                <img src="./image/icon-arcade.svg" alt="" />
 
-	<link rel="preload" href="/res/font/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="preload" href="/res/font/poppins-500.woff2" as="font" type="font/woff2" crossorigin>
-	<link rel="preload" href="/res/font/poppins-600.woff2" as="font" type="font/woff2" crossorigin>
+                <p>Arcade</p>
+                <span id="priceMonth" class="priceMonth">9$/mo</span>
+              </button>
 
-	
-	<title>Your will - Questionnaire</title>
-	<meta name="Description" content="">
-	
-	<link rel="stylesheet" type="text/css" href="/will/assets/css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="/will/assets/css/ud-styles.css" media="print" onload="this.media='all'">
-	
-	
-	<link href="https://www.googletagmanager.com" rel="preconnect">
-	<link href="https://www.google-analytics.com" rel="preconnect">
-	<link href="https://www.googleadservices.com" rel="preconnect">
-	<link href="https://googleads.g.doubleclick.net" rel="preconnect">
-	<link href="https://stats.g.doubleclick.net" rel="preconnect">
-	<link href="https://www.google.com" rel="preconnect">
-	<link href="https://www.google.co.uk" rel="preconnect">
-	<link href="https://bat.bing.com" rel="preconnect">
-	<link href="https://connect.facebook.net" rel="preconnect">
-	<link href="https://www.facebook.com" rel="preconnect">
-	
-	<script src="/will/assets/js/js.js" async></script>
-	
-	<script src="/will/assets/js/js-q-e.js" async></script>
-	<link rel="stylesheet" type="text/css" href="/will/assets/css/style-questionnaire-m1.css"/>
-	<link rel="stylesheet" type="text/css" href="/will/assets/css/style-questionnaire-m2.css" media="print" onload="this.media='all'"/>	
-	<script src="/res/js-livechat.js" async></script>
+              <button
+                class="planButton"
+                id="moisAdvenced"
+                onclick="getPrice2()"
+              >
+                <img src="./image/icon-advanced.svg" alt="" />
 
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-G6EGG3RFYJ"></script>
-	<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-G6EGG3RFYJ');
-	gtag('config', 'AW-651505487');
-	</script>
-	<script>!function(e,a,t,n,o){var c,r,d;e[o]=e[o]||[],c=function(){var a={ti:"56340785"};a.q=e[o],e[o]=new UET(a),e[o].push("pageLoad")},(r=a.createElement(t)).src="//bat.bing.com/bat.js",r.async=1,r.onload=r.onreadystatechange=function(){var e=this.readyState;e&&"loaded"!==e&&"complete"!==e||(c(),r.onload=r.onreadystatechange=null)},(d=a.getElementsByTagName(t)[0]).parentNode.insertBefore(r,d)}(window,document,"script",0,"uetq");</script>
-	<script>!function(e,t,n,c,o,a,f){e.fbq||(o=e.fbq=function(){o.callMethod?o.callMethod.apply(o,arguments):o.queue.push(arguments)},e._fbq||(e._fbq=o),o.push=o,o.loaded=!0,o.version="2.0",o.queue=[],(a=t.createElement(n)).async=!0,a.src="https://connect.facebook.net/en_US/fbevents.js",(f=t.getElementsByTagName(n)[0]).parentNode.insertBefore(a,f))}(window,document,"script"),fbq("init","855343628602683"),fbq("track","PageView");</script>
-	
-	<meta name="robots" content="noindex"/>
+                <p>Advenced</p>
+                <span id="priceMonth" class="priceMonth">12$/mo</span>
+              </button>
 
+              <button class="planButton" id="moisPro" onclick="getPrice3()">
+                <img src="./image/icon-pro.svg" alt="" />
 
-	<link rel="shortcut icon" href="/res/img/fav.png"/>
-	<meta http-equiv="content-language" content="en-gb">
-</head>
-<body>	<div class="top light">
-		<div class="align">
-			<a class="logo" href=""><svg aria-hidden="true" role="img"><use xlink:href="#logo"></use></svg><u>Properwills</u></a>
-					</div>
-	</div>
-	<div>
-		<div class="align">
-			<div class="brief bri clear">
-				<div class="mobnav">
-					<div class="progress"><div class="done"></div></div>
-				</div>
-				<div class="form briefstep c_s">
-<div class="item qid-testator_domicile  required fs_radio"><div class="qtitle"><b>Let's start. Where do you live?</b><span class="helpbtn"></span></div><div class="helptxt">We need to know your country of domicile. For most people it is usually where you live and pay taxes.</div><div class="radio"><span></span>England</div><div class="radio"><span></span>Wales</div><div class="radio"><span></span>Scotland</div><div class="radio"><span></span>Northern Ireland</div></div>					<div class="next">
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep c_s c_about hidden">
-<div class="item qid-testator_relationship  required fs_radio"><div class="qtitle"><b>What is your relationship status?</b><span class="helpbtn"></span></div><div class="helptxt">Pick the closest to your situation. If you are widowed and remarried please select married.</div><div class="radio"><span></span>Single</div><div class="radio"><span></span>In a relationship</div><div class="radio"><span></span>In a civil partnership</div><div class="radio"><span></span>Married</div><div class="radio"><span></span>Widowed</div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden">
-					<div class="item bigchoice choice-wills required qid-nbwills ">
-						<div class="qtitle">
-							<b>Who needs a will?</b>
-							<span class="helpbtn"></span>
-						</div>
-						<div class="helptxt">If your partner also needs a will you'll need to complete this first questionnaire for yourself only. You will then receive a link by email for your partner to write their own will.</div>
-						<div class="radio">
-							<span></span>
-							<u class="choice">One</u>
-							<u class="bold">Just me (<u class="curr">£</u>99)</u>
-							<u class="details">If your partner already has a will and doesn't need to update it</u>
-						</div>
-						<div class="radio">
-							<span></span>
-							<u class="reco">Recommended</u>
-							<u class="choice">Pair</u>
-							<u class="bold">Me and my partner (<u class="curr">£</u>149)</u>
-							<u class="details">If you are married, partnered or just with someone</u>
-						</div>
-					</div>
-					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden">
-<div class="item qid-testator_email  required fs_input"><div class="qtitle"><b>What is your email address?</b></div><input type="email" class="input standalone" placeholder="you@mail.com" autocomplete="email"><style>@media only screen and (max-width: 950px){.mwidth320{max-width:320px}}</style><div class="subtext mwidth320" style="display:flex;margin-top:32px;"><div style="padding:2px 12px 0 2px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="13" height="13" style="display:block;"><g fill="none" stroke="#777" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="scale(1.66667)"><rect width="16.5" height="13.5" x="3.75" y="9.75" rx="1.5" ry="1.5"/><path d="M6.75 9.75V6a5.25 5.25 0 0 1 10.5 0v3.75"/></g></svg></div><div style="font-size:13px;line-height:19px;">No spam guaranteed. We'll send you a link with your saved progress.</div></div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden">
-					<p class="info help_pair"><b>Complete this first questionnaire for you only</b>After you submit this one, we'll email you a link for your partner to complete their own questionnaire.</p>
-<div class="item qid-testator_name  required fs_minput"><div class="qtitle"><b>What is your full name?</b><span class="helpbtn"></span></div><div class="helptxt">As it appears on your passport or driving license. You should include any middle names with your first name.</div><input type="text" class="input required" placeholder="First and middle names" autocomplete="given-name"><input type="text" class="input required" placeholder="Last name" autocomplete="family-name"></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden">
-<div class="item qid-testator_address  required fs_minput inv2"><div class="qtitle"><b>What is your home address?</b><span class="helpbtn"></span></div><div class="helptxt">Use the address where you're currently living.</div><div class="inli"><input id="adr_0" type="text" class="input required" placeholder=" " autocomplete="address-line1"><label for="adr_0">Address line 1</label></div><div class="inli"><input id="adr_1" type="text" class="input" placeholder=" " autocomplete="address-line2"><label for="adr_1">Address line 2 (Optional)</label></div><div class="inpc"><div class="inli"><input id="adr_2" type="text" class="input required" placeholder=" " autocomplete="address-level2"><label for="adr_2">Town/City</label></div><div class="inli"><input id="adr_3" type="text" class="input reqpostcode" placeholder=" " autocapitalize="characters" autocomplete="postal-code"><label for="adr_3">Postcode</label></div></div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden c_s">
-<div class="item qid-testator_foreignassets  required fs_radio"><div class="qtitle"><b>Do you have any foreign assets?</b><span class="helpbtn"></span></div><div class="helptxt">Anything you own outside of the UK. For example a second house in another country.</div><div class="radio"><span></span>Yes</div><div class="radio"><span></span>No</div></div>					<div class="context ctx-assets hidden"><p class="info"style="margin-top:-20px"><b>Foreign assets</b>They can be included in your will but you should be cautious as the law of the country your assets are could have priority over your will. Countries have different succession laws so ideally we recommend you make a different will in each country unless you are certain about the local succession law.</p></div>
-<div class="item qid-testator_foreignassets_include hidden required fs_radio"><div class="qtitle"><b>Do you want to include your foreign assets in this will?</b><span class="helpbtn"></span></div><div class="helptxt">Choose 'no' if you have separate wills for your foreign assets.</div><div class="radio"><span></span>Yes</div><div class="radio"><span></span>No</div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep stepbenef hidden c_s c_benef">
-					<div class="context">
-						<p class="info beneficiaries-scotland hidden"><b>Gifts to your spouse or civil partner and children </b>In Scotland a spouse or civil partner is entitled to half of your net moveable estate if there are no children or a third if there are children.<br><br>Children are entitled to half of your net moveable estate if there is no surviving spouse or a third if there is a surviving spouse.<br><br>'Moveable estate' means bank accounts, shareholdings, cars, personal belongings but not a house, flat or land.</p>
-					</div>
-<div class="item qid-beneficiaries_persons  required dyn_people fs_dyn"><div class="qtitle"><b>Who do you want to receive a gift or share of your estate?</b><span class="helpbtn"></span></div><div class="helptxt">You can include friends, family and anyone you want. Only the name is required but the other fields will help identify your beneficiaries when the time comes.</div><div class="subtext">You will be able to leave them a specific gift (money, property, items) or a share of your estate in the next steps.</div><div class="dyns"><div class="dyn clear dtop"><div class="benefid">0</div><div class="ico avatar"></div><div class="remove"></div><div class="inner"><input type="text" class="input dyn_name dcheck" placeholder="Full Name"><select class="select dyn_rel"><option disabled selected>Relationship to you</option><option>Spouse</option><option>Civil partner</option><option>Partner</option><option>Mother</option><option>Father</option><option>Sister</option><option>Brother</option><option>Cousin</option><option>Daughter</option><option>Son</option><option>Granddaughter</option><option>Grandson</option><option>Great-granddaughter</option><option>Great-grandson</option><option>Niece</option><option>Nephew</option><option>Friend</option><option>Other</option></select><input type="text" class="input dyn_address" placeholder="Address or city"></div></div></div><div class="dyn_add"><svg aria-hidden="true" role="img"><use xlink:href="#add"></use></svg><span>Add a new person</span></div></div><div class="item qid-beneficiaries_charities   dyn_charities fs_dyn"><div class="qtitle"><b>(Optional) Do you want to include any charities?</b><span class="helpbtn"></span></div><div class="helptxt">You will have the option to leave a part of your estate or a specific gift in the next steps.</div><div class="dyns"></div><div class="dyn_add_charity"><svg aria-hidden="true" role="img"><use xlink:href="#add"></use></svg><span>Add a new charity</span></div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden">
-					<div class="context" style="margin:0 0 60px">
-						<h1>(Optional) Do you want to leave specific gifts or donations?</h1>
-						<p class="subtext">You can leave property, items or money to a beneficiary. Anything you don't specify here will be dealt with in the next step where you can define how the rest of your estate is shared.</p>
-					</div>
-					<div class="item qid-gifts dyn-gifts">
-						<div class="sd_pers"></div>
-						<div class="sd_char" style="margin:70px 0 0"></div>
-					</div>
-					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden">
-					<div class="context">
-						<p class="info"><b>How is your estate shared? </b>When you pass away your funeral expenses and any debts are paid out of your estate first. Any gifts you left in the previous step are distributed next. Choose now how the remainder of your estate will be shared amongst your beneficiaries.</p>
-					</div>
-					<div class="item qid-repartition dyn-repartition required fs_dyn">
-						<div class="qtitle">
-							<b>How would you like the rest of your estate to be shared?</b>
-							<span class="helpbtn"></span>
-						</div>
-						<div class="helptxt">If someone is missing from this list, go back to add them. To exclude someone put their share at 0%.</div>
-						<div class="subtext repartition_one hidden">You have only added one beneficiary so the remainder of your estate will go to this person only. You can directly move on to the next step. If someone is missing from this list, go back to add them.</div>
-						<div class="subtext repartition_several hidden">You can change the repartition as long as the total is exactly 100%.</div>
-						<div class="dyns">
-							<div class="sd_pers"></div>
-							<div class="sd_char"></div>
-						</div>
-						<div class="total clear">
-							<div class="sum">Total</div>
-							<div class="dyn_repartition_sum">100.00%</div>
-						</div>
-					</div>
-					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="extra-reserve"></div>
-				<div class="form briefstep hidden c_s c_exec">
-					<p class="info"><b>What is an executor? </b>After you die, your executors are in charge of administrating your estate. It typically involves dealing with probate, sorting your finances, tax and the distribution of your assets in accordance with your will.<br><br><b>Who to appoint? </b>We recommend selecting Properwills and the 1-2 persons you trust the most. Typically any partner, adult children or relatives. If you add us, we'll only step in if your executors can't act or need support. See us as a backup for peace of mind.</p>
-<div class="item qid-executors_list  required fs_check"><div class="qtitle"><b>Who do you want to appoint as executors?</b></div><div class="subtext"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M464.051 756h33.846V536h-33.846v220Zm15.937-274.974q9.499 0 16.012-6.313t6.513-16.046q0-9.788-6.501-16.227-6.501-6.44-16-6.44-10.012 0-16.268 6.44-6.257 6.439-6.257 16.227 0 9.733 6.501 16.046 6.501 6.313 16 6.313ZM480.311 936q-75.008 0-140.332-28.339-65.325-28.34-114.286-77.255-48.961-48.915-77.327-114.228Q120 650.865 120 575.8q0-74.551 28.339-140.182 28.34-65.631 77.255-114.259 48.915-48.627 114.228-76.993Q405.135 216 480.2 216q74.551 0 140.182 28.339 65.631 28.34 114.259 76.922 48.627 48.582 76.993 114.257Q840 501.194 840 575.689q0 75.008-28.339 140.332-28.34 65.325-76.922 114.163-48.582 48.838-114.257 77.327Q554.806 936 480.311 936Zm.022-33.846q135.923 0 230.872-95.026 94.949-95.025 94.949-231.461 0-135.923-94.824-230.872-94.824-94.949-231.33-94.949-136.103 0-231.128 94.824-95.026 94.824-95.026 231.33 0 136.103 95.026 231.128 95.025 95.026 231.461 95.026ZM480 576Z" fill="#555"/></svg>Select at least one. Must be over 18.</div></div><div class="item qid-executors_addextra   fs_check"><div class="qtitle"><b></b></div><div class="check"><span></span>Add someone else</div></div><div class="item qid-executors_persons_extra hidden  dyn_people fs_dyn"><div class="qtitle"><b>Add more executors</b></div><div class="dyns"><div class="dyn clear dtop"><div class="ico avatar"></div><div class="remove"></div><div class="inner"><input type="text" class="input dyn_name dcheck" placeholder="Full Name"><select class="select dyn_rel"><option disabled selected>Relationship to you</option><option>Spouse</option><option>Civil partner</option><option>Partner</option><option>Mother</option><option>Father</option><option>Sister</option><option>Brother</option><option>Cousin</option><option>Daughter</option><option>Son</option><option>Granddaughter</option><option>Grandson</option><option>Great-granddaughter</option><option>Great-grandson</option><option>Niece</option><option>Nephew</option><option>Friend</option><option>Other</option></select><input type="text" class="input dyn_address" placeholder="Address or city"></div></div></div><div class="dyn_add"><svg aria-hidden="true" role="img"><use xlink:href="#add"></use></svg><span>Add a new person</span></div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden c_s c_children">
-<div class="item qid-children_minor  required fs_radio"><div class="qtitle"><b>Do you have any children under 18?</b><span class="helpbtn"></span></div><div class="helptxt">Any biological or adopted children you are the legal parent of.</div><div class="radio"><span></span>Yes</div><div class="radio"><span></span>No</div></div><div class="item qid-children_trust hidden required fs_radio"><div class="qtitle"><b>Do you want your executors to manage their inheritance until they turn 18?</b><span class="helpbtn"></span></div><div class="helptxt">If you select 'yes' your children won't have access to their inheritance until they turn 18 but your executors will be able to use it to look after your children if needed.</div><div class="radio"><span></span>Yes</div><div class="radio"><span></span>No</div></div><div class="item qid-children_list hidden required fs_check"><div class="qtitle"><b>Select any children under 18 from your beneficiaries</b><span class="helpbtn"></span></div><div class="helptxt">If anyone is missing, go back to add them</div></div><div class="item qid-guardians hidden required fs_radio"><div class="qtitle"><b>Do you want to appoint guardians in case a child is still under 18 when you pass away?</b><span class="helpbtn"></span></div><div class="helptxt">You can name one or two guardians to look after any minor child. Guardians must be over 18.</div><div class="radio"><span></span>Yes</div><div class="radio"><span></span>No</div></div><div class="item qid-guardians_persons hidden required dyn_people fs_dyn"><div class="qtitle"><b>Who do you want to appoint as a guardian?</b><span class="helpbtn"></span></div><div class="helptxt">You should appoint one or two guardians</div><div class="dyns"><div class="dyn clear dtop"><div class="ico avatar"></div><div class="remove"></div><div class="inner"><input type="text" class="input dyn_name dcheck" placeholder="Full Name"><select class="select dyn_rel"><option disabled selected>Relationship to you</option><option>Spouse</option><option>Civil partner</option><option>Partner</option><option>Mother</option><option>Father</option><option>Sister</option><option>Brother</option><option>Cousin</option><option>Daughter</option><option>Son</option><option>Granddaughter</option><option>Grandson</option><option>Great-granddaughter</option><option>Great-grandson</option><option>Niece</option><option>Nephew</option><option>Friend</option><option>Other</option></select><input type="text" class="input dyn_address" placeholder="Address or city"></div></div></div><div class="dyn_add"><svg aria-hidden="true" role="img"><use xlink:href="#add"></use></svg><span>Add a new person</span></div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden c_s c_pets">
-<div class="item qid-pets  required fs_radio"><div class="qtitle"><b>Do you have any pets?</b></div><div class="radio"><span></span>Yes</div><div class="radio"><span></span>No</div></div><div class="item qid-pets_who hidden required fs_radio"><div class="qtitle"><b>Who do you want to take care of your pets when you pass away?</b></div><div class="radio"><span></span>My executors</div><div class="radio"><span></span>Someone else</div></div><div class="item qid-pets_persons hidden required dyn_people fs_dyn"><div class="qtitle"><b>Who do you want to take care of your pets?</b></div><div class="dyns"><div class="dyn clear dtop"><div class="ico avatar"></div><div class="remove"></div><div class="inner"><input type="text" class="input dyn_name dcheck" placeholder="Full Name"><select class="select dyn_rel"><option disabled selected>Relationship to you</option><option>Spouse</option><option>Civil partner</option><option>Partner</option><option>Mother</option><option>Father</option><option>Sister</option><option>Brother</option><option>Cousin</option><option>Daughter</option><option>Son</option><option>Granddaughter</option><option>Grandson</option><option>Great-granddaughter</option><option>Great-grandson</option><option>Friend</option><option>Other</option></select><input type="text" class="input dyn_address" placeholder="Address or city"></div></div></div></div><div class="item qid-pets_fund hidden required fs_radio"><div class="qtitle"><b>Do you want to leave money to help with the care of your pets?</b><span class="helpbtn"></span></div><div class="helptxt">Those you appoint to look after your pets will be able to use this sum for your pets' food or health</div><div class="radio"><span></span>Yes</div><div class="radio"><span></span>No</div></div><div class="item qid-pets_fund_value hidden required fs_input"><div class="qtitle"><b>How much do you want to leave for your pets?</b><span class="helpbtn"></span></div><div class="helptxt">For example "<u class='curr'>£</u>500"</div><div class="finput"><span class="curr">£</span><input type="text" class="input standalone" inputmode="decimal"></div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden c_s c_digital">
-					<p class="info"><b>Your digital assets</b>You can decide what should happen to your devices, online accounts, pictures and other digital assets. You can allow your executors to take care of these. If you do we recommend you leave specific instructions in a separate letter.</p>
-<div class="item qid-digital_assets  required fs_radio"><div class="qtitle"><b>Do you allow your executors to deal with your digital assets?</b></div><div class="radio"><span></span>Yes</div><div class="radio"><span></span>No</div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden c_s c_funeral">
-<div class="item qid-funerals  required fs_radio"><div class="qtitle"><b>What do you want to happen to your body?</b><span class="helpbtn"></span></div><div class="helptxt">You don't have to make a choice and can let your family decide if you wish. If you have specific requests or arrangements, we recommend you talk about it with your family or leave details in a separate letter.</div><div class="radio"><span></span>Cremation</div><div class="radio"><span></span>Burial in a cemetery</div><div class="radio"><span></span>Natural burial</div><div class="radio"><span></span>Let my family decide</div></div>					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden c_s c_delivery">
-					<div class="item bigchoice choice-delivery required qid-delivery">
-						<div class="qtitle">
-							<b>How would you like to get your will?</b>
-							<span class="helpbtn"></span>
-						</div>
-						<div class="helptxt">The law requires your will to be printed and signed with ink. If you can't print your will, we can post it for free.</div>
+                <p>Pro</p>
+                <span id="priceMonth" class="priceMonth">15$/mo</span>
+              </button>
+            </div>
+            <div class="planMonth" id="planYear">
+              <button class="planButton" id="anneeArcade" onclick="getPrice4()">
+                <img src="./image/icon-arcade.svg" alt="" />
 
-						<div class="radio">
-							<span></span>
-							<u class="reco">Free</u>
-							<u class="choice">Download</u>
-							<u class="bold">Digital download</u>
-							<u class="details"><u class="date d_dl"></u></u>
-						</div>
-						<div class="radio">
-							<span></span>
-							<u class="reco">Free</u>
-							<u class="choice">Mail</u>
-							<u class="bold">1st Class post delivery</u>
-							<u class="details"><u class="date d_mail"></u></u>
-						</div>
-						<div class="radio">
-							<span></span>
-							<u class="reco">+<u class="curr">£</u>15</u>
-							<u class="choice">Urgent</u>
-							<u class="bold">Priority review & post delivery</u>
-							<u class="details"><u class="date d_urgent"></u></u>
-						</div>
+                <p>Arcade</p>
+                <span class="priceYear">90$/yr</span>
+                <label class="free">2 months free</label>
+              </button>
 
-					</div>
-					<div class="context ctx-delivery hidden">
-						<p class="info" style="margin-top:-30px;"><b>We will print and post your will to:</b><u class="helper_address"></u></p>
-					</div>
-					<div class="next">
-						<div class="back">Back</div>
-						<div class="button">Next</div>
-					</div>
-				</div>
-				<div class="form briefstep brecap clear hidden">
-					<div class="recap_r ok">
-						<div class="title">Your will is ready to be checked.</div>
-						<div class="listnum help_one">
-							<div class="line clear"><div class="num">1</div><div class="text">Pay securely</div></div>
-							<div class="line clear"><div class="num">2</div><div class="text">We write your will based on your answers</div></div>
-							<div class="line clear"><div class="num">3</div><div class="text help_delivery">Receive your will by email as a PDF <span class="d_dl">within 1-3 days</span></div></div>
-						</div>
-						<div class="listnum help_pair hidden">
-							<div class="line clear"><div class="num">1</div><div class="text">Pay securely</div></div>
-							<div class="line clear"><div class="num">2</div><div class="text">We send you a link for your partner to write their own will</div></div>
-							<div class="line clear"><div class="num">3</div><div class="text">We write your will based on your answers</div></div>
-							<div class="line clear"><div class="num">4</div><div class="text help_delivery">Receive your will by email as a PDF <span class="d_dl">within 1-3 days</span></div></div>
-						</div>
-						<div class="listnum help_free hidden">
-							<div class="line clear"><div class="num">1</div><div class="text">Submit your questionnaire</div></div>
-							<div class="line clear"><div class="num">2</div><div class="text">We write your will based on your answers</div></div>
-							<div class="line clear"><div class="num">3</div><div class="text help_delivery">Receive your will by email as a PDF <span class="d_dl">within 1-3 days</span></div></div>
-						</div>
-						<div class="next">
-							<div class="button">Send for review</div>
-						</div>
-					</div>
-					<div class="recap_l">
-						<div class="box">
-							<div class="title">
-								<span>About you</span>
-								<svg aria-hidden="true" role="img"><use xlink:href="#recapt"></use></svg>
-							</div>
-							<div class="conts"></div>
-							<div class="btne" data-cat="about">Edit</div>
-						</div>
-						<div class="box">
-							<div class="title">
-								<span>Gifts</span>
-								<svg aria-hidden="true" role="img"><use xlink:href="#recapt"></use></svg>
-							</div>
-							<div class="conts"></div>
-							<div class="btne" data-cat="benef">Edit</div>
-						</div>
-						<div class="box">
-							<div class="title">
-								<span>Residuary Estate</span>
-								<svg aria-hidden="true" role="img"><use xlink:href="#recapt"></use></svg>
-							</div>
-							<div class="conts"></div>
-							<div class="btne" data-cat="benef">Edit</div>
-						</div>
-						<div class="box">
-							<div class="title">
-								<span>Executor</span>
-								<svg aria-hidden="true" role="img"><use xlink:href="#recapt"></use></svg>
-							</div>
-							<div class="conts"></div>
-							<div class="btne" data-cat="exec">Edit</div>
-						</div>
-						<div class="box">
-							<div class="title">
-								<span>Children</span>
-								<svg aria-hidden="true" role="img"><use xlink:href="#recapt"></use></svg>
-							</div>
-							<div class="conts"></div>
-							<div class="btne" data-cat="children">Edit</div>
-						</div>
-						<div class="box">
-							<div class="title">
-								<span>Pets</span>
-								<svg aria-hidden="true" role="img"><use xlink:href="#recapt"></use></svg>
-							</div>
-							<div class="conts"></div>
-							<div class="btne" data-cat="pets">Edit</div>
-						</div>
-						<div class="box">
-							<div class="title">
-								<span>Digial Assets</span>
-								<svg aria-hidden="true" role="img"><use xlink:href="#recapt"></use></svg>
-							</div>
-							<div class="conts"></div>
-							<div class="btne" data-cat="digital">Edit</div>
-						</div>
-						<div class="box">
-							<div class="title">
-								<span>Funeral Choices</span>
-								<svg aria-hidden="true" role="img"><use xlink:href="#recapt"></use></svg>
-							</div>
-							<div class="conts"></div>
-							<div class="btne" data-cat="funeral">Edit</div>
-						</div>
-						<div class="box">
-							<div class="title">
-								<span>Delivery</span>
-								<svg aria-hidden="true" role="img"><use xlink:href="#recapt"></use></svg>
-							</div>
-							<div class="conts"></div>
-							<div class="btne" data-cat="delivery">Edit</div>
-						</div>
-					</div>
-					
-<style>.mobstick{display:none}@media only screen and (max-width: 950px){body{position:relative}.mobstick{display:block;position:fixed;background:#fff;bottom:0;left:0;width:100%;padding:10px;box-sizing:border-box;z-index:200;box-shadow:0 0 1px #00000026,0 0 16px #00000014;transform:translateY(100%);opacity:0;transition:opacity .2s ease,transform .2s ease}.mobstick.active{transform:translateY(0%);opacity:1}}</style>
-					<div class="next mobstick">
-						<div class="button" style="float:unset;width:auto;">Send for review</div>
-					</div>
-<script>window.addEventListener("load",function(){var e,t=0,o=document.querySelector(".mobstick");const c=()=>{step_active=document.querySelector(".briefstep.brecap").offsetParent,el_top=document.querySelector(".recap_l").getBoundingClientRect().top,1==t&&(null==step_active||el_top>65)?(o.classList.remove("active"),t=0):0==t&&null!=step_active&&el_top<65&&(o.classList.add("active"),t=1)};window.addEventListener("scroll",()=>{e||(e=!0,setTimeout(()=>{c(),e=!1},250))}),c()});</script>
-					
-				</div>
-				<div class="form briefstep hidden">
-					<div class="pay_right">
-						<div class="title">Order summary</div>
-						<div class="row clear price-will"><span class="itm"></span><span class="price"><u class="curr"></u><u class="value"></u></span></div>
-						<div class="row clear price-delivery"><span class="itm"></span><span class="price"><u class="curr"></u><u class="value"></u></span></div>
-						<div class="row clear price-coupon hidden"><span class="itm"></span><span class="price">-<u class="curr"></u><u class="value"></u></span></div>
-						<div class="row total clear"><span class="itm">Total to pay</span><span class="price"><u class="curr"></u><u class="value"></u></span></div>
-						<div class="addcoupon">Add a coupon</div>
-						<div class="coupon hidden">
-							<div class="title">Add a coupon <span style="color:#aaa;font-weight:400;">&middot;</span> <span class="couponcancel" style="color:#777;font-weight:400;cursor:pointer;text-decoration:underline">Cancel</span></div>
-							<input type="text" placeholder="Code" class="input couponinput"><div class="couponapply">Apply</div>
-						</div>
-						<div class="ico_secure_d"></div>
-					</div>
-					<div class="pay_left">
-						<form id="payment-form">
-							<div class="title">Secure payment<span class="cards"><u class="card_1"></u><u class="card_2"></u><u class="card_3"></u></span></div>
-							<div class="field field-number"><label for="card-number">Card number</label><div id="card-number" class="sec_input"></div><div class="inline-err"></div></div>
-							<div class="field field-expiry"><label for="card-expiry">Expiry date</label><div id="card-expiry" class="sec_input cardsmall"></div><div class="inline-err"></div></div>
-							<div class="field field-cvv"><label for="card-cvv">Security code <u class="cvv-help"></u></label><div class="clear"><div id="card-cvv" class="sec_input cardsmall"></div><div class="cvvhelp"></div></div><div class="inline-err"></div></div>
-							<p class="error err-card hidden">There was a problem with this card. You haven't been charged. Please double check the details and try again or try another card.</p>
-							<p class="error err-auth hidden">There was a problem when trying to authentify this card with your bank. You haven't been charged. Please try again or try another card.</p>
-							<div class="field"><button id="card-submit" type="submit" class="sec_submit"><u class="icon"></u><u class="text">Confirm and pay <u class="curr"></u></u><u class="load"></u></button></div>
-						</form>
-						<div class="ico_secure_m"></div>
-						<div class="detailspay">Includes any applicable taxes. By placing your order you agree to Properwills' <a href="terms.html" target="_blank">Terms and conditions</a> and <a href="privacy.html" target="_blank">privacy policy</a>. You must be over 18.</div>
-					</div>
-					<br style="clear:both">
-					<div class="next">
-						<div class="back" style="float:none">Back</div>
-					</div>
-				</div>
-				<div class="form briefstep hidden">
-					<div class="pay_left">
-						<h1 class="confirm">Thank you</h1>
-						<p>We have received your questionnaire, expect to hear from us in 1-3 days. A confirmation email is on its way.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="footer">
-		<div class="align">
-			<div class="legal">© Properwills &middot; <a href="terms.html" target="_blank">Terms</a> &middot; <a href="privacy.html" target="_blank">Privacy</a></div>
-		</div>
-	</div>
-<svg class="hidden" xmlns="http://www.w3.org/2000/svg">
-<symbol id="logo" viewbox="0 0 48 48"><path d="M37.7 0s.6 14.9 0 24.2C37.1 33.7 19 48 19 48S0 34.4 0 27.6h5.7a57.7 57.7 0 005.8 7.2 80.3 80.3 0 007.4 5.9s5.5-5.1 7.4-7.1a24 24 0 005.7-9.4C32.7 20.5 32 0 32 0h5.7z" fill="#1a1a1a"/><path d="M0 0h26.3v5.2H0V0z" fill="#1a1a1a"/><path fill="#1a1a1a" d="M0 9.2h26.3v5.2H0z"/><path d="M0 18.4h16.4v5.2H0v-5.2z" fill="#1a1a1a"/></symbol>
-<symbol id="add" viewbox="0 0 40 40"><g fill="none" stroke="#008eff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 12.5v15M12.5 20h15M1.25 20a18.75 18.75 0 1037.5 0 18.75 18.75 0 10-37.5 0z" stroke-width="2"/></g></symbol>
-<symbol id="recapt" viewbox="0 0 200 200"><g fill="none" stroke="#0ac672" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M50 110l20 29a9 9 0 0015 1l65-83" stroke-width="12.5"/><path d="M6 100a94 94 0 10188 0 94 94 0 10-188 0z" stroke-width="12.5"/></g></symbol>
-</svg>
+              <button
+                class="planButton"
+                id="anneeAdvenced"
+                onclick="getPrice5()"
+              >
+                <img src="./image/icon-advanced.svg" alt="" />
 
-<div class="draft_s hidden">0</div>
-<div id="u80OafkB" class="hidden"></div>
+                <p>Advenced</p>
+                <span class="priceYear">120$/yr</span>
+                <label class="free">2 months free</label>
+              </button>
 
-<div class="chat_b" tabindex="0" aria-label="Open chat" role="button"></div><div class="chat_w hidden"></div>
+              <button class="planButton" id="anneePro" onclick="getPrice6()">
+                <img src="./image/icon-pro.svg" alt="" />
 
-</body>
+                <p>Pro</p>
+                <span class="priceYear">150$/yr</span>
+                <label class="free">2 months free</label>
+              </button>
+            </div>
+
+            <div class="switch">
+              <p class="monthly">Monthly</p>
+              <label class="check"
+                ><input
+                  type="checkbox"
+                  id="switch"
+                  id="checkbox"
+                  onclick="reset()" />
+                <span></span
+              ></label>
+
+              <p class="yearly">Yearly</p>
+            </div>
+
+            <div class="buttonContainerStepTwo">
+              <button onclick="backStepOne()" class="goBack">Go back</button>
+              <button onclick="goStepThree()" class="nextStep">
+                Next Step
+              </button>
+            </div>
+          </div>
+          <!--ADD ON---------------------------------------------------------------------------------->
+          <div class="stepAddOn" id="stepAddOn">
+            <h1>Pick add-ons</h1>
+            <p class="descrition">
+              Add-ons help enhance your gaming experience.
+            </p>
+            <!--bouton mois ------------------------------------------------------------------->
+            <div id="addonMois">
+              <div class="addOnButton">
+                <div class="regroup">
+                  <input
+                    type="checkbox"
+                    id="onlineMois"
+                    name="adOnn"
+                    value="1"
+                  />
+
+                  <div class="addOn">
+                    <p class="AddSize">Online service</p>
+                    <span>Access to multiplayer games</span>
+                  </div>
+                </div>
+                <p class="prix">+$1/mo</p>
+              </div>
+
+              <div class="addOnButton">
+                <div class="regroup">
+                  <input
+                    type="checkbox"
+                    name="adOnn"
+                    value="2"
+                    id="storageMois"
+                  />
+                  <div class="addOn">
+                    <p class="AddSize">Larger storage</p>
+                    <span> 1TB of cloud save</span>
+                  </div>
+                </div>
+                <p class="prix">+$2/mo</p>
+              </div>
+
+              <div class="addOnButton">
+                <div class="regroup">
+                  <input
+                    type="checkbox"
+                    name="adOnn"
+                    value="2"
+                    id="customizableMois"
+                  />
+                  <div class="addOn">
+                    <p class="AddSize">Customizable profile</p>
+                    <span>Custom theme on your profile</span>
+                  </div>
+                </div>
+                <p class="prix">+$2/mo</p>
+              </div>
+            </div>
+            <!--bouton année -------------------------------------------------------------------->
+            <div id="addonAnnee">
+              <div class="addOnButton">
+                <div class="regroup">
+                  <input
+                    type="checkbox"
+                    name="adOnn"
+                    value="10"
+                    id="onlineAnnee"
+                  />
+
+                  <div class="addOn">
+                    <p class="AddSize">Online service</p>
+                    <span>Access to multiplayer games</span>
+                  </div>
+                </div>
+                <p class="prix">+$10/yr</p>
+              </div>
+
+              <div class="addOnButton">
+                <div class="regroup">
+                  <input
+                    type="checkbox"
+                    name="adOnn"
+                    value="20"
+                    id="storageAnnee"
+                  />
+                  <div class="addOn">
+                    <p class="AddSize">Larger storage</p>
+                    <span> 1TB of cloud save</span>
+                  </div>
+                </div>
+                <p class="prix">+$20/yr</p>
+              </div>
+
+              <div class="addOnButton">
+                <div class="regroup">
+                  <input
+                    type="checkbox"
+                    name="adOnn"
+                    value="20"
+                    id="customizableAnnee"
+                  />
+                  <div class="addOn">
+                    <p class="AddSize">Customizable profile</p>
+                    <span>Custom theme on your profile</span>
+                  </div>
+                </div>
+                <p class="prix">+$20/yr</p>
+              </div>
+            </div>
+
+            <div class="buttonContainerStepThree">
+              <button onclick="backSteptTwo()" class="goBack">Go back</button>
+
+              <button onclick="goStepFour()" class="nextStep">Next Step</button>
+            </div>
+          </div>
+          <!--RESUME---------------------------------------------------------------------------------->
+          <div class="stepSummary" id="stepSummary">
+            <h1>Finishing up</h1>
+            <p class="descrition">
+              Double-check everything looks OK before confirming.
+            </p>
+            <div class="resume">
+              <div class="containerResume">
+                <div
+                  id="resumeMonth"
+                >
+                  <div class="flexResume">
+                    <div>
+                      <h4 id="modeResume">Choose a plan</h4>
+                      <button onclick="goFromFourToTwo()">Change</button>
+                    </div>
+                    <label for="" id="priceResume"></label>
+                  </div>
+                  <br />
+                  <span></span>
+                  <div class="flexResume">
+                    <p>Online service</p>
+                    <label for="" id="onlinePrice">+0$</label>
+                  </div>
+                  <div class="flexResume">
+                    <p>Larger storage</p>
+                    <label for="" id="storagePrice">+0$</label>
+                  </div>
+                  <div class="flexResume">
+                    <p>Customizable profile</p>
+                    <label for="" id="customizablePrice">+0$</label>
+                  </div>
+                </div>
+              </div>
+              <div class="flexTotal">
+                <p id="modeTotal">Total</p>
+                <span id="totalPrice"></span>
+                <span class="dollar">$</span>
+              </div>
+              <div class="buttonContainerStepFour">
+                <button onclick="backStepThree()" class="goBack">
+                  Go back
+                </button>
+                <button onclick="goToStepThankYou()" class="nextStep">
+                  Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+          <!--THANK YOU------------------------------------------------------------------------------>
+          <div class="stepThankYou" id="stepThankYou">
+            <img src="./image/icon-thank-you.svg" alt="" />
+            <h1>Thank you!</h1>
+            <p>
+              Thanks for confirming your subscription! We hope you have fun
+              using our platform. If you ever need support, please feel free to
+              email us at support@loremgaming.com.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
 </html>
