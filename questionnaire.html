@@ -36,6 +36,10 @@
           <div class="circle2" id="circle2"><p>2</p></div>
           <div class="circle3" id="circle3"><p>3</p></div>
           <div class="circle4" id="circle4"><p>4</p></div>
+		  <div class="circle5" id="circle5"><p>5</p></div>
+          <div class="circle6" id="circle6"><p>6</p></div>
+          <div class="circle7" id="circle7"><p>7</p></div>
+          <div class="circle8" id="circle8"><p>8</p></div>
         </div>
         <div class="steps">
           <div class="step1">
@@ -60,10 +64,8 @@
         <!--PERSO INFOS -------------------------------------------------------------------->
         <div class="affichStep">
           <div class="stepInfo" id="stepInfo">
-            <h1>Personal Info</h1>
-            <p class="descrition">
-              Please provide vour name, email address, and phone number.
-            </p>
+            <h2>What is your email address</h2>
+            <p class="descrition"></p>
             <div class="flexError">
               <p>Name</p>
               <span id="errorName"></span>
@@ -72,7 +74,13 @@
               type="text"
               name=""
               id="infoName"
-              placeholder="e.g. Stephen king"
+              placeholder="First e.g. John James"
+            />
+			<input
+              type="text"
+              name=""
+              id="infoName"
+              placeholder="Second e.g. Smith"
             />
             <div class="flexError">
               <p>Email Address</p>
@@ -82,17 +90,7 @@
               type="text"
               name=""
               id="infoMail"
-              placeholder="e.g. stephenking@lorem.com"
-            />
-            <div class="flexError">
-              <p>PhoneNumber</p>
-              <span id="errorNum"></span>
-            </div>
-            <input
-              type="text"
-              name=""
-              id="infoNumber"
-              placeholder="e.g. +1 234 567 890"
+              placeholder="e.g. johnsmith@email.com"
             />
             <div class="buttonContainerStepOne">
               <button onclick="goStepTwo()" class="nextStep">Next Step</button>
