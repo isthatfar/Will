@@ -29,6 +29,116 @@
     <link rel="stylesheet" href="./style2.css" />
   </head>
   <body>
+	<div id="page" class="site">
+		<div class="container">
+			<form-box>
+				<div class="progress">
+					<div class="logo"><a href="/assets/images/logo/logo-2.svg"><span>.web</span>design</a></div>
+					<ul class="progress-step">
+						<li class="step active">
+							<span>1</span>
+							<p>Personal<br><span>2min</span></p>
+						</li>
+						<li class="step">
+							<span>2</span>
+							<p>Another<br><span>2min</span></p>
+						</li>
+						<li class="step">
+							<span>3</span>
+							<p>Third<br><span>5min</span></p>
+						</li>
+					</ul>
+				</div>
+				<form action="">
+					<div class="form-one form-step">
+						<div class="bg-svg"></div>
+						<h2>Personal</h2>
+						<p>Enter your perosnal information correctly</p>
+						<div>
+							<label>First Name</label>
+							<input type="text" placeholder="e.g Jane">
+						</div>
+						<div>
+							<label>Last Name</label>
+							<input type="text" placeholder="e.g Doe">
+						</div>
+						<div class="birth">
+							<label>Date of birth</label>
+							<div class="grouping">
+								<input type="text" patter="[0-9]*" name="Day" velue="'" min="0" max="31">
+								<input type="text" patter="[0-9]*" name="Month" velue="'" min="0" max="12">
+								<input type="text" patter="[0-9]*" name="Year" velue="'" min="0" max="2025">
+							</div>
+						</div>
+					</div>
+					<div class="form-two form-step">
+						<div class="bg-svg"></div>
+						<h2>Contact information</h2>
+						 <div>
+							<lable>Phone</lable>
+							<input type="tel"> placeholder="+44xxxxxx"
+						 </div>
+
+						 <div>
+							<lable>Address</lable>
+							<input type="text"> placeholder="Street Name"
+						 </div>
+						 <div>
+							<input type="text"> placeholder="App,Suit,Building"
+						 </div>
+
+						 <div>
+							<lable>City</lable>
+							<input type="text"> placeholder="City"
+						 </div>
+
+						 <div>
+							<lable>State</lable>
+							<input type="text"> placeholder="State/province"
+						 </div>
+
+						 <div>
+							<lable>Postcode</lable>
+							<input type="text"> placeholder="Postal Code"
+						 </div>
+						 <div>
+							<lable>Country</lable>
+							<select name="Country" id="Country">
+								<option value="">Please select</option>
+								<option value="">Afghanistan</option>
+							</select>
+							<div class="form-three form-step">
+								<div class="bg-svg"></div>
+								<h2>Security</h2>
+								<div>
+									<label>Email</label>
+									<input type="email" placeholder="Youremail address">
+								</div>
+								<div>
+									<label>Password</label>
+									<input type="password" placeholder="Password">
+								</div>
+								<div>
+									<input type="password" placeholder="confirm password">
+								</div>
+								<div class="checkbox">
+									<input type="checkbox">
+									<label>Recieve our newsletter and special offers</label>
+								</div>
+							</div>
+						 </div>
+						 <div class="btn-group">
+							<button type="button" class="btn-prev" disabled>Back</button>
+							<button type="button" class="btn-prev">Next Step</button>
+							<button type="button" class="btn-prev">Submit</button>
+						 </div>
+					</div>
+				</form>
+			</form-box>
+		</div>
+	</div>
+	<script src="./script.js"></script>
+
     <div class="container" id="container">
       <div class="displayStep" id="displayStep">
         <div class="circle">
@@ -359,6 +469,5 @@
       </div>
     </div>
 
-    <script src="./script.js"></script>
   </body>
 </html>
