@@ -1,659 +1,217 @@
-*{
+* {
     margin: 0;
-    padding: 0;
+    padding: 0
+}
+
+html {
+    height: 100%
+}
+
+p {
+    color: grey
+}
+
+#heading {
+    text-transform: uppercase;
+    color: #673AB7;
+    font-weight: normal
+}
+
+#msform {
+    text-align: center;
+    position: relative;
+    margin-top: 20px
+}
+
+#msform fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 0.5rem;
     box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative
 }
 
-html{
-    font-size: 62.5%;
+.form-card {
+    text-align: left
 }
 
-:root{
-    --Marineblue: hsl(213, 96%, 18%);
-    --Purplishblue: hsl(243, 100%, 62%);
-    --Pastelblue: hsl(228, 100%, 84%);
-    --Lightblue: hsl(206, 94%, 87%);
-    --Strawberryred: hsl(354, 84%, 57%);
-    
-    --Coolgray: hsl(231, 11%, 63%);
-    --Lightgray: hsl(229, 24%, 87%);
-    --Magnolia: hsl(217, 100%, 97%);
-    --Alabaster: hsl(231, 100%, 99%);
-    --White: hsl(0, 0%, 100%);
+#msform fieldset:not(:first-of-type) {
+    display: none
 }
 
-body{
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 1.6rem;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
+#msform input,
+#msform textarea {
+    padding: 8px 15px 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 25px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    background-color: #ECEFF1;
+    font-size: 16px;
+    letter-spacing: 1px
 }
 
-/* ..................header.................. */
-
-.header{
-    height: 93%;
-    width: 25%;
-    background-image: url(./images/bg-sidebar-desktop.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    margin: 1.5%;
-    border-radius: 1rem;
-}
-.mobile-item{
-    display: none;
+#msform input:focus,
+#msform textarea:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #673AB7;
+    outline-width: 0
 }
 
-.nav{
-    display: flex;
-    flex-direction: column;
-    margin-top: 3rem;
-    margin-left: 3rem;
-}
-.nav-item{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 3rem;
-    width: 70%;
+#msform .action-button {
+    width: 100px;
+    background: #673AB7;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
     cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 0px 10px 5px;
+    float: right
 }
 
-.nav-item-text{
-    width: 70%;
+#msform .action-button:hover,
+#msform .action-button:focus {
+    background-color: #311B92
 }
 
-.nav-item-num{
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    text-align: center;
-    padding-top: 1rem;
-    color: var(--White);
-    border:.1rem solid var(--Pastelblue);
-}
-.nav-item-num:hover{
-    background-color: var(--Pastelblue);
-    color: black;
-}
-.nav-item-text-div1{
-    color: var(--Lightblue);
-    text-transform: uppercase;
-    font-size: 1.2rem;
-}
-.nav-item-text-div2{
-    color: var(--White);
-    text-transform: uppercase;
-    text-align: left;
-}
-
-/* ...............section........... */
-
-.section{
-    width: 70.5%;
-    position: relative;
-}
-.section-wrapper{
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 7%;
-}
-.section-heading{
-    width: 100%;
-
-    color: var(--Marineblue);
-}
-.section-para{
-    width: 100%;
-    color: var(--Coolgray);
-    margin-top: 1rem;
-}
-.input{
-    width: 100%;
-    height: 5rem;
-    outline: none;
-    margin-bottom: 1.5rem;
-    padding-left: 2rem;
-    display: block;
-    border: .1rem solid var(--Coolgray);
-    border-radius: .5rem;
-}
-
-.invalid{
-    width: 100%;
-    height: 5rem;
-    outline: none;
-    margin-bottom: 1.5rem;
-    padding-left: 2rem;
-    display: block;
-    border: .1rem solid red;
-    border-radius: .5rem;
-}
-
-.valid{
-    width: 100%;
-    height: 5rem;
-    outline: none;
-    margin-bottom: 1.5rem;
-    padding-left: 2rem;
-    display: block;
-    border: .1rem solid green;
-    border-radius: .5rem;
-}
-.input:hover{
-    border: .1rem solid var(--Marineblue);
-}
-.input-wrapper{
-    margin-top: 3rem;
-}
-.label{
-    display: block;
-    margin-bottom: .5rem;
-    color: var(--Marineblue);
-    text-transform: capitalize;
+#msform .action-button-previous {
+    width: 100px;
+    background: #616161;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
     cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px 10px 0px;
+    float: right
 }
-.slidder{
-    width: 70%;
-    /* margin-left: auto;
-    margin-right: auto; */
-    position: absolute;
-    left: 15%;
-    bottom: 7%;
-    display: flex;
-    justify-content: space-between;
-}
-.back{
-    width: 20%;
-    color: var(--Coolgray);
-    text-transform: capitalize;
-    height: 4rem;
-    padding-top: 1rem;
-    cursor: pointer;
-}
-.back:hover{
-    color: var(--Marineblue);
-    font-weight: 700;
 
+#msform .action-button-previous:hover,
+#msform .action-button-previous:focus {
+    background-color: #000000
 }
-.next{
-    height: 4rem;
-    text-align: center;
-    padding-top: 1rem;
-    width: 20%;
-    border-radius: .5rem;
-    background-color: var(--Marineblue);
-    color: var(--White);
-    text-transform: capitalize;
-    cursor: pointer;
-}
-.nex{
-    padding-top: 0;
+
+.card {
+    z-index: 0;
     border: none;
-    font-size: 1.6rem;
-    position: absolute;
-    right: 15%;
-    bottom: 7%;
+    position: relative
 }
 
-/* .........step2.......... */
-
-.card-wrapper{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 3rem;
+.fs-title {
+    font-size: 25px;
+    color: #673AB7;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-align: left
 }
 
-.hidden{
-    display: none;
+.purple-text {
+    color: #673AB7;
+    font-weight: normal
 }
 
-.plan-card{
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    border: .1rem solid var(--Coolgray);
-    height: 18rem;
-    border-radius: .5rem;
-    cursor: pointer;
-}
-.plan-card:hover{
-    border: .1rem solid var(--Marineblue);
+.steps {
+    font-size: 25px;
+    color: gray;
+    margin-bottom: 10px;
+    font-weight: normal;
+    text-align: right
 }
 
-.icon-holder{
+.fieldlabels {
+    color: gray;
+    text-align: left
+}
+
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey
+}
+
+#progressbar .active {
+    color: #673AB7
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 15px;
     width: 25%;
-    aspect-ratio: 1/1;
-    margin-left: 10%;
-}
-
-.icon{
-    width: 100%;
-    aspect-ratio: 1/1;
-}
-
-.plan{
-    text-transform: capitalize;
-    font-weight: 700;
-    color: var(--Marineblue);
-    margin-left: 10%;
-}
-
-.plan-price{
-    display: block;
-    color: var(--Coolgray);
-    font-weight: 400;
-    font-size: 1.2rem;
-    margin-top: .5rem;
-}
-
-.discount{
-    display: block;
-    font-size: 1rem;
-    color: var(--Marineblue);
-    font-weight: 700;
-    margin-top: .5rem;
-}
-
-.switch-plan{
-    width: 70%;
-    height: 3.5rem;
-    display: flex;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2.5%;
-    background-color: var(--Magnolia);
-    border-radius: .5rem;
-}
-.duration{
-    width: 18%;
-    text-align: center;
-    text-transform: capitalize;
-    height: 2rem;
-    margin: auto 0;
-    font-weight: 700;
-    cursor: pointer;
-}
-.monthly{
-    color: var(--Marineblue);
-}
-.yearly{
-    color: var(--Coolgray);
-}
-
-.switch{
-    width: 7%;
-    background-color: var(--Marineblue);
-    border-radius: 1rem;
-    height: 2rem;
-    margin: auto 0;
+    float: left;
     position: relative;
+    font-weight: 400
 }
-.switch-btn{
-    width: 30%;
-    aspect-ratio: 1/1;
-    background-color: var(--White);
+
+#progressbar #account:before {
+    font-family: FontAwesome;
+    content: "\f13e"
+}
+
+#progressbar #personal:before {
+    font-family: FontAwesome;
+    content: "\f007"
+}
+
+#progressbar #payment:before {
+    font-family: FontAwesome;
+    content: "\f030"
+}
+
+#progressbar #confirm:before {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    background: lightgray;
     border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: lightgray;
     position: absolute;
-    top: 50%;
-    left: 8%;
-    transform: translateY(-50%);
-    cursor: pointer;
+    left: 0;
+    top: 25px;
+    z-index: -1
 }
 
-/* ............step3........ */
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #673AB7
+}
 
-.add-ons-wrapper{
+.progress {
+    height: 20px
+}
+
+.progress-bar {
+    background-color: #673AB7
+}
+
+.fit-image {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-top: 3rem;
-}
-
-.add-ons{
-    width: 100%;
-    border: .1rem solid var(--Coolgray);
-    height: 7rem;
-    border-radius: .5rem;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-around;
-}
-
-.add-ons:hover{
-    border: .1rem solid var(--Marineblue);
-}
-
-.add-ons-plan{
-    width: 70%;
-    margin: auto 0;
-    color: var(--Marineblue);
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.add-ons-desc{
-    display: block;
-    color: var(--Coolgray);
-    font-weight: 400;
-    font-size: 1.4rem;
-}
-
-.add-ons-price{
-    margin: auto 0;
-    color: var(--Purplishblue);
-    font-size: 1.4rem;
-}
-
-.checkbox{
-    cursor: pointer;
-}
-
-/* ............step4......... */
-
-.summary-wrapper{
-    width: 100%;
-    background-color: var(--Magnolia);
-    margin-top: 3rem;
-    border-radius: 1rem;
-}
-
-.finishing{
-    width: 90%;
-    display: flex;
-    margin: 0 auto;
-    height: 10rem;
-}
-
-.fin-plan{
-    width: 70%;
-    text-align: start;
-    color: var(--Marineblue);
-    font-weight: 700;
-    margin: auto 0;
-}
-
-.change{
-    text-decoration: underline;
-    cursor: pointer;
-    font-weight: 400;
-    font-size: 1.4rem;
-}
-
-.change:hover{
-    color: var(--Marineblue);
-
-}
-
-.fin-price{
-    text-align: end;
-    width: 30%;
-    margin: auto 0;
-    font-weight: 400;
-    font-size: 1.4rem;
-    color: var(--Coolgray);
-}
-.fin-price2{
-    display: block;
-    margin-top: .5rem;
-}
-.fin-adds-plan{
-    font-weight: 400;
-    font-size: 1.4rem;
-    color: var(--Coolgray);
-}
-
-.fin-plan2{
-    display: block;
-    font-weight: 400;
-    font-size: 1.4rem;
-    color: var(--Coolgray);
-}
-
-.adds{
-    margin-top: 2rem;
-}
-
-.adds2{
-    margin-top: 2rem;
-}
-
-.first{
-    border-bottom: .1rem solid var(--Coolgray);
-}
-
-.fin-adds-price{
-    color: var(--Marineblue);
-    font-weight: 700;
-}
-
-.total{
-    width: 64%;
-    display: flex;
-    justify-content: space-between;
-    margin: 2rem auto 0 auto;
-}
-
-.total-per{
-    font-size: 1.4rem;
-    color: var(--Coolgray);
-}
-
-.total-price{
-    color: var(--Marineblue);
-    font-size: 1.7rem;
-    font-weight: 700;
-}
-
-/* .........step5....... */
-
-.thanks-wrapper{
-    width: 70%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.thanks-icon-container{
-    width: 7rem;
-    aspect-ratio: 1/1;
-    margin: 0 auto 2rem auto;
-}
-
-.thanks-icon{
-    width: 100%;
-    aspect-ratio: 1/1;
-}
-
-.thank-you{
-    width: 100%;
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--Marineblue);
-}
-
-.thanks-text{
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
-    color: var(--Coolgray);
-    line-height: 1.9rem;
-}
-
-/* .............media queries.............. */
-
-@media screen and (min-width:1200px) {
-    
-    html{
-    font-size: 80%;
-}
-    
-}
-
-@media screen and (min-width:640px) and 
-(max-width:810px) {
-    
-    html{
-    font-size: 90%;
-}
-    
-}
-
-@media screen and (max-width:780px) {
-    html{
-        font-size: 70%;
-    }
-
-    body{
-        display:block;
-        background-color: var(--Magnolia);
-    }
-    
-    .header{
-        height: 25%;
-        width: 100%;
-        background-image: url(./images/bg-sidebar-mobile.svg);
-        margin: 0;
-        border-radius: 0;
-        display: flex;
-        gap: 1rem;
-        justify-content:center;
-    }
-
-    .nav{
-        display: none;
-        
-    }
-    .nav-item{
-        display: none;
-        
-    }
-    .mobile-item{
-        display: block;
-        margin-top: 10%;
-        width: 5rem;
-        height: 5rem;
-        padding-top: 1.5rem;
-    }
-
-    .section{
-        width: 90%;
-        position: relative;
-        top: -10vh;
-        background-color: white;
-        margin: 0 auto;
-        padding-bottom:1rem;
-        padding-top:1rem;
-        border-radius: 1rem;
-    }
-    .section-wrapper{
-        width: 85%;
-        
-    }
-    .section-heading{
-        width: 100%;
-        
-    }
-    .input{
-        width: 100%;
-        height: 3.5rem;
-        
-    }
-    .section-para{
-        margin-bottom: -1.5rem;
-    }
-
-    .slidder{
-        width: 100%;
-        left: 0;
-        bottom: -40%;
-    }
-    .next{
-        width: 30%;
-    }
-
-    .back{
-        width: 30%;
-    }
-
-    .card-wrapper{
-        flex-direction: column;
-        gap: 1.5rem;
-        
-    }
-    .plan-card{
-        width: 100%;
-        flex-direction: row;
-        height: 10rem;
-        justify-content:flex-start;
-    }
-
-    .icon-holder{
-        width: 20%;
-        margin-left: 5%;
-        margin-top:auto;
-        margin-bottom:auto;
-    }
-    
-    
-    .plan{
-        margin-left: 5%;
-        margin-top:auto;
-        margin-bottom:auto;
-    }
-
-    .switch-plan{
-        width: 85%;
-        height: 5rem;
-        margin-top: 4%;
-    }
-    .duration{
-        width: 40%;
-    }
-    .switch{
-        width: 12%;
-    }
-
-
-    .add-ons{
-        height: 8rem;
-        margin-bottom: 1.5rem;
-    }
-    
-        .add-ons-plan{
-        width: 55%;
-    }
-
-    .checkbox{
-        margin-top:auto;
-        margin-bottom:auto;
-}
-    .total{
-        width: 85%;
-    }
-
-    .thanks-wrapper{
-        width: 85%;
-        height: 40rem;
-        position: relative;
-        transform: translate(-50%, 0%);
-        padding-top: 10%;
-    }
-
-    .thanks-text{
-        width: 100%;
-        line-height: 2.2rem;
-    }
-    
-        
-    
-        
-        
+    object-fit: cover
 }
