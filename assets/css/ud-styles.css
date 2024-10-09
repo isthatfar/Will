@@ -508,7 +508,7 @@ p {
 .ud-hero {
   background: var(--primary-color);
   padding-top: 180px;
-  padding-bottom: 100px; /* Add more bottom padding */
+  padding-bottom: 250px; /* Add more bottom padding */
   min-height: 100vh; 
 }
  padding-bottom: 100px; /* Add more bottom padding */
