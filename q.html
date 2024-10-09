@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-step Will Questionnaire</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <form id="questionnaireForm">
+        <!-- Step 1: General Information -->
+        <div class="step active" id="step1">
+            <h2 class="h4 mb-4">General Information</h2>
+
+            <div class="form-group">
+                <label for="location" class="form-label">Where do you live?</label>
+                <select id="location" name="location" class="form-control" required>
+                    <option value="England">England</option>
+                    <option value="Wales">Wales</option>
+                    <option value="Scotland">Scotland</option>
+                    <option value="Northern Ireland">Northern Ireland</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="relationshipStatus" class="form-label">Relationship Status</label>
+                <select id="relationshipStatus" name="relationshipStatus" class="form-control" required onchange="toggleWillOptions()">
+                    <option value="single">Single</option>
+                    <option value="in_relationship">In a relationship</option>
+                    <option value="civil_partnership">In a civil partnership</option>
+                    <option value="married">Married</option>
+                    <option value="widowed">Widowed</option>
+                </select>
+            </div>
+
+            <div id="whoNeedsWillDiv" style="display:none;" class="form-group">
+                <label for="whoNeedsWill" class="form-label">Who needs a will?</label>
+                <select id="whoNeedsWill" name="whoNeedsWill" class="form-control">
+                    <option value="just_me">Just me</option>
+                    <option value="me_and_partner">Me and my partner</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">What is your email address?</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fullName" class="form-label">What is your full name?</label>
+                <input type="text" id="fullName" name="fullName" class="form-control mb-2" placeholder="First and Middle names" required>
+                <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="homeAddress" class="form-label">What is your home address?</label>
+                <input type="text" id="address1" name="address1" class="form-control mb-2" placeholder="Address Line 1" required>
+                <input type="text" id="address2" name="address2" class="form-control mb-2" placeholder="Address Line 2">
+                <input type="text" id="city" name="city" class="form-control mb-2" placeholder="Town/City" required>
+                <input type="text" id="postcode" name="postcode" class="form-control" placeholder="Postcode" required>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="nextStep(1)">Next</button>
+        </div>
+
+        <!-- Step 2: Asset Overview -->
+        <div class="step" id="step2">
+            <h2 class="h4 mb-4">Asset Overview</h2>
+
+            <div class="form-group">
+                <label for="foreignAssets" class="form-label">Do you have any foreign assets?</label>
+                <select id="foreignAssets" name="foreignAssets" class="form-control" onchange="toggleForeignAssets()">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+
+            <div id="includeForeignAssetsDiv" style="display:none;" class="form-group">
+                <label for="includeForeignAssets" class="form-label">Do you want to include your foreign assets in this will?</label>
+                <select id="includeForeignAssets" name="includeForeignAssets" class="form-control">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+        </div>
+
+        <!-- Step 3: Beneficiaries and Gifts -->
+        <div class="step" id="step3">
+            <h2 class="h4 mb-4">Beneficiaries and Gifts</h2>
+
+            <div id="beneficiariesDiv" class="form-section">
+                <div class="form-group">
+                    <input type="text" id="beneficiaryName1" name="beneficiaryName[]" class="form-control mb-2" placeholder="Full Name" required>
+                    <select name="beneficiaryRelationship[]" class="form-control mb-2" required>
+                        <option value="spouse">Spouse</option>
+                        <option value="civil_partner">Civil Partner</option>
+                        <option value="partner">Partner</option>
+                        <option value="mother">Mother</option>
+                        <option value="father">Father</option>
+                        <option value="daughter">Daughter</option>
+                        <option value="son">Son</option>
+                        <option value="grandson">Grandson</option>
+                        <option value="granddaughter">Granddaughter</option>
+                        <option value="niece">Niece</option>
+                        <option value="nephew">Nephew</option>
+                        <option value="friend">Friend</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="text" id="beneficiaryCity1" name="beneficiaryCity[]" class="form-control mb-2" placeholder="Address or City" required>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-success mb-3" onclick="addBeneficiary()">Add another beneficiary</button>
+
+            <div class="form-group">
+                <label for="charities" class="form-label">Do you want to include any charities?</label>
+                <div class="form-check">
+                    <input type="checkbox" id="charities" name="charities" class="form-check-input" onclick="toggleCharity()">
+                    <label class="form-check-label" for="charities">Yes</label>
+                </div>
+            </div>
+
+            <div id="charityDiv" style="display:none;" class="form-group">
+                <input type="text" id="charityName" name="charityName" class="form-control mb-2" placeholder="Name of Charity">
+                <input type="text" id="charityAddress" name="charityAddress" class="form-control" placeholder="Address or City">
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
+        </div>
+
+        <!-- Step 4: Specific Gifts or Donations -->
+        <div class="step" id="step4">
+            <h2 class="h4 mb-4">Specific Gifts or Donations</h2>
+
+            <div class="form-group">
+                <label for="specificGifts" class="form-label">Do you want to leave specific gifts or donations?</label>
+                <div id="specificGiftsDiv">
+                    <!-- This section will be dynamically populated with the beneficiaries from Step 3 -->
+                </div>
+            </div>
+            
+            <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next</button>
+        </div>
+
+        <!-- Step 5: Division of Residual Estate -->
+        <div class="step" id="step5">
+            <h2 class="h4 mb-4">Division of Residual Estate</h2>
+
+            <p>How would you like the rest of your estate to be shared?</p>
+            <div id="residualDivisionDiv">
+                <!-- This section will be dynamically populated with beneficiaries from Step 3 -->
+            </div>
+
+            <div class="form-group">
+                <label for="totalPercentage" class="form-label">Total Percentage:</label>
+                <input type="number" id="totalPercentage" name="totalPercentage" class="form-control" readonly>
+            </div>
+
+            <p id="percentageError" class="text-danger" style="display:none;">The total percentage must add up to 100%.</p>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(4)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="validateAndNextStep(6)">Next</button>
+        </div>
+
+        <!-- Step 6: Contingency Planning -->
+        <div class="step" id="step6">
+            <h2 class="h4 mb-4">Contingency Planning</h2>
+
+            <p>If any of the following beneficiaries die before you, what should happen to their gifts and share of your inheritance?</p>
+            <div id="contingencyPlanningDiv">
+                <!-- This section will be dynamically populated with beneficiaries from Step 3 -->
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(5)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(7)">Next</button>
+        </div>
+
+        <!-- Step 7: Executors -->
+        <div class="step" id="step7">
+            <h2 class="h4 mb-4">Executors</h2>
+
+            <div class="form-group">
+                <label for="executors" class="form-label">Who do you want to appoint as executors?</label>
+                <div id="executorsDiv">
+                    <label>
+                        <input type="radio" name="executor" value="swiftwills" required>
+                        Swiftwills
+                    </label><br>
+                    <!-- Dynamically populated executors from Step 3 -->
+                </div>
+            </div>
+
+            <div id="addExecutorDiv" style="display:none;" class="form-group">
+                <label for="executorName" class="form-label">Full Name of New Executor</label>
+                <input type="text" id="executorName" name="executorName" class="form-control mb-2" placeholder="Full Name">
+                <label for="executorRelationship" class="form-label">Relationship to you</label>
+                <select id="executorRelationship" name="executorRelationship" class="form-control mb-2">
+                    <option value="spouse">Spouse</option>
+                    <option value="civil_partner">Civil Partner</option>
+                    <option value="partner">Partner</option>
+                    <option value="mother">Mother</option>
+                    <option value="father">Father</option>
+                    <option value="daughter">Daughter</option>
+                    <option value="son">Son</option>
+                    <option value="grandson">Grandson</option>
+                    <option value="granddaughter">Granddaughter</option>
+                    <option value="niece">Niece</option>
+                    <option value="nephew">Nephew</option>
+                    <option value="friend">Friend</option>
+                    <option value="other">Other</option>
+                </select>
+                <label for="executorCity" class="form-label">Address or City</label>
+                <input type="text" id="executorCity" name="executorCity" class="form-control" placeholder="Address or City">
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(6)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(8)">Next</button>
+        </div>
+
+        <!-- Step 8: Pets -->
+        <div class="step" id="step8">
+            <h2 class="h4 mb-4">Pets</h2>
+
+            <div class="form-group">
+                <label for="havePets" class="form-label">Do you have any pets?</label>
+                <select id="havePets" name="havePets" class="form-control" onchange="togglePetQuestions()" required>
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+
+            <div id="petQuestions" style="display:none;">
+                <div class="form-group">
+                    <label for="petCare" class="form-label">Who do you want to take care of your pets when you pass away?</label>
+                    <select id="petCare" name="petCare" class="form-control" onchange="togglePetCareFields()" required>
+                        <option value="executors">My executors</option>
+                        <option value="someone_else">Someone else</option>
+                    </select>
+                </div>
+
+                <div id="petCareFields" style="display:none;">
+                    <div class="form-group">
+                        <label for="petCareName" class="form-label">Full Name of Pet Caretaker</label>
+                        <input type="text" id="petCareName" name="petCareName" class="form-control" placeholder="Full Name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="petCareRelationship" class="form-label">Relationship to you</label>
+                        <select id="petCareRelationship" name="petCareRelationship" class="form-control" required>
+                            <option value="spouse">Spouse</option>
+                            <option value="civil_partner">Civil Partner</option>
+                            <option value="partner">Partner</option>
+                            <option value="mother">Mother</option>
+                            <option value="father">Father</option>
+                            <option value="friend">Friend</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="petCareCity" class="form-label">Address or City</label>
+                        <input type="text" id="petCareCity" name="petCareCity" class="form-control" placeholder="Address or City" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="leaveMoneyForPets" class="form-label">Do you want to leave money to help with the care of your pets?</label>
+                    <select id="leaveMoneyForPets" name="leaveMoneyForPets" class="form-control" onchange="togglePetMoneyField()" required>
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+
+                <div id="petMoneyField" style="display:none;" class="form-group">
+                    <label for="petMoneyAmount" class="form-label">Enter Amount £</label>
+                    <input type="number" id="petMoneyAmount" name="petMoneyAmount" class="form-control" placeholder="Amount">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(7)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(9)">Next</button>
+        </div>
+
+        <!-- Step 9: Digital Assets -->
+        <div class="step" id="step9">
+            <h2 class="h4 mb-4">Digital Assets</h2>
+
+            <div class="form-group">
+                <label for="digitalAssets" class="form-label">Do you allow your executors to deal with your digital assets?</label>
+                <select id="digitalAssets" name="digitalAssets" class="form-control" required>
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(8)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(10)">Next</button>
+        </div>
+
+        <!-- Step 10: Funeral Plans -->
+        <div class="step" id="step10">
+            <h2 class="h4 mb-4">Funeral Plans</h2>
+
+            <div class="form-group">
+                <label for="funeralPlans" class="form-label">What do you want to happen to your body?</label>
+                <select id="funeralPlans" name="funeralPlans" class="form-control" required>
+                    <option value="cremation">Cremation</option>
+                    <option value="burial">Burial in a cemetery</option>
+                    <option value="natural_burial">Natural burial</option>
+                    <option value="donate_to_science">Donate to science</option>
+                    <option value="family_decide">Let my family decide</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(9)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(11)">Next</button>
+        </div>
+
+        <!-- Step 11: Delivery -->
+        <div class="step" id="step11">
+            <h2 class="h4 mb-4">Delivery</h2>
+
+            <div class="form-group">
+                <label for="deliveryMethod" class="form-label">How would you like to get your will?</label>
+                <select id="deliveryMethod" name="deliveryMethod" class="form-control" required>
+                    <option value="digital_download">Digital download</option>
+                    <option value="post_delivery">1st class post delivery</option>
+                    <option value="priority_review_post">Priority review & post delivery</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(10)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="populateReviewPage(); nextStep(12)">Next</button>
+        </div>
+
+        <!-- Step 12: Review Page -->
+        <div class="step" id="step12">
+            <h2 class="h4 mb-4">Review Your Will</h2>
+            <p>Please review the information you've entered below. If you need to make changes, you can go back to any section by clicking the "Edit" button next to each section.</p>
+
+            <div id="reviewContent">
+                <!-- This section will dynamically populate with the form data for review -->
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep(11)">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep(13)">Proceed to Payment</button>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+// Your JavaScript functions for form navigation, toggling fields, etc. remain the same
+</script>
+
+</body>
+</html>

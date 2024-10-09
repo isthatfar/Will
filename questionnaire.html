@@ -1,365 +1,753 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="assets/css/style2.css" />
-  </head>
-  <body>
-    <div class="container" id="container">
-      <div class="displayStep" id="displayStep">
-        <div class="circle">
-          <div class="circle1" id="circle1"><p>1</p></div>
-          <div class="circle2" id="circle2"><p>2</p></div>
-          <div class="circle3" id="circle3"><p>3</p></div>
-          <div class="circle4" id="circle4"><p>4</p></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-step Will Questionnaire</title>
+    <style>
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<form id="questionnaireForm">
+    <!-- Step 1: General Information -->
+    <div class="step active" id="step1">
+        <h2>General Information</h2>
+
+        <label for="location">Where do you live?</label><br>
+        <select id="location" name="location" required>
+            <option value="England">England</option>
+            <option value="Wales">Wales</option>
+            <option value="Scotland">Scotland</option>
+            <option value="Northern Ireland">Northern Ireland</option>
+        </select><br><br>
+
+        <label for="relationshipStatus">Relationship Status</label><br>
+        <select id="relationshipStatus" name="relationshipStatus" required onchange="toggleWillOptions()">
+            <option value="single">Single</option>
+            <option value="in_relationship">In a relationship</option>
+            <option value="civil_partnership">In a civil partnership</option>
+            <option value="married">Married</option>
+            <option value="widowed">Widowed</option>
+        </select><br><br>
+
+        <div id="whoNeedsWillDiv" style="display:none;">
+            <label for="whoNeedsWill">Who needs a will?</label><br>
+            <select id="whoNeedsWill" name="whoNeedsWill">
+                <option value="just_me">Just me</option>
+                <option value="me_and_partner">Me and my partner</option>
+            </select><br><br>
         </div>
-        <div class="steps">
-          <div class="step1">
-            <p>STEP 1</p>
-            <span>YOUR INFO</span>
-          </div>
-          <div class="step1">
-            <p>STEP 2</p>
-            <span>SELECT PLAN</span>
-          </div>
-          <div class="step1">
-            <p>STEP 3</p>
-            <span>ADD-ONS</span>
-          </div>
-          <div class="step1">
-            <p>STEP 4</p>
-            <span>SUMMARY</span>
-          </div>
-        </div>
-      </div>
-      <div class="stepContainer" id="stepContainer">
-        <!--PERSO INFOS -------------------------------------------------------------------->
-        <div class="affichStep">
-          <div class="stepInfo" id="stepInfo">
-            <h1>Personal Info</h1>
-            <p class="descrition">
-              Please provide vour name, email address, and phone number.
-            </p>
-            <div class="flexError">
-              <p>Name</p>
-              <span id="errorName"></span>
-            </div>
-            <input
-              type="text"
-              name=""
-              id="infoName"
-              placeholder="e.g. Stephen king"
-            />
-            <div class="flexError">
-              <p>Email Address</p>
-              <span id="errorMail"></span>
-            </div>
-            <input
-              type="text"
-              name=""
-              id="infoMail"
-              placeholder="e.g. stephenking@lorem.com"
-            />
-            <div class="flexError">
-              <p>PhoneNumber</p>
-              <span id="errorNum"></span>
-            </div>
-            <input
-              type="text"
-              name=""
-              id="infoNumber"
-              placeholder="e.g. +1 234 567 890"
-            />
-            <div class="buttonContainerStepOne">
-              <button onclick="goStepTwo()" class="nextStep">Next Step</button>
-            </div>
-          </div>
-          <!--SELECT PLAN ------------------------------------------------------------------------>
-          <div class="stepPlan" id="stepPlan">
-            <h1>Select your plan</h1>
-            <p class="descrition">
-              You have the option of monthly or yearly billing.
-            </p>
-            <div class="planMonth" id="planMonth">
-              <button class="planButton" id="moisArcade" onclick="getPrice1()">
-                <img src="./image/icon-arcade.svg" alt="" />
 
-                <p>Arcade</p>
-                <span id="priceMonth" class="priceMonth">9$/mo</span>
-              </button>
+        <label for="email">What is your email address?</label><br>
+        <input type="email" id="email" name="email" required><br><br>
 
-              <button
-                class="planButton"
-                id="moisAdvenced"
-                onclick="getPrice2()"
-              >
-                <img src="./image/icon-advanced.svg" alt="" />
+        <label for="fullName">What is your full name?</label><br>
+        <input type="text" id="fullName" name="fullName" placeholder="First and Middle names" required><br>
+        <input type="text" id="lastName" name="lastName" placeholder="Last name" required><br><br>
 
-                <p>Advenced</p>
-                <span id="priceMonth" class="priceMonth">12$/mo</span>
-              </button>
+        <label for="homeAddress">What is your home address?</label><br>
+        <input type="text" id="address1" name="address1" placeholder="Address Line 1" required><br>
+        <input type="text" id="address2" name="address2" placeholder="Address Line 2"><br>
+        <input type="text" id="city" name="city" placeholder="Town/City" required><br>
+        <input type="text" id="postcode" name="postcode" placeholder="Postcode" required><br><br>
 
-              <button class="planButton" id="moisPro" onclick="getPrice3()">
-                <img src="./image/icon-pro.svg" alt="" />
-
-                <p>Pro</p>
-                <span id="priceMonth" class="priceMonth">15$/mo</span>
-              </button>
-            </div>
-            <div class="planMonth" id="planYear">
-              <button class="planButton" id="anneeArcade" onclick="getPrice4()">
-                <img src="./image/icon-arcade.svg" alt="" />
-
-                <p>Arcade</p>
-                <span class="priceYear">90$/yr</span>
-                <label class="free">2 months free</label>
-              </button>
-
-              <button
-                class="planButton"
-                id="anneeAdvenced"
-                onclick="getPrice5()"
-              >
-                <img src="./image/icon-advanced.svg" alt="" />
-
-                <p>Advenced</p>
-                <span class="priceYear">120$/yr</span>
-                <label class="free">2 months free</label>
-              </button>
-
-              <button class="planButton" id="anneePro" onclick="getPrice6()">
-                <img src="./image/icon-pro.svg" alt="" />
-
-                <p>Pro</p>
-                <span class="priceYear">150$/yr</span>
-                <label class="free">2 months free</label>
-              </button>
-            </div>
-
-            <div class="switch">
-              <p class="monthly">Monthly</p>
-              <label class="check"
-                ><input
-                  type="checkbox"
-                  id="switch"
-                  id="checkbox"
-                  onclick="reset()" />
-                <span></span
-              ></label>
-
-              <p class="yearly">Yearly</p>
-            </div>
-
-            <div class="buttonContainerStepTwo">
-              <button onclick="backStepOne()" class="goBack">Go back</button>
-              <button onclick="goStepThree()" class="nextStep">
-                Next Step
-              </button>
-            </div>
-          </div>
-          <!--ADD ON---------------------------------------------------------------------------------->
-          <div class="stepAddOn" id="stepAddOn">
-            <h1>Pick add-ons</h1>
-            <p class="descrition">
-              Add-ons help enhance your gaming experience.
-            </p>
-            <!--bouton mois ------------------------------------------------------------------->
-            <div id="addonMois">
-              <div class="addOnButton">
-                <div class="regroup">
-                  <input
-                    type="checkbox"
-                    id="onlineMois"
-                    name="adOnn"
-                    value="1"
-                  />
-
-                  <div class="addOn">
-                    <p class="AddSize">Online service</p>
-                    <span>Access to multiplayer games</span>
-                  </div>
-                </div>
-                <p class="prix">+$1/mo</p>
-              </div>
-
-              <div class="addOnButton">
-                <div class="regroup">
-                  <input
-                    type="checkbox"
-                    name="adOnn"
-                    value="2"
-                    id="storageMois"
-                  />
-                  <div class="addOn">
-                    <p class="AddSize">Larger storage</p>
-                    <span> 1TB of cloud save</span>
-                  </div>
-                </div>
-                <p class="prix">+$2/mo</p>
-              </div>
-
-              <div class="addOnButton">
-                <div class="regroup">
-                  <input
-                    type="checkbox"
-                    name="adOnn"
-                    value="2"
-                    id="customizableMois"
-                  />
-                  <div class="addOn">
-                    <p class="AddSize">Customizable profile</p>
-                    <span>Custom theme on your profile</span>
-                  </div>
-                </div>
-                <p class="prix">+$2/mo</p>
-              </div>
-            </div>
-            <!--bouton année -------------------------------------------------------------------->
-            <div id="addonAnnee">
-              <div class="addOnButton">
-                <div class="regroup">
-                  <input
-                    type="checkbox"
-                    name="adOnn"
-                    value="10"
-                    id="onlineAnnee"
-                  />
-
-                  <div class="addOn">
-                    <p class="AddSize">Online service</p>
-                    <span>Access to multiplayer games</span>
-                  </div>
-                </div>
-                <p class="prix">+$10/yr</p>
-              </div>
-
-              <div class="addOnButton">
-                <div class="regroup">
-                  <input
-                    type="checkbox"
-                    name="adOnn"
-                    value="20"
-                    id="storageAnnee"
-                  />
-                  <div class="addOn">
-                    <p class="AddSize">Larger storage</p>
-                    <span> 1TB of cloud save</span>
-                  </div>
-                </div>
-                <p class="prix">+$20/yr</p>
-              </div>
-
-              <div class="addOnButton">
-                <div class="regroup">
-                  <input
-                    type="checkbox"
-                    name="adOnn"
-                    value="20"
-                    id="customizableAnnee"
-                  />
-                  <div class="addOn">
-                    <p class="AddSize">Customizable profile</p>
-                    <span>Custom theme on your profile</span>
-                  </div>
-                </div>
-                <p class="prix">+$20/yr</p>
-              </div>
-            </div>
-
-            <div class="buttonContainerStepThree">
-              <button onclick="backSteptTwo()" class="goBack">Go back</button>
-
-              <button onclick="goStepFour()" class="nextStep">Next Step</button>
-            </div>
-          </div>
-          <!--RESUME---------------------------------------------------------------------------------->
-          <div class="stepSummary" id="stepSummary">
-            <h1>Finishing up</h1>
-            <p class="descrition">
-              Double-check everything looks OK before confirming.
-            </p>
-            <div class="resume">
-              <div class="containerResume">
-                <div
-                  id="resumeMonth"
-                  <!--remuseMois-------------------------------------------------------
-                >
-                  <div class="flexResume">
-                    <div>
-                      <h4 id="modeResume">Choose a plan</h4>
-                      <button onclick="goFromFourToTwo()">Change</button>
-                    </div>
-                    <label for="" id="priceResume"></label>
-                  </div>
-                  <br />
-                  <span></span>
-                  <div class="flexResume">
-                    <p>Online service</p>
-                    <label for="" id="onlinePrice">+0$</label>
-                  </div>
-                  <div class="flexResume">
-                    <p>Larger storage</p>
-                    <label for="" id="storagePrice">+0$</label>
-                  </div>
-                  <div class="flexResume">
-                    <p>Customizable profile</p>
-                    <label for="" id="customizablePrice">+0$</label>
-                  </div>
-                </div>
-              </div>
-              <div class="flexTotal">
-                <p id="modeTotal">Total</p>
-                <span id="totalPrice"></span>
-                <span class="dollar">$</span>
-              </div>
-              <div class="buttonContainerStepFour">
-                <button onclick="backStepThree()" class="goBack">
-                  Go back
-                </button>
-                <button onclick="goToStepThankYou()" class="nextStep">
-                  Confirm
-                </button>
-              </div>
-            </div>
-          </div>
-          <!--THANK YOU------------------------------------------------------------------------------>
-          <div class="stepThankYou" id="stepThankYou">
-            <img src="./image/icon-thank-you.svg" alt="" />
-            <h1>Thank you!</h1>
-            <p>
-              Thanks for confirming your subscription! We hope you have fun
-              using our platform. If you ever need support, please feel free to
-              email us at support@loremgaming.com.
-            </p>
-          </div>
-        </div>
-      </div>
+        <button type="button" onclick="nextStep(1)">Next</button>
     </div>
 
-    <script src="/script.js"></script>
-  </body>
+    <!-- Step 2: Asset Overview -->
+    <div class="step" id="step2">
+        <h2>Asset Overview</h2>
+
+        <label for="foreignAssets">Do you have any foreign assets?</label><br>
+        <select id="foreignAssets" name="foreignAssets" onchange="toggleForeignAssets()">
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+        </select><br><br>
+
+        <div id="includeForeignAssetsDiv" style="display:none;">
+            <label for="includeForeignAssets">Do you want to include your foreign assets in this will?</label><br>
+            <select id="includeForeignAssets" name="includeForeignAssets">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select><br><br>
+        </div>
+
+        <button type="button" onclick="prevStep(1)">Previous</button>
+        <button type="button" onclick="nextStep(2)">Next</button>
+    </div>
+
+    <!-- Step 3: Beneficiaries and Gifts -->
+    <div class="step" id="step3">
+        <h2>Beneficiaries and Gifts</h2>
+
+        <label for="beneficiaries">Who do you want to receive a gift or share of your estate?</label><br>
+        <div id="beneficiariesDiv">
+            <input type="text" id="beneficiaryName1" name="beneficiaryName[]" placeholder="Full Name" required><br>
+            <select name="beneficiaryRelationship[]" required>
+                <option value="spouse">Spouse</option>
+                <option value="civil_partner">Civil Partner</option>
+                <option value="partner">Partner</option>
+                <option value="mother">Mother</option>
+                <option value="father">Father</option>
+                <option value="daughter">Daughter</option>
+                <option value="son">Son</option>
+                <option value="grandson">Grandson</option>
+                <option value="granddaughter">Granddaughter</option>
+                <option value="niece">Niece</option>
+                <option value="nephew">Nephew</option>
+                <option value="friend">Friend</option>
+                <option value="other">Other</option>
+            </select><br>
+            <input type="text" id="beneficiaryCity1" name="beneficiaryCity[]" placeholder="Address or City" required><br>
+        </div>
+
+        <button type="button" onclick="addBeneficiary()">Add another beneficiary</button><br><br>
+
+        <label for="charities">Do you want to include any charities?</label><br>
+        <input type="checkbox" id="charities" name="charities" onclick="toggleCharity()"> Yes<br><br>
+
+        <div id="charityDiv" style="display:none;">
+            <input type="text" id="charityName" name="charityName" placeholder="Name of Charity"><br>
+            <input type="text" id="charityAddress" name="charityAddress" placeholder="Address or City"><br>
+        </div>
+
+        <button type="button" onclick="prevStep(2)">Previous</button>
+        <button type="button" onclick="nextStep(3)">Next</button>
+    </div>
+
+    <!-- Step 4: Specific Gifts or Donations -->
+    <div class="step" id="step4">
+        <h2>Specific Gifts or Donations</h2>
+
+        <!-- Section for dynamically adding gifts for the beneficiaries -->
+        <label for="specificGifts">Do you want to leave specific gifts or donations?</label><br>
+        <div id="specificGiftsDiv">
+            <!-- This section will be dynamically populated with the beneficiaries from Step 3 -->
+        </div>
+        
+         <button type="button" onclick="prevStep(2)">Previous</button>
+        <button type="button" onclick="nextStep(3)">Next</button>
+    </div>
+
+<script>
+    let currentStep = 1;
+
+    function nextStep(step) {
+        document.getElementById(`step${currentStep}`).classList.remove('active');
+        currentStep += 1;
+        document.getElementById(`step${currentStep}`).classList.add('active');
+        
+        // If moving to step 4, dynamically populate the beneficiaries for specific gifts
+        if (currentStep === 4) {
+            populateSpecificGifts();
+        }
+    }
+
+    function prevStep(step) {
+        document.getElementById(`step${currentStep}`).classList.remove('active');
+        currentStep -= 1;
+        document.getElementById(`step${currentStep}`).classList.add('active');
+    }
+
+    function toggleWillOptions() {
+        const status = document.getElementById('relationshipStatus').value;
+        const whoNeedsWillDiv = document.getElementById('whoNeedsWillDiv');
+        whoNeedsWillDiv.style.display = (status === 'single' || status === 'widowed') ? 'block' : 'block';
+    }
+
+    function toggleForeignAssets() {
+        const foreignAssets = document.getElementById('foreignAssets').value;
+        const includeForeignAssetsDiv = document.getElementById('includeForeignAssetsDiv');
+        includeForeignAssetsDiv.style.display = (foreignAssets === 'yes') ? 'block' : 'none';
+    }
+
+    function toggleCharity() {
+        const charityDiv = document.getElementById('charityDiv');
+        charityDiv.style.display = document.getElementById('charities').checked ? 'block' : 'none';
+    }
+
+    function addBeneficiary() {
+        const beneficiariesDiv = document.getElementById('beneficiariesDiv');
+        const newBeneficiary = `
+            <input type="text" name="beneficiaryName[]" placeholder="Full Name" required><br>
+            <select name="beneficiaryRelationship[]" required>
+                <option value="spouse">Spouse</option>
+                <option value="civil_partner">Civil Partner</option>
+                <option value="partner">Partner</option>
+                <option value="mother">Mother</option>
+                <option value="father">Father</option>
+                <option value="daughter">Daughter</option>
+                <option value="son">Son</option>
+                <option value="grandson">Grandson</option>
+                <option value="granddaughter">Granddaughter</option>
+                <option value="niece">Niece</option>
+                <option value="nephew">Nephew</option>
+                <option value="friend">Friend</option>
+                <option value="other">Other</option>
+            </select><br>
+            <input type="text" name="beneficiaryCity[]" placeholder="Address or City" required><br>
+        `;
+        beneficiariesDiv.insertAdjacentHTML('beforeend', newBeneficiary);
+    }
+
+    function populateSpecificGifts() {
+        const beneficiariesDiv = document.getElementById('beneficiariesDiv');
+        const specificGiftsDiv = document.getElementById('specificGiftsDiv');
+        specificGiftsDiv.innerHTML = '';  // Clear any existing content
+
+        const beneficiaryNames = document.querySelectorAll('[name="beneficiaryName[]"]');
+        const beneficiaryCities = document.querySelectorAll('[name="beneficiaryCity[]"]');
+
+        // Loop through all beneficiaries and create a section for each to assign specific gifts
+        beneficiaryNames.forEach((name, index) => {
+            const beneficiaryName = name.value;
+            const beneficiaryCity = beneficiaryCities[index].value;
+
+            // Create a section for each beneficiary
+            const giftSection = document.createElement('div');
+            giftSection.className = 'gift-section';
+            giftSection.innerHTML = `
+                <h4>Gifts for ${beneficiaryName} (${beneficiaryCity})</h4>
+                <label for="giftType_${index}">Select the type of gift:</label><br>
+                <select id="giftType_${index}" name="giftType_${index}" onchange="toggleGiftFields(${index})" required>
+                    <option value="cash">Cash</option>
+                    <option value="property">Property</option>
+                    <option value="collection">Collection of items</option>
+                    <option value="item">Item</option>
+                </select><br><br>
+
+                <div id="giftDetails_${index}" class="gift-details">
+                    <!-- Gift details based on the selected type will be displayed here -->
+                </div>
+            `;
+            specificGiftsDiv.appendChild(giftSection);
+        });
+    }
+
+    // Toggle the input fields based on the type of gift selected for each beneficiary
+    function toggleGiftFields(index) {
+        const giftType = document.getElementById(`giftType_${index}`).value;
+        const giftDetailsDiv = document.getElementById(`giftDetails_${index}`);
+        
+        let giftDetails = '';
+
+        if (giftType === 'cash') {
+            giftDetails = `
+                <label for="cashAmount_${index}">Enter Amount £:</label><br>
+                <input type="number" id="cashAmount_${index}" name="cashAmount_${index}" required><br><br>
+            `;
+        } else if (giftType === 'property') {
+            giftDetails = `
+                <label for="propertyAddress_${index}">Enter Address Located at:</label><br>
+                <input type="text" id="propertyAddress_${index}" name="propertyAddress_${index}" required><br><br>
+                <label for="propertyPercentage_${index}">Enter Percentage of Property (%) :</label><br>
+                <input type="number" id="propertyPercentage_${index}" name="propertyPercentage_${index}" required><br><br>
+            `;
+        } else if (giftType === 'collection') {
+            giftDetails = `
+                <label for="collectionItems_${index}">Enter Collection Description (e.g., "All of my..."):</label><br>
+                <input type="text" id="collectionItems_${index}" name="collectionItems_${index}" required><br><br>
+            `;
+        } else if (giftType === 'item') {
+            giftDetails = `
+                <label for="specificItem_${index}">Enter Item Description (e.g., "My..."):</label><br>
+                <input type="text" id="specificItem_${index}" name="specificItem_${index}" required><br><br>
+            `;
+        }
+
+        // Display the appropriate fields based on the selected gift type
+        giftDetailsDiv.innerHTML = giftDetails;
+    }
+
+</script>
+<!-- Step 5: Division of Residual Estate -->
+<div class="step" id="step5">
+    <h2>Division of Residual Estate</h2>
+
+    <p>How would you like the rest of your estate to be shared?</p>
+    <div id="residualDivisionDiv">
+        <!-- This section will be dynamically populated with beneficiaries from Step 3 -->
+    </div>
+
+    <label for="totalPercentage">Total Percentage:</label>
+    <input type="number" id="totalPercentage" name="totalPercentage" readonly><br><br>
+
+    <p id="percentageError" style="color:red; display:none;">The total percentage must add up to 100%.</p>
+
+    <button type="button" onclick="prevStep(4)">Previous</button>
+    <button type="button" onclick="validateAndNextStep(5)">Next</button>
+</div>
+
+<!-- Step 6: Contingency Planning -->
+<div class="step" id="step6">
+    <h2>Contingency Planning</h2>
+
+    <p>If any of the following beneficiaries die before you, what should happen to their gifts and share of your inheritance?</p>
+    <div id="contingencyPlanningDiv">
+        <!-- This section will be dynamically populated with beneficiaries from Step 3 -->
+    </div>
+
+    <button type="button" onclick="prevStep(5)">Previous</button>
+    <button type="button" onclick="nextStep(6)">Next</button>
+</div>
+
+<!-- Step 7: Executors -->
+<div class="step" id="step7">
+    <h2>Executors</h2>
+
+    <label for="executors">Who do you want to appoint as executors?</label><br>
+    <div id="executorsDiv">
+        <label>
+            <input type="radio" name="executor" value="swiftwills" required>
+            Swiftwills
+        </label><br>
+        <!-- Dynamically populated executors from Step 3 -->
+    </div>
+    
+    <div id="addExecutorDiv" style="display:none;">
+        <label for="executorName">Full Name of New Executor</label><br>
+        <input type="text" id="executorName" name="executorName" placeholder="Full Name"><br>
+
+        <label for="executorRelationship">Relationship to you</label><br>
+        <select id="executorRelationship" name="executorRelationship">
+            <option value="spouse">Spouse</option>
+            <option value="civil_partner">Civil Partner</option>
+            <option value="partner">Partner</option>
+            <option value="mother">Mother</option>
+            <option value="father">Father</option>
+            <option value="daughter">Daughter</option>
+            <option value="son">Son</option>
+            <option value="grandson">Grandson</option>
+            <option value="granddaughter">Granddaughter</option>
+            <option value="niece">Niece</option>
+            <option value="nephew">Nephew</option>
+            <option value="friend">Friend</option>
+            <option value="other">Other</option>
+        </select><br><br>
+
+        <label for="executorCity">Address or City</label><br>
+        <input type="text" id="executorCity" name="executorCity" placeholder="Address or City"><br><br>
+    </div>
+
+    <button type="button" onclick="prevStep(5)">Previous</button>
+    <button type="button" onclick="nextStep(6)">Next</button>
+</div>
+
+<script>
+// JavaScript for new steps
+
+// Step 5: Populate beneficiaries for residual estate division
+function populateResidualDivision() {
+    const beneficiariesDiv = document.querySelectorAll('[name="beneficiaryName[]"]');
+    const residualDivisionDiv = document.getElementById('residualDivisionDiv');
+    residualDivisionDiv.innerHTML = '';
+
+    beneficiariesDiv.forEach((name, index) => {
+        const beneficiaryName = name.value;
+        const divisionInput = `
+            <label for="beneficiaryShare_${index}">${beneficiaryName}'s Share:</label>
+            <input type="number" id="beneficiaryShare_${index}" name="beneficiaryShare_${index}" value="0" oninput="calculateTotalPercentage()" required><br><br>
+        `;
+        residualDivisionDiv.insertAdjacentHTML('beforeend', divisionInput);
+    });
+}
+
+// Calculate total percentage in step 5 and validate if it adds up to 100%
+function calculateTotalPercentage() {
+    const shares = document.querySelectorAll('[name^="beneficiaryShare_"]');
+    let total = 0;
+    shares.forEach(share => {
+        total += parseFloat(share.value) || 0;
+    });
+    document.getElementById('totalPercentage').value = total;
+}
+
+// Validate total percentage equals 100% before proceeding
+function validateAndNextStep(step) {
+    const total = parseFloat(document.getElementById('totalPercentage').value);
+    const errorMessage = document.getElementById('percentageError');
+    
+    if (total !== 100) {
+        errorMessage.style.display = 'block';
+    } else {
+        errorMessage.style.display = 'none';
+        nextStep(step);
+    }
+}
+
+// Step 6: Populate contingency planning
+function populateContingencyPlanning() {
+    const beneficiariesDiv = document.querySelectorAll('[name="beneficiaryName[]"]');
+    const contingencyPlanningDiv = document.getElementById('contingencyPlanningDiv');
+    contingencyPlanningDiv.innerHTML = '';
+
+    beneficiariesDiv.forEach((name, index) => {
+        const beneficiaryName = name.value;
+        const contingencyOptions = `
+            <h4>What should happen if ${beneficiaryName} dies before you?</h4>
+            <select id="contingency_${index}" name="contingency_${index}">
+                <option value="children">Give to their children</option>
+                <option value="spouse">Give to their spouse or civil partner</option>
+                <option value="specific">Give to specific persons</option>
+                <option value="remaining">Share between remaining beneficiaries</option>
+            </select><br><br>
+            <div id="specificContingency_${index}" style="display:none;">
+                <label for="specificName_${index}">Specific Person Name:</label>
+                <input type="text" id="specificName_${index}" name="specificName_${index}" placeholder="Full Name"><br>
+
+                <label for="specificRelationship_${index}">Relationship:</label>
+                <select id="specificRelationship_${index}" name="specificRelationship_${index}">
+                    <option value="spouse">Spouse</option>
+                    <option value="civil_partner">Civil Partner</option>
+                    <option value="partner">Partner</option>
+                    <option value="mother">Mother</option>
+                    <option value="father">Father</option>
+                    <option value="daughter">Daughter</option>
+                    <option value="son">Son</option>
+                    <option value="grandson">Grandson</option>
+                    <option value="granddaughter">Granddaughter</option>
+                    <option value="niece">Niece</option>
+                    <option value="nephew">Nephew</option>
+                    <option value="friend">Friend</option>
+                    <option value="other">Other</option>
+                </select><br>
+
+                <label for="specificCity_${index}">Address or City:</label>
+                <input type="text" id="specificCity_${index}" name="specificCity_${index}" placeholder="Address or City"><br><br>
+            </div>
+        `;
+        contingencyPlanningDiv.insertAdjacentHTML('beforeend', contingencyOptions);
+
+        // Add event listener to show specific person fields
+        document.getElementById(`contingency_${index}`).addEventListener('change', function() {
+            const specificDiv = document.getElementById(`specificContingency_${index}`);
+            specificDiv.style.display = this.value === 'specific' ? 'block' : 'none';
+        });
+    });
+}
+
+// Step 7: Populate executors options
+function populateExecutors() {
+    const beneficiariesDiv = document.querySelectorAll('[name="beneficiaryName[]"]');
+    const executorsDiv = document.getElementById('executorsDiv');
+    executorsDiv.innerHTML += '';  // Clear existing content
+
+    beneficiariesDiv.forEach((name, index) => {
+        const beneficiaryName = name.value;
+        const executorOption = `
+            <label>
+                <input type="radio" name="executor" value="${beneficiaryName}" required>
+                ${beneficiaryName}
+            </label><br>
+        `;
+        executorsDiv.insertAdjacentHTML('beforeend', executorOption);
+    });
+
+    // Add option to add a new executor
+    executorsDiv.insertAdjacentHTML('beforeend', `
+        <label>
+            <input type="radio" name="executor" value="add_executor" onclick="toggleAddExecutor(true)">
+            Add someone else
+        </label><br>
+    `);
+}
+
+// Toggle additional executor fields
+function toggleAddExecutor(show) {
+    const addExecutorDiv = document.getElementById('addExecutorDiv');
+    addExecutorDiv.style.display = show ? 'block' : 'none';
+}
+
+// Populate steps dynamically when moving to each step
+function nextStep(step) {
+    document.getElementById(`step${currentStep}`).classList.remove('active');
+    currentStep += 1;
+    document.getElementById(`step${currentStep}`).classList.add('active');
+
+    if (currentStep === 5) populateResidualDivision();
+    if (currentStep === 6) populateContingencyPlanning();
+    if (currentStep === 7) populateExecutors();
+}
+</script>
+
+<!-- Step 7: Children and Guardianship -->
+<div class="step" id="step7">
+    <h2>Children and Guardianship</h2>
+
+    <label for="childrenUnder18">Do you have any children under 18?</label><br>
+    <select id="childrenUnder18" name="childrenUnder18" onchange="toggleChildrenQuestions()" required>
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+    </select><br><br>
+
+    <div id="childrenQuestions" style="display:none;">
+        <label for="executorManageInheritance">Do you want your executors to manage their inheritance until they turn 18?</label><br>
+        <select id="executorManageInheritance" name="executorManageInheritance" onchange="toggleChildSelection()" required>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+        </select><br><br>
+
+        <div id="selectChildrenUnder18Div" style="display:none;">
+            <label for="selectChildrenUnder18">Select any children under 18 from your beneficiaries:</label><br>
+            <div id="selectChildrenUnder18">
+                <!-- Dynamically populated children from Section 3 -->
+            </div><br><br>
+        </div>
+
+        <label for="appointGuardians">Do you want to appoint guardians in case a child is still under 18 when you pass away?</label><br>
+        <select id="appointGuardians" name="appointGuardians" onchange="toggleGuardianFields()" required>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+        </select><br><br>
+
+        <div id="guardianFields" style="display:none;">
+            <label for="guardianName">Full Name of Guardian</label><br>
+            <input type="text" id="guardianName" name="guardianName" placeholder="Full Name"><br><br>
+
+            <label for="guardianRelationship">Relationship to you</label><br>
+            <select id="guardianRelationship" name="guardianRelationship">
+                <option value="spouse">Spouse</option>
+                <option value="civil_partner">Civil Partner</option>
+                <option value="partner">Partner</option>
+                <option value="mother">Mother</option>
+                <option value="father">Father</option>
+                <option value="daughter">Daughter</option>
+                <option value="son">Son</option>
+                <option value="friend">Friend</option>
+                <option value="other">Other</option>
+            </select><br><br>
+
+            <label for="guardianCity">Address or City</label><br>
+            <input type="text" id="guardianCity" name="guardianCity" placeholder="Address or City"><br><br>
+        </div>
+    </div>
+
+    <button type="button" onclick="prevStep(6)">Previous</button>
+    <button type="button" onclick="nextStep(8)">Next</button>
+</div>
+
+<!-- Step 8: Pets -->
+<div class="step" id="step8">
+    <h2>Pets</h2>
+
+    <label for="havePets">Do you have any pets?</label><br>
+    <select id="havePets" name="havePets" onchange="togglePetQuestions()" required>
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+    </select><br><br>
+
+    <!-- Pet questions will appear when "Yes" is selected -->
+    <div id="petQuestions" style="display:none;">
+        <label for="petCare">Who do you want to take care of your pets when you pass away?</label><br>
+        <select id="petCare" name="petCare" onchange="togglePetCareFields()" required>
+            <option value="executors">My executors</option>
+            <option value="someone_else">Someone else</option>
+        </select><br><br>
+
+        <!-- Pet caretaker fields appear if "someone else" is selected -->
+        <div id="petCareFields" style="display:none;">
+            <label for="petCareName">Full Name of Pet Caretaker</label><br>
+            <input type="text" id="petCareName" name="petCareName" placeholder="Full Name" required><br><br>
+
+            <label for="petCareRelationship">Relationship to you</label><br>
+            <select id="petCareRelationship" name="petCareRelationship" required>
+                <option value="spouse">Spouse</option>
+                <option value="civil_partner">Civil Partner</option>
+                <option value="partner">Partner</option>
+                <option value="mother">Mother</option>
+                <option value="father">Father</option>
+                <option value="friend">Friend</option>
+                <option value="other">Other</option>
+            </select><br><br>
+
+            <label for="petCareCity">Address or City</label><br>
+            <input type="text" id="petCareCity" name="petCareCity" placeholder="Address or City" required><br><br>
+        </div>
+
+        <!-- Question about leaving money for pets -->
+        <label for="leaveMoneyForPets">Do you want to leave money to help with the care of your pets?</label><br>
+        <select id="leaveMoneyForPets" name="leaveMoneyForPets" onchange="togglePetMoneyField()" required>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+        </select><br><br>
+
+        <!-- Money amount field, appears if "Yes" is selected -->
+        <div id="petMoneyField" style="display:none;">
+            <label for="petMoneyAmount">Enter Amount £</label><br>
+            <input type="number" id="petMoneyAmount" name="petMoneyAmount" placeholder="Amount"><br><br>
+        </div>
+    </div>
+
+    <button type="button" onclick="prevStep(7)">Previous</button>
+    <button type="button" onclick="nextStep(9)">Next</button>
+</div>
+
+<!-- Step 9: Digital Assets -->
+<div class="step" id="step9">
+    <h2>Digital Assets</h2>
+
+    <label for="digitalAssets">Do you allow your executors to deal with your digital assets?</label><br>
+    <select id="digitalAssets" name="digitalAssets" required>
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+    </select><br><br>
+
+    <button type="button" onclick="prevStep(8)">Previous</button>
+    <button type="button" onclick="nextStep(10)">Next</button>
+</div>
+
+<!-- Step 10: Funeral Plans -->
+<div class="step" id="step10">
+    <h2>Funeral Plans</h2>
+
+    <label for="funeralPlans">What do you want to happen to your body?</label><br>
+    <select id="funeralPlans" name="funeralPlans" required>
+        <option value="cremation">Cremation</option>
+        <option value="burial">Burial in a cemetery</option>
+        <option value="natural_burial">Natural burial</option>
+        <option value="donate_to_science">Donate to science</option>
+        <option value="family_decide">Let my family decide</option>
+    </select><br><br>
+
+    <button type="button" onclick="prevStep(9)">Previous</button>
+    <button type="button" onclick="nextStep(11)">Next</button>
+</div>
+
+<!-- Step 11: Delivery -->
+<div class="step" id="step11">
+    <h2>Delivery</h2>
+
+    <label for="deliveryMethod">How would you like to get your will?</label><br>
+    <select id="deliveryMethod" name="deliveryMethod" required>
+        <option value="digital_download">Digital download</option>
+        <option value="post_delivery">1st class post delivery</option>
+        <option value="priority_review_post">Priority review & post delivery</option>
+    </select><br><br>
+
+    <button type="button" onclick="prevStep(10)">Previous</button>
+    <button type="button" onclick="nextStep(12)">Next</button>
+</div>
+
+<!-- Step 12: Review Page -->
+<div class="step" id="step12">
+    <h2>Review Your Will</h2>
+    <p>Please review the information you've entered. You can go back and edit each section if needed.</p>
+
+    <!-- Display review of all sections -->
+    <div id="reviewContent">
+        <!-- This section will dynamically populate with the form data for review -->
+    </div>
+
+    <button type="button" onclick="prevStep(11)">Previous</button>
+    <button type="button" onclick="nextStep(13)">Proceed to Payment</button>
+</div>
+
+<!-- Step 13: Payment Page -->
+<div class="step" id="step13">
+    <h2>Payment</h2>
+    
+    <label for="paymentMethod">Please choose your payment method:</label><br>
+    <select id="paymentMethod" name="paymentMethod" required>
+        <option value="credit_card">Credit Card</option>
+        <option value="debit_card">Debit Card</option>
+        <option value="paypal">PayPal</option>
+    </select><br><br>
+
+    <button type="button" onclick="prevStep(12)">Previous</button>
+    <button type="button" onclick="nextStep(14)">Pay and Submit</button>
+</div>
+
+<!-- Step 14: Thank You Page -->
+<div class="step" id="step14">
+    <h2>Thank You</h2>
+    <p>Thank you for completing your will! You will receive your selected delivery shortly.</p>
+    <p>If you chose digital download, you can access it from your account.</p>
+</div>
+
+<script>
+// Handle step navigation
+let currentStep = 9; // Start from step 9
+
+function showStep(step) {
+    document.querySelectorAll('.step').forEach((stepDiv) => {
+        stepDiv.classList.remove('active'); // Hide all steps
+    });
+    document.getElementById(`step${step}`).classList.add('active'); // Show the current step
+}
+
+// Move to the next step
+function nextStep(step) {
+    currentStep = step; // Update currentStep to the next one
+    showStep(step); // Show the next step
+
+    if (step === 12) {
+        populateReviewPage();  // Populate the review page dynamically
+    }
+}
+
+// Move to the previous step
+function prevStep(step) {
+    currentStep = step; // Update currentStep to the previous one
+    showStep(step); // Show the previous step
+}
+
+// Step 12: Populate review page
+function populateReviewPage() {
+    const reviewContent = document.getElementById('reviewContent');
+    reviewContent.innerHTML = `
+        <h3>General Information</h3>
+        <p>Location: ${document.getElementById('location').value}</p>
+        <p>Relationship Status: ${document.getElementById('relationshipStatus').value}</p>
+        <p>Email: ${document.getElementById('email').value}</p>
+        <p>Full Name: ${document.getElementById('fullName').value} ${document.getElementById('lastName').value}</p>
+        <p>Home Address: ${document.getElementById('address1').value}, ${document.getElementById('city').value}, ${document.getElementById('postcode').value}</p>
+        
+        <h3>Asset Overview</h3>
+        <p>Foreign Assets: ${document.getElementById('foreignAssets').value}</p>
+        
+        <h3>Beneficiaries and Gifts</h3>
+        ${populateBeneficiaryReview()}
+        
+        <h3>Funeral Plans</h3>
+        <p>Funeral Plan: ${document.getElementById('funeralPlans').value}</p>
+        
+        <h3>Delivery</h3>
+        <p>Delivery Method: ${document.getElementById('deliveryMethod').value}</p>
+    `;
+}
+
+// Helper function to populate beneficiaries on the review page
+function populateBeneficiaryReview() {
+    let beneficiaries = '';
+    const beneficiaryNames = document.querySelectorAll('[name="beneficiaryName[]"]');
+    const beneficiaryCities = document.querySelectorAll('[name="beneficiaryCity[]"]');
+    
+    beneficiaryNames.forEach((name, index) => {
+        beneficiaries += `
+            <p>Beneficiary ${index + 1}: ${name.value}, ${beneficiaryCities[index].value}</p>
+        `;
+    });
+
+    return beneficiaries;
+}
+</script>
+
+<style>
+/* Make sure inactive steps are hidden */
+.step {
+    display: none;
+}
+.step.active {
+    display: block;
+}
+</style>
+
+</body>
 </html>
