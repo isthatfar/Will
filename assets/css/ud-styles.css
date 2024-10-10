@@ -508,9 +508,10 @@ p {
 .ud-hero {
   background: var(--primary-color);
   padding-top: 180px;
-  padding-bottom: 40;
-  
+  padding-bottom: 90; /* Add more bottom padding */
+  min-height: 90; 
 }
+
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .ud-hero {
