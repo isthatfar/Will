@@ -18,11 +18,15 @@ function prevStep(step) {
 }
 
 function toggleWillOptions() {
-    const status = document.getElementById('relationshipStatus').value;
+    const relationshipStatus = document.querySelector('input[name="relationshipStatus"]:checked').value;
     const whoNeedsWillDiv = document.getElementById('whoNeedsWillDiv');
-    whoNeedsWillDiv.style.display = (status === 'single' || status === 'widowed') ? 'block' : 'none';
+    
+    if (relationshipStatus === 'in_relationship' || relationshipStatus === 'civil_partnership' || relationshipStatus === 'married') {
+        whoNeedsWillDiv.style.display = 'block';
+    } else {
+        whoNeedsWillDiv.style.display = 'none';
+    }
 }
-
 function toggleForeignAssets() {
     const foreignAssets = document.getElementById('foreignAssets').value;
     const includeForeignAssetsDiv = document.getElementById('includeForeignAssetsDiv');
@@ -127,10 +131,11 @@ function toggleGiftFields(index) {
 }
 
 // Step 5: Populate beneficiaries for residual estate division
+// Function to dynamically populate beneficiaries for residual estate division
 function populateResidualDivision() {
     const beneficiaries = document.querySelectorAll('[name="beneficiaryName[]"]');
     const residualDivisionDiv = document.getElementById('residualDivisionDiv');
-    residualDivisionDiv.innerHTML = '';  // Clear any previous entries
+    residualDivisionDiv.innerHTML = '';  // Clear previous entries
 
     // Loop through each beneficiary and create an input field for share percentage
     beneficiaries.forEach((name, index) => {
@@ -138,7 +143,7 @@ function populateResidualDivision() {
         const divisionInput = `
             <div class="form-group">
                 <label for="beneficiaryShare_${index}">${beneficiaryName}'s Share (%):</label>
-                <input type="number" id="beneficiaryShare_${index}" name="beneficiaryShare[]" class="form-control" value="0" oninput="calculateTotalPercentage()" required>
+                <input type="number" id="beneficiaryShare_${index}" name="beneficiaryShare[]" class="form-control" value="0" min="0" max="100" step="1" oninput="calculateTotalPercentage()" required>
             </div>
         `;
         residualDivisionDiv.insertAdjacentHTML('beforeend', divisionInput);
@@ -154,18 +159,18 @@ function populateResidualDivision() {
     `);
 }
 
-// Calculate total percentage in step 5 and validate if it adds up to 100%
+// Calculate the total percentage and show error if it's not 100%
 function calculateTotalPercentage() {
     const shares = document.querySelectorAll('[name="beneficiaryShare[]"]');
     let total = 0;
 
     shares.forEach(share => {
-        total += parseFloat(share.value) || 0;  // Ensure that empty inputs are treated as 0
+        total += parseFloat(share.value) || 0;  // Empty inputs are treated as 0
     });
 
     document.getElementById('totalPercentage').value = total;
 
-    // Display error if total is not 100%
+    // Show error if total percentage is not 100
     const errorMessage = document.getElementById('percentageError');
     if (total !== 100) {
         errorMessage.style.display = 'block';
@@ -174,7 +179,7 @@ function calculateTotalPercentage() {
     }
 }
 
-// Validate total percentage equals 100% before proceeding to the next step
+// Validate total percentage before moving to the next step
 function validateAndNextStep(step) {
     const total = parseFloat(document.getElementById('totalPercentage').value);
     if (total === 100) {

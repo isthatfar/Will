@@ -16,6 +16,7 @@
     </style>
 </head>
 <body>
+    
 
 <div class="container mt-5">
     <form id="questionnaireForm">
@@ -25,31 +26,31 @@
 
             <div class="form-group">
                 <label for="location" class="form-label">Where do you live?</label>
-                <select id="location" name="location" class="form-control" required>
-                    <option value="England">England</option>
-                    <option value="Wales">Wales</option>
-                    <option value="Scotland">Scotland</option>
-                    <option value="Northern Ireland">Northern Ireland</option>
-                </select>
+                <div>
+                    <label><input type="radio" name="location" value="England" required> England</label><br>
+                    <label><input type="radio" name="location" value="Wales"> Wales</label><br>
+                    <label><input type="radio" name="location" value="Scotland"> Scotland</label><br>
+                    <label><input type="radio" name="location" value="Northern Ireland"> Northern Ireland</label>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="relationshipStatus" class="form-label">Relationship Status</label>
-                <select id="relationshipStatus" name="relationshipStatus" class="form-control" required onchange="toggleWillOptions()">
-                    <option value="single">Single</option>
-                    <option value="in_relationship">In a relationship</option>
-                    <option value="civil_partnership">In a civil partnership</option>
-                    <option value="married">Married</option>
-                    <option value="widowed">Widowed</option>
-                </select>
+                <div>
+                    <label><input type="radio" name="relationshipStatus" value="single" required onchange="toggleWillOptions()"> Single</label><br>
+                    <label><input type="radio" name="relationshipStatus" value="in_relationship" onchange="toggleWillOptions()"> In a relationship</label><br>
+                    <label><input type="radio" name="relationshipStatus" value="civil_partnership" onchange="toggleWillOptions()"> In a civil partnership</label><br>
+                    <label><input type="radio" name="relationshipStatus" value="married" onchange="toggleWillOptions()"> Married</label><br>
+                    <label><input type="radio" name="relationshipStatus" value="widowed" onchange="toggleWillOptions()"> Widowed</label>
+                </div>
             </div>
 
             <div id="whoNeedsWillDiv" style="display:none;" class="form-group">
                 <label for="whoNeedsWill" class="form-label">Who needs a will?</label>
-                <select id="whoNeedsWill" name="whoNeedsWill" class="form-control">
-                    <option value="just_me">Just me</option>
-                    <option value="me_and_partner">Me and my partner</option>
-                </select>
+                <div>
+                    <label><input type="radio" name="whoNeedsWill" value="just_me"> Just me</label><br>
+                    <label><input type="radio" name="whoNeedsWill" value="me_and_partner"> Me and my partner</label>
+                </div>
             </div>
 
             <div class="form-group">
@@ -80,19 +81,20 @@
 
             <div class="form-group">
                 <label for="foreignAssets" class="form-label">Do you have any foreign assets?</label>
-                <select id="foreignAssets" name="foreignAssets" class="form-control" onchange="toggleForeignAssets()">
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                </select>
+                <div>
+                    <label><input type="radio" name="foreignAssets" value="no" onchange="toggleForeignAssets()"> No</label><br>
+                    <label><input type="radio" name="foreignAssets" value="yes" onchange="toggleForeignAssets()"> Yes</label>
+                </div>
             </div>
 
             <div id="includeForeignAssetsDiv" style="display:none;" class="form-group">
                 <label for="includeForeignAssets" class="form-label">Do you want to include your foreign assets in this will?</label>
-                <select id="includeForeignAssets" name="includeForeignAssets" class="form-control">
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                </select>
+                <div>
+                    <label><input type="radio" name="includeForeignAssets" value="no"> No</label><br>
+                    <label><input type="radio" name="includeForeignAssets" value="yes"> Yes</label>
+                </div>
             </div>
+            
 
             <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Previous</button>
             <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
@@ -239,20 +241,22 @@
 
             <div class="form-group">
                 <label for="havePets" class="form-label">Do you have any pets?</label>
-                <select id="havePets" name="havePets" class="form-control" onchange="togglePetQuestions()" required>
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                </select>
+                <div>
+                    <label><input type="radio" name="havePets" value="no" required onchange="togglePetQuestions()"> No</label><br>
+                    <label><input type="radio" name="havePets" value="yes" onchange="togglePetQuestions()"> Yes</label>
+                </div>
             </div>
 
             <div id="petQuestions" style="display:none;">
                 <div class="form-group">
                     <label for="petCare" class="form-label">Who do you want to take care of your pets when you pass away?</label>
-                    <select id="petCare" name="petCare" class="form-control" onchange="togglePetCareFields()" required>
-                        <option value="executors">My executors</option>
-                        <option value="someone_else">Someone else</option>
-                    </select>
+                    <div>
+                        <label><input type="radio" name="petCare" value="executors" onchange="togglePetCareFields()"> My executors</label><br>
+                        <label><input type="radio" name="petCare" value="someone_else" onchange="togglePetCareFields()"> Someone else</label>
+                    </div>
                 </div>
+               
+                
 
                 <div id="petCareFields" style="display:none;">
                     <div class="form-group">

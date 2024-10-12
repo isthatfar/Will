@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Step Questionnaire</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Step 1: General Information -->
+    <div id="step1" class="visible">
+        <h2>General Information</h2>
+
+        <label for="location">WHERE DO YOU LIVE?</label><br>
+        <input type="radio" name="location" value="England"> England<br>
+        <input type="radio" name="location" value="Wales"> Wales<br>
+        <input type="radio" name="location" value="Scotland"> Scotland<br>
+        <input type="radio" name="location" value="Northern Ireland"> Northern Ireland<br><br>
+
+        <label for="relationship">RELATIONSHIP STATUS</label><br>
+        <input type="radio" name="relationship" value="Single"> Single<br>
+        <input type="radio" name="relationship" value="In a relationship"> In a relationship<br>
+        <input type="radio" name="relationship" value="In a civil partnership"> In a civil partnership<br>
+        <input type="radio" name="relationship" value="Married"> Married<br>
+        <input type="radio" name="relationship" value="Widowed"> Widowed<br><br>
+
+        <button onclick="goToStep2()">Next Page</button>
+    </div>
+
+    <!-- Step 2: Who Needs a Will -->
+    <div id="step2" class="hidden">
+        <h2>Who Needs a Will?</h2>
+        <div id="willOptions"></div>
+        <br>
+        <button onclick="goToStep1()">Previous Page</button>
+        <button onclick="goToStep3()">Next Page</button>
+    </div>
+
+    <!-- Step 3: Contact Information -->
+    <div id="step3" class="hidden">
+        <h2>Contact Information</h2>
+
+        <label for="email">What is your email address?</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="fullName">What is your full name?</label><br>
+        <input type="text" id="firstName" placeholder="First and middle names"><br>
+        <input type="text" id="lastName" placeholder="Last name"><br><br>
+
+        <label for="address">What is your home address?</label><br>
+        <input type="text" id="address1" placeholder="Address line 1"><br>
+        <input type="text" id="address2" placeholder="Address line 2"><br>
+        <input type="text" id="city" placeholder="Town/City"><br>
+        <input type="text" id="postcode" placeholder="Postcode"><br><br>
+
+        <button onclick="goToStep2()">Previous Page</button>
+        <button onclick="goToStep4()">Next Page</button>
+    </div>
+
+    <!-- Step 4: Asset Overview -->
+    <div id="step4" class="hidden">
+        <h2>Asset Overview</h2>
+
+        <label for="foreignAssets">Do you have any foreign assets?</label><br>
+        <input type="radio" name="foreignAssets" value="yes" onclick="showForeignAssetQuestion()"> Yes<br>
+        <input type="radio" name="foreignAssets" value="no" onclick="hideForeignAssetQuestion()"> No<br><br>
+
+        <div id="foreignAssetInclude" class="hidden">
+            <label for="includeForeignAssets">Do you want to include your foreign assets in this will?</label><br>
+            <input type="radio" name="includeForeignAssets" value="yes"> Yes<br>
+            <input type="radio" name="includeForeignAssets" value="no"> No<br><br>
+        </div>
+
+        <button onclick="goToStep3()">Previous Page</button>
+        <button onclick="goToStep5()">Next Page</button>
+    </div>
+
+    <!-- Step 5: Beneficiaries and Gifts -->
+    <div id="step5" class="hidden">
+        <h2>Beneficiaries and Gifts</h2>
+
+        <label for="beneficiaries">Who do you want to receive a gift or share of your estate?</label><br>
+        <div id="beneficiaryList"></div>
+        <button onclick="addBeneficiary()">Add Beneficiary</button><br><br>
+
+        <label for="charities">Do you want to include any charities?</label><br>
+        <button onclick="addCharity()">Add a New Charity</button><br><br>
+
+        <div id="charityList"></div>
+
+        <button onclick="goToStep4()">Previous Page</button>
+        <button onclick="goToStep6()">Next Page</button>
+    </div>
+
+    <!-- Step 6: Specific Gifts or Donations -->
+    <div id="step6" class="hidden">
+        <h2>Do You Want to Leave Specific Gifts or Donations?</h2>
+        
+        <div id="giftRecipientList"></div> <!-- This will dynamically show beneficiaries and charities -->
+
+        <br>
+        <button onclick="goToStep5()">Previous Page</button>
+        <button onclick="goToStep7()">Next Page</button>
+    </div>
+
+    <!-- Step 7: Division of Residual Estate -->
+    <div id="step7" class="hidden">
+        <h2>Division of Residual Estate</h2>
+
+        <div id="residualEstateDivisionList"></div> <!-- Dynamically show names for residual estate division -->
+
+        <br>
+        <label for="totalPercentage">Total Percentage:</label>
+        <input type="text" id="totalPercentage" readonly value="0%"> <!-- Display total percentage -->
+        <p id="percentageError" class="hidden" style="color:red;">Total must add up to 100%</p> <!-- Error message -->
+
+        <br><br>
+        <button onclick="goToStep6()">Previous Page</button>
+        <button onclick="validatePercentage()">Next Page</button> <!-- Validate percentage before moving -->
+    </div>
+
+    <!-- Step 8: Contingency Planning -->
+    <div id="step8" class="hidden">
+        <h2>Contingency Planning</h2>
+
+        <p>If one of the following beneficiaries dies before you, what should happen to their gifts and share of your inheritance?</p>
+
+        <div id="contingencyList"></div> <!-- This is where the beneficiaries will be dynamically inserted -->
+
+        <br>
+        <button onclick="goToStep7()">Previous Page</button>
+        <button onclick="goToStep9()">Next Page</button> <!-- Proceed to the next step -->
+    </div>
+    
+    <!-- Step 6: Executors -->
+<div id="step9" class="hidden">
+    <h2>Executors</h2>
+    <label for="executor">WHO DO YOU WANT TO APPOINT AS EXECUTORS?</label><br>
+    <div id="executorList"></div> <!-- This is dynamically populated with Swiftwills, beneficiaries, or new executor -->
+    <button onclick="goToStep8()">Previous Page</button>
+    <button onclick="goToStep10()">Next Page</button>
+</div>
+
+<!-- Step 7: Children and Guardianship -->
+<div id="step10" class="hidden">
+    <h2>Children and Guardianship</h2>
+
+    <!-- Question 1: Do you have children under 18? -->
+    <label>DO YOU HAVE ANY CHILDREN UNDER 18?</label><br>
+    <input type="radio" name="hasChildren" value="yes" onclick="showChildrenFields()"> Yes<br>
+    <input type="radio" name="hasChildren" value="no" onclick="hideChildrenFields()"> No<br><br>
+
+    <!-- Children-related fields (hidden by default) -->
+    <div id="childrenFields" class="hidden">
+
+        <!-- Question 2: Executors manage inheritance? -->
+        <label>DO YOU WANT YOUR EXECUTORS TO MANAGE THEIR INHERITANCE UNTIL THEY TURN 18?</label><br>
+        <input type="radio" name="manageInheritance" value="yes" onclick="showExecutorFields()"> Yes<br>
+        <input type="radio" name="manageInheritance" value="no" onclick="hideExecutorFields()"> No<br><br>
+
+        <!-- Executor-related fields (hidden by default) -->
+        <div id="executorFields" class="hidden">
+
+            <!-- Question 3: Select children under 18 from beneficiaries -->
+            <label>SELECT ANY CHILDREN UNDER 18 FROM YOUR BENEFICIARIES:</label><br>
+            <div id="childrenUnder18List"></div> <!-- Dynamically populated with beneficiary names from Step 5 -->
+
+        </div>
+
+        <!-- Question 4: Appoint guardians -->
+        <label>DO YOU WANT TO APPOINT GUARDIANS IN CASE A CHILD IS STILL UNDER 18 WHEN YOU PASS AWAY?</label><br>
+        <input type="radio" name="appointGuardians" value="yes" onclick="showGuardianFields()"> Yes<br>
+        <input type="radio" name="appointGuardians" value="no" onclick="hideGuardianFields()"> No<br><br>
+
+        <!-- Guardian input fields (hidden by default) -->
+        <div id="guardianFields" class="hidden">
+            <div id="guardianList"></div> <!-- Multiple guardians can be added here -->
+
+            <button onclick="addGuardian()">Add Another Guardian</button><br><br>
+        </div>
+
+    </div>
+
+    <button onclick="goToStep9()">Previous Page</button>
+    <button onclick="goToStep11()">Next Page</button>
+</div>
+
+<!-- Step 8: Pets -->
+<!-- Step 8: Pets -->
+<div id="step11" class="hidden">
+    <h2>Pets</h2>
+    
+    <!-- Question 1: Do you have any pets? -->
+    <label>DO YOU HAVE ANY PETS?</label><br>
+    <input type="radio" name="hasPets" value="yes" onclick="showPetFields()"> Yes<br>
+    <input type="radio" name="hasPets" value="no" onclick="hidePetFields()"> No<br><br>
+
+    <!-- Pet-related fields (hidden by default) -->
+    <div id="petFields" class="hidden">
+        
+        <!-- Question 2: Who will take care of the pets? -->
+        <label>WHO DO YOU WANT TO TAKE CARE OF YOUR PETS?</label><br>
+        <input type="radio" name="petCaretaker" value="executors" onclick="hideAdditionalExecutorFields()"> My executors<br>
+        <input type="radio" name="petCaretaker" value="someoneElse" onclick="showAdditionalExecutorFields()"> Someone else<br><br>
+
+        <!-- Additional caretaker fields for "Someone else" (hidden by default) -->
+        <div id="additionalPetCaretaker" class="hidden">
+            <label for="petCaretakerFullName">Full Name:</label><br>
+            <input type="text" name="petCaretakerFullName" placeholder="Enter full name"><br>
+
+            <label for="petCaretakerRelationship">Relationship:</label><br>
+            <select name="petCaretakerRelationship">
+                <option value="Spouse">Spouse</option>
+                <option value="Civil partner">Civil partner</option>
+                <option value="Partner">Partner</option>
+                <option value="Friend">Friend</option>
+                <option value="Other">Other</option>
+            </select><br>
+
+            <label for="petCaretakerAddress">Address or City:</label><br>
+            <input type="text" name="petCaretakerAddress" placeholder="Enter address or city"><br><br>
+        </div>
+
+        <!-- Question 3: Leave money for pet care? -->
+        <label>DO YOU WANT TO LEAVE MONEY TO HELP WITH THE CARE OF YOUR PETS?</label><br>
+        <input type="radio" name="leaveMoneyForPets" value="yes" onclick="showLeaveMoneyAmount()"> Yes<br>
+        <input type="radio" name="leaveMoneyForPets" value="no" onclick="hideLeaveMoneyAmount()"> No<br><br>
+
+        <!-- Leave money amount input (hidden by default) -->
+        <div id="leaveMoneyAmount" class="hidden">
+            <label for="petMoneyAmount">Enter amount (£):</label><br>
+            <input type="number" name="petMoneyAmount"><br><br>
+        </div>
+
+    </div>
+
+    <button onclick="goToStep10()">Previous Page</button>
+    <button onclick="goToStep12()">Next Page</button>
+</div>
+
+<!-- Step 9: Digital Assets -->
+<div id="step12" class="hidden">
+    <h2>Digital Assets</h2>
+    <label>DO YOU ALLOW YOUR EXECUTORS TO DEAL WITH YOUR DIGITAL ASSETS?</label><br>
+    <input type="radio" name="allowDigitalAssets" value="yes"> Yes<br>
+    <input type="radio" name="allowDigitalAssets" value="no"> No<br><br>
+
+    <button onclick="goToStep11()">Previous Page</button>
+    <button onclick="goToStep13()">Next Page</button>
+</div>
+
+<!-- Step 10: Funeral Plans -->
+<div id="step13" class="hidden">
+    <h2>Funeral Plans</h2>
+    <label>WHAT DO YOU WANT TO HAPPEN TO YOUR BODY?</label><br>
+    <input type="radio" name="funeralPlan" value="Cremation"> Cremation<br>
+    <input type="radio" name="funeralPlan" value="Burial"> Burial in a cemetery<br>
+    <input type="radio" name="funeralPlan" value="Natural burial"> Natural burial<br>
+    <input type="radio" name="funeralPlan" value="Donate to science"> Donate to science<br>
+    <input type="radio" name="funeralPlan" value="Family decide"> Let my family decide<br><br>
+
+    <button onclick="goToStep12()">Previous Page</button>
+    <button onclick="goToStep14()">Next Page</button>
+</div>
+
+<!-- Step 11: Delivery -->
+<div id="step14" class="hidden">
+    <h2>Delivery</h2>
+
+    <label>HOW WOULD YOU LIKE TO GET YOUR WILL?</label><br>
+    <input type="radio" name="deliveryMethod" value="digitalDownload"> Digital download<br>
+    <input type="radio" name="deliveryMethod" value="1stClassPost"> 1st class post delivery<br>
+    <input type="radio" name="deliveryMethod" value="priorityReview"> Priority review & post delivery<br><br>
+
+    <button onclick="goToStep13()">Previous Page</button>
+    <button onclick="goToStep15()">Next Page</button>
+</div>
+
+<!-- Step 12: Review -->
+<div id="step15" class="hidden">
+    <h2>Review Your Information</h2>
+
+    <!-- General Information Section -->
+    <div id="reviewGeneralInfo"></div>
+
+    <!-- Who Needs a Will Section -->
+    <div id="reviewWillInfo"></div>
+
+    <!-- Contact Information Section -->
+    <div id="reviewContactInfo"></div>
+
+    <!-- Asset Overview Section -->
+    <div id="reviewAssets"></div>
+
+    <!-- Beneficiaries and Gifts Section -->
+    <div id="reviewBeneficiaries"></div>
+
+    <!-- Children and Guardianship Section -->
+    <div id="reviewChildren"></div>
+
+    <!-- Pets Section -->
+    <div id="reviewPets"></div>
+
+    <!-- Delivery Section -->
+    <div id="reviewDelivery"></div>
+
+    <button onclick="goToStep14()">Previous Page</button>
+    <button onclick="submitForm()">Submit Will</button> <!-- You can create a submit function to finalize the will -->
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
