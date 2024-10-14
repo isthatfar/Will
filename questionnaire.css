@@ -26,7 +26,7 @@ label {
 }
 
 /* Input and Form Styling */
-.form-control, .form-select, .form-check-input {
+.form-control, .form-select {
     border: 1px solid #ced4da;
     border-radius: 4px;
     padding: 10px;
