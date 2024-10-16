@@ -1,0 +1,49 @@
+Development
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+import firebase from "firebase/compat/app";
+// Required for side-effects
+import "firebase/firestore";
+
+Initialize
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+// TODO: Replace the following with your app's Firebase project configuration
+// See: https://support.google.com/firebase/answer/7015592
+const firebaseConfig = {
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDdR0ZKYGac95o6pqlSw1bwGmNKy_xh3GA",
+  authDomain: "swift-7c667.firebaseapp.com",
+  projectId: "swift-7c667",
+  storageBucket: "swift-7c667.appspot.com",
+  messagingSenderId: "253052443224",
+  appId: "1:253052443224:web:7f106735bfd5bf436cc82d",
+  measurementId: "G-TQMV7C75D3"
+};
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
+
+
+//add DOC
+import { collection, addDoc } from "firebase/firestore"; 
+
+try {
+  const docRef = await addDoc(collection(db, "users"), {
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815
+  });
+  console.log("Document written with ID: ", docRef.id);
+} catch (e) {
+  console.error("Error adding document: ", e);
+}
