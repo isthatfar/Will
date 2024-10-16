@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multi-Step Questionnaire</title>
-    <!-- Bootstrap CSS -->
+    
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Link to your custom CSS -->
     <link href="questionnaire.css" rel="stylesheet">
 
     <style>
@@ -19,11 +18,11 @@
     </style>
 </head>
 <body>
-     <!-- Bootstrap JS and Popper.js for interactivity -->
+     <!-- Bootstrap JS and Popper.js and Javascript for interactivity -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- Link to your custom JavaScript file -->
+<script src="second-updated-question.js"></script>
 <script src="questionnaire.js"></script>
 
     <!-- Progress Bar -->
@@ -37,7 +36,7 @@
     <div id="step1" class="container mt-5">
         <h2>General Information</h2>
         <div class="form-group">
-            <label for="location">WHERE DO YOU LIVE?</label><br>
+            <label for="location"><h5>Where do you live?</h5></label><br>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="location" value="England">
                 <label class="form-check-label">England</label>
@@ -57,7 +56,7 @@
         </div>
 
         <div class="form-group">
-            <label for="relationship">RELATIONSHIP STATUS</label><br>
+            <label for="relationship"><H5>What is your relationship status?</H5></label><br>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="relationship" value="Single">
                 <label class="form-check-label">Single</label>
@@ -71,58 +70,62 @@
                 <label class="form-check-label">Married</label>
             </div>
             <div class="form-check">
+                <input class="form-check-input" type="radio" name="relationship" value="Civil">
+                <label class="form-check-label">In a civil partnership</label>
+            </div>
+                        <div class="form-check">
                 <input class="form-check-input" type="radio" name="relationship" value="Widowed">
                 <label class="form-check-label">Widowed</label>
             </div>
         </div>
 
-        <button class="btn btn-primary" onclick="goToStep2()">Next Page</button>
+        <button class="btn btn-primary" onclick="goToStep2()">Next</button>
     </div>
 </div>
 
-<!-- Step 2: Who Needs a Will -->
+    <!-- Step 2: Who Needs a Will -->
 <div id="step2" class="hidden container mt-5">
-    <h2>Who Needs a Will?</h2>
+    <h5>Who needs a will?</h5>
     <div id="willOptions" class="form-group"></div>
     <br>
-    <button class="btn btn-secondary" onclick="goToStep1()">Previous Page</button>
-    <button class="btn btn-primary" onclick="goToStep3()">Next Page</button>
+    <button class="btn btn-secondary" onclick="goToStep1()">Previous</button>
+    <button class="btn btn-primary" onclick="goToStep3()">Next</button>
 </div>
 
-<!-- Step 3: Contact Information -->
+    <!-- Step 3: Contact Information -->
 <div id="step3" class="hidden container mt-5">
     <h2>Contact Information</h2>
 
     <div class="form-group">
-        <label for="email">What is your email address?</label>
+        <label for="email"><h5>What is your email address?</h5></label>
         <input type="email" class="form-control" id="email" placeholder="you@email.com">
     </div>
 
     <div class="form-group">
-        <label for="fullName">What is your full name?</label>
+        <label for="fullName"><h5>What is your full name?</h5></label>
         <input type="text" class="form-control" id="firstName" placeholder="First and middle names">
         <input type="text" class="form-control mt-2" id="lastName" placeholder="Last name">
     </div>
 
     <div class="form-group">
-        <label for="address">What is your home address?</label>
+        <label for="address"><h5>What is your home address?</h5></label>
         <input type="text" class="form-control" id="address1" placeholder="Address line 1">
         <input type="text" class="form-control mt-2" id="address2" placeholder="Address line 2">
         <input type="text" class="form-control mt-2" id="city" placeholder="Town/City">
         <input type="text" class="form-control mt-2" id="postcode" placeholder="Postcode">
     </div>
 
-    <button class="btn btn-secondary" onclick="goToStep2()">Previous Page</button>
-    <button class="btn btn-primary" onclick="goToStep4()">Next Page</button>
+    <button class="btn btn-secondary" onclick="goToStep2()">Previous</button>
+    <button class="btn btn-primary" onclick="goToStep4()">Next</button>
 </div>
 
-<!-- Step 4: Asset Overview -->
+    <!-- Step 4: Asset Overview -->
 <div id="step4" class="hidden container mt-5">
     <h2>Asset Overview</h2>
 
     <!-- Question: Do you have any foreign assets? -->
     <div class="form-group">
-        <label for="foreignAssets">Do you have any foreign assets?</label><br>
+        <label for="foreignAssets"><h5>Do you have any foreign assets?</h5></label><br>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="foreignAssets" value="yes" onclick="showForeignAssetQuestion()">
             <label class="form-check-label">Yes</label>
@@ -135,7 +138,7 @@
 
     <!-- Additional Question: Do you want to include your foreign assets in this will? -->
     <div id="foreignAssetInclude" class="form-group hidden">
-        <label for="includeForeignAssets">Do you want to include your foreign assets in this will?</label><br>
+        <label for="includeForeignAssets"><h5> Do you want to include your foreign assets in this will?</h5></label><br>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="includeForeignAssets" value="yes">
             <label class="form-check-label">Yes</label>
@@ -147,47 +150,38 @@
     </div>
 
     <!-- Navigation Buttons -->
-    <button class="btn btn-secondary" onclick="goToStep3()">Previous Page</button>
-    <button class="btn btn-primary" onclick="goToStep5()">Next Page</button>
+    <button class="btn btn-secondary" onclick="goToStep3()">Previous</button>
+    <button class="btn btn-primary" onclick="goToStep5()">Next</button>
 </div>
 
-<!-- Step 5: Beneficiaries and Gifts -->
+    <!-- Step 5: Beneficiaries and Gifts -->
 <div id="step5" class="hidden container mt-5">
     <h2>Beneficiaries and Gifts</h2>
 
     <!-- Beneficiary Section -->
     <div class="form-group">
-        <label for="beneficiaries">Who do you want to receive a gift or share of your estate?</label><br>
+        <label for="beneficiaries"><h5>Who do you want to receive a gift or share of your estate?</h5></label><br>
         <div id="beneficiaryList"></div> <!-- Dynamically populated by JS -->
         <button class="btn btn-outline-primary mt-2" onclick="addBeneficiary()">Add Beneficiary</button>
     </div>
 
     <!-- Charities Section -->
     <div class="form-group mt-4">
-        <label for="charities">Do you want to include any charities?</label><br>
+        <label for="charities"><h5>Do you want to include any charities? (optional)</h5></label><br>
+         <div id="charityList" class="mt-2"></div>
         <button class="btn btn-outline-primary" onclick="addCharity()">Add a New Charity</button>
     </div>
 
-    <div id="charityList" class="mt-2"></div> <!-- Dynamically populated by JS -->
-
     <!-- Navigation Buttons -->
     <div class="mt-4">
-        <button class="btn btn-secondary" onclick="goToStep4()">Previous Page</button>
-        <button class="btn btn-primary" onclick="goToStep6()">Next Page</button>
+        <button class="btn btn-secondary" onclick="goToStep4()">Previous</button>
+        <button class="btn btn-primary" onclick="goToStep6()">Next</button>
     </div>
 </div>
 
-
-
-<!-- Bootstrap JS and Popper.js for interactivity -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="second-updated-question.js"></script>
-
-<!-- Step 6: Specific Gifts or Donations -->
+    <!-- Step 6: Specific Gifts or Donations -->
 <div id="step6" class="hidden container mt-5">
-    <h2>Do You Want to Leave Specific Gifts or Donations?</h2>
+    <h5>Do You Want to Leave Specific Gifts or Donations?</h5>
 
     <!-- Gift Recipient List (Dynamically Populated by JS) -->
     <div id="giftRecipientList"></div>
@@ -199,26 +193,24 @@
     </div>
 </div>
 
-  <!-- Step 7: Division of Residual Estate -->
+    <!-- Step 7: Division of Residual Estate -->
     <div id="step7" class="hidden container mt-5">
         <h2 class="mt-4">Division of Residual Estate</h2>
 
         <div id="residualEstateDivisionList"></div> <!-- Dynamically show names for residual estate division -->
-
-        <br>
         <label for="totalPercentage">Total Percentage:</label>
-        <input type="text" id="totalPercentage" readonly value="0%"> <!-- Display total percentage -->
-        <p id="percentageError" class="hidden" style="color:red;">Total must add up to 100%</p> <!-- Error message -->
-
+        <input type="text" id="totalPercentage" readonly value="0%"><!-- Display total percentage -->
+        
         <br><br>
-        <button onclick="goToStep6()">Previous Page</button>
-        <button onclick="validatePercentage()">Next Page</button> <!-- Validate percentage before moving -->
+        <p id="percentageError" class="hidden" style="color:red;">Total must add up to 100%</p> <!-- Error message -->
+        <button class="btn btn-secondary" onclick="goToStep6()">Previous Page</button>
+        <button class="btn btn-primary" onclick="validatePercentage()">Next Page</button> <!-- Validate percentage before moving -->
     </div>
 
     <!-- Step 8: Contingency Planning -->
 <div id="step8" class="hidden container mt-5">
     <h2 class="mb-4">Contingency Planning</h2>
-    <p>If one of the following beneficiaries dies before you, what should happen to their gifts and share of your inheritance?</p>
+    <h5>If one of the following beneficiaries dies before you, what should happen to their gifts and share of your inheritance?</h5>
 
     <div id="contingencyList" class="mb-4"></div> <!-- This is where the beneficiaries will be dynamically inserted -->
 
@@ -240,7 +232,7 @@
 
 
 
-<!-- Step 10: Children and Guardianship -->
+    <!-- Step 10: Children and Guardianship -->
 <div id="step10" class="hidden container mt-5">
     <h2 class="mb-4">Children and Guardianship</h2>
 
@@ -303,7 +295,7 @@
     </div>
 </div>
     
-<!-- Step 11: Pets -->
+    <!-- Step 11: Pets -->
 <div id="step11" class="hidden container mt-5">
     <h2 class="mb-4">Pets</h2>
 
@@ -373,7 +365,7 @@
     </div>
 </div>
 
-<!-- Step 12: Digital Assets -->
+    <!-- Step 12: Digital Assets -->
 <div id="step12" class="hidden container mt-5">
     <h2 class="mb-4">Digital Assets</h2>
 
@@ -393,7 +385,7 @@
     </div>
 </div>
 
-<!-- Step 13: Funeral Plans -->
+    <!-- Step 13: Funeral Plans -->
 <div id="step13" class="hidden container mt-5">
     <h2 class="mb-4">Funeral Plans</h2>
 
@@ -419,7 +411,7 @@
     </div>
 </div>
 
-<!-- Step 14: Delivery -->
+    <!-- Step 14: Delivery -->
 <div id="step14" class="hidden container mt-5">
     <h2 class="mb-4">Delivery</h2>
 
@@ -441,6 +433,91 @@
     </div>
 </div>
 
+    <!-- Step 15: Review Page -->
+<div id="step15" class="hidden container mt-5">
+    <h2>Review Your Information</h2>
+
+    <!-- General Information Review -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">About You</h5>
+            <p id="reviewGeneralInfo"></p>
+            <button class="btn btn-outline-primary btn-sm" onclick="goToStep1()">Edit</button>
+        </div>
+    </div>
+
+    <!-- Gifts Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Gifts</h5>
+            <p id="reviewGifts"></p>
+            <button class="btn btn-outline-primary btn-sm" onclick="goToStep5()">Edit</button>
+        </div>
+    </div>
+
+    <!-- Residuary Estate Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Residuary Estate</h5>
+            <p id="reviewResiduaryEstate"></p>
+            <button class="btn btn-outline-primary btn-sm" onclick="goToStep7()">Edit</button>
+        </div>
+    </div>
+
+    <!-- Executors Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Executors</h5>
+            <p id="reviewExecutors"></p>
+            <button class="btn btn-outline-primary btn-sm" onclick="goToStep9()">Edit</button>
+        </div>
+    </div>
+
+    <!-- Children Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Children</h5>
+            <p id="reviewChildren"></p>
+            <button class="btn btn-outline-primary btn-sm" onclick="goToStep10()">Edit</button>
+        </div>
+    </div>
+
+    <!-- Pets Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Pets</h5>
+            <p id="reviewPets"></p>
+            <button class="btn btn-outline-primary btn-sm" onclick="goToStep11()">Edit</button>
+        </div>
+    </div>
+
+    <!-- Digital Assets Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Digital Assets</h5>
+            <p id="reviewDigitalAssets"></p>
+            <button class="btn btn-outline-primary btn-sm" onclick="goToStep12()">Edit</button>
+        </div>
+    </div>
+    
+    <!-- Right Column: Submission Instructions -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5>Your will is ready to be checked.</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check"></i> Pay securely</li>
+                        <li><i class="fas fa-check"></i> We write your will based on your answers</li>
+                        <li><i class="fas fa-check"></i> Receive your will via 1st Class post</li>
+                    </ul>
+                    <button class="btn btn-success btn-block" onclick="submitForm()">Send for review <i class="fas fa-arrow-right"></i></button>
+                </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+        <button class="btn btn-success btn-lg" onclick="submitForm()">Submit Your Will</button>
+    </div>
+</div>
 
 </body>
 </html>

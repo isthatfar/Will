@@ -1,3 +1,50 @@
+/* Input wrapper for the floating label effect */
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Style for the input field */
+#totalPercentage {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #d3d3d3;
+    border-radius: 8px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Style for the floating label */
+.floating-label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    background-color: white;
+    padding: 0 5px;
+    font-size: 16px;
+    color: #888;
+    pointer-events: none;
+    transition: 0.2s ease all;
+}
+
+/* Shift the label when the input has focus or contains text */
+#totalPercentage:focus + .floating-label,
+#totalPercentage:not([value="0%"]) + .floating-label {
+    top: -10px;
+    font-size: 12px;
+    color: #28a745; /* Green color on focus */
+}
+
+/* Focus state styling for the input field */
+#totalPercentage:focus {
+    border-color: #28a745;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+    outline: none;
+}
+
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
@@ -13,7 +60,7 @@ h2 {
 }
 
 label {
-    font-weight: bold;
+    font-weight:;
 }
 
 
@@ -220,3 +267,56 @@ input[type="radio"] {
     transition: width 0.5s ease;
 }
 
+    /* Card Styling */
+    .card {
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    /* Success Checkmarks */
+    .text-success i {
+        font-size: 1.2rem;
+    }
+
+    /* Submission Panel */
+    .btn-success {
+        padding: 12px 20px;
+        font-size: 1.1rem;
+    }
+    .bubble-container {
+    background-color: #f9f9f9; /* Light background color for the bubble */
+    border: 2px solid #ccc; /* Border color for the bubble */
+    border-radius: 12px; /* Rounded corners */
+    padding: 20px; /* Padding inside the bubble */
+    margin-bottom: 20px; /* Margin below the bubble */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for depth */
+}
+
+.bubble-container .form-group {
+    margin-bottom: 15px; /* Adjust spacing between form elements */
+}
+
+.bubble-container label {
+    font-weight: bold; /* Make label text bold for better readability */
+    margin-bottom: 5px; /* Space below the label */
+    display: block; /* Ensure labels are on their own line */
+}
+
+.bubble-container input, 
+.bubble-container select {
+    width: 100%; /* Make the input and select elements full width */
+    padding: 10px; /* Add padding for a better appearance */
+    border: 1px solid #ccc; /* Border for the inputs */
+    border-radius: 6px; /* Rounded corners for inputs */
+    box-sizing: border-box; /* Include padding and border in the element's width */
+}
+
+/* Optional: Styling for the Remove button */
+.bubble-container .btn-danger {
+    margin-top: 10px; /* Space above the button */
+}
