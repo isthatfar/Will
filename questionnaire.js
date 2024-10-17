@@ -1,6 +1,3 @@
-// Integrate the Frontend with Firestore
-document.getElementById('submitForm').addEventListener('click', submitFormData);
-
 // STEPS
 // Functions to navigate between steps
 function goToStep1() {
