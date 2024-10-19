@@ -3,16 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 // Replace with your app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyDdR0ZKYGac95o6pqlSw1bwGmNKy_xh3GA",
-    authDomain: "swift-7c667.firebaseapp.com",
-    projectId: "swift-7c667",
-    storageBucket: "swift-7c667.appspot.com",
-    messagingSenderId: "253052443224",
-    appId: "1:253052443224:web:7f106735bfd5bf436cc82d",
-    measurementId: "G-TQMV7C75D3"
-  };
-
+const firebaseConfig
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
