@@ -235,11 +235,6 @@ function populateGiftRecipientList() {
   }
 }
 
-
-
-
-
-
 // STEP 6 - GIFTS
 //Function to add a gift for a recipient (either beneficiary or charity)
 let giftCounters = {} // Initialize the gift counter object
@@ -477,17 +472,35 @@ function populateContingencyList() {
                       <label for="contingencySpouse${index}" class="form-check-label">Spouse</label>
                   </div>
                   <div class="form-check">
+                      <input class="form-check-input" type="radio" id="contingencyShare${index}" name="contingency${index}" value="share" onclick="hideSpecificPersonFields(${index})">
+                      <label for="contingencyShare${index}" class="form-check-label">Distribute with others beneficiaries</label>
+                  </div>
+                  <div class="form-check">
                       <input class="form-check-input" type="radio" id="contingencySpecific${index}" name="contingency${index}" value="specific" onclick="showSpecificPersonFields(${index})">
                       <label for="contingencySpecific${index}" class="form-check-label">Specific Person</label>
                   </div>
-                  <div class="form-check">
-                      <input class="form-check-input" type="radio" id="contingencyShare${index}" name="contingency${index}" value="share" onclick="hideSpecificPersonFields(${index})">
-                      <label for="contingencyShare${index}" class="form-check-label">Share with others</label>
-                  </div>
-                  <div id="specificPersonFields${index}" class="hidden">
-                      <input type="text" class="form-control mt-2" name="specificFullName${index}" placeholder="Full Name">
-                      <input type="text" class="form-control mt-2" name="specificRelationship${index}" placeholder="Relationship">
-                  </div>
+                  <div id="specificPersonFields${index}" class="hidden mt-3">
+                    <input type="text" class="form-control mt-2" name="specificFullName${index}" placeholder="Full Name">
+                    <select name="specificRelationship${index}" class="form-control mt-2">
+                        <option value="Select">Relationship</option>
+                        <option value="Spouse">Spouse</option>
+                        <option value="Civil partner">Civil partner</option>
+                        <option value="Partner">Partner</option>
+                        <option value="Mother">Mother</option>
+                        <option value="Father">Father</option>
+                        <option value="Daughter">Daughter</option>
+                        <option value="Son">Son</option>
+                        <option value="Grandson">Grandson</option>
+                        <option value="Granddaughter">Granddaughter</option>
+                        <option value="Great grandson">Great grandson</option>
+                        <option value="Great granddaughter">Great granddaughter</option>
+                        <option value="Niece">Niece</option>
+                        <option value="Nephew">Nephew</option>
+                        <option value="Friend">Friend</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" class="form-control mt-2" name="specificAddress${index}" placeholder="Address or City">
+                </div>
               `
       contingencyList.appendChild(contingencyDiv)
     })
@@ -497,6 +510,21 @@ function populateContingencyList() {
       "<p>No beneficiaries available to set contingency for.</p>"
   }
 }
+
+function showSpecificPersonFields(index) {
+    document.getElementById(`specificPersonFields${index}`).classList.remove('hidden');
+}
+
+function hideSpecificPersonFields(index) {
+    document.getElementById(`specificPersonFields${index}`).classList.add('hidden');
+}
+
+
+
+
+
+
+
 
 // STEP 9 - EXECUTOR
 function populateExecutorOptions() {
@@ -527,10 +555,29 @@ function populateExecutorOptions() {
               <input type="radio" id="someoneElse" name="executor" value="someoneElse" onclick="showAdditionalExecutors()">
               <label for="someoneElse">Someone else</label>
           </div>
-          <div id="additionalExecutorFields" class="hidden">
-              <input type="text" name="executorFullName" placeholder="Full Name" class="input-container">
-              <input type="text" name="executorRelationship" placeholder="Relationship" class="input-container">
-          </div>
+          <div id="additionalExecutorFields" class="hidden mt-3">
+            <input type="text" class="form-control mt-2" name="executorFullName" placeholder="Full Name">
+            <select name="executorRelationship" class="form-control mt-2">
+                <option value="Select">Relationship</option>
+                <option value="Spouse">Spouse</option>
+                <option value="Civil partner">Civil partner</option>
+                <option value="Partner">Partner</option>
+                <option value="Mother">Mother</option>
+                <option value="Father">Father</option>
+                <option value="Daughter">Daughter</option>
+                <option value="Son">Son</option>
+                <option value="Grandson">Grandson</option>
+                <option value="Granddaughter">Granddaughter</option>
+                <option value="Great grandson">Great grandson</option>
+                <option value="Great granddaughter">Great granddaughter</option>
+                <option value="Niece">Niece</option>
+                <option value="Nephew">Nephew</option>
+                <option value="Friend">Friend</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="text" class="form-control mt-2" name="executorAddress" placeholder="Address or City">
+            <br>
+        </div>
       `
 }
 
@@ -610,21 +657,30 @@ function addGuardian() {
   guardianDiv.classList.add("mb-3")
 
   guardianDiv.innerHTML = `
-          <label for="guardianFullName${guardianCount}" class="form-label">Full Name:</label><br>
+          <label for="guardianFullName${guardianCount}" class="form-label"</label><br>
           <input type="text" name="guardianFullName${guardianCount}" placeholder="Enter full name" class="form-control"><br>
   
-          <label for="guardianRelationship${guardianCount}" class="form-label">Relationship:</label><br>
+          <label for="guardianRelationship${guardianCount}" class="form-label"></label>
           <select name="guardianRelationship${guardianCount}" class="form-select">
-              <option value="Spouse">Spouse</option>
-              <option value="Civil partner">Civil partner</option>
-              <option value="Partner">Partner</option>
-              <option value="Mother">Mother</option>
-              <option value="Father">Father</option>
-              <option value="Friend">Friend</option>
-              <option value="Other">Other</option>
+                <option value="Select">Relationship</option>
+                <option value="Spouse">Spouse</option>
+                <option value="Civil partner">Civil partner</option>
+                <option value="Partner">Partner</option>
+                <option value="Mother">Mother</option>
+                <option value="Father">Father</option>
+                <option value="Daughter">Daughter</option>
+                <option value="Son">Son</option>
+                <option value="Grandson">Grandson</option>
+                <option value="Granddaughter">Granddaughter</option>
+                <option value="Great grandson">Great grandson</option>
+                <option value="Great granddaughter">Great granddaughter</option>
+                <option value="Niece">Niece</option>
+                <option value="Nephew">Nephew</option>
+                <option value="Friend">Friend</option>
+                <option value="Other">Other</option>
           </select><br>
   
-          <label for="guardianAddress${guardianCount}" class="form-label">Address or City:</label><br>
+          <label for="guardianAddress${guardianCount}" class="form-label"></label>
           <input type="text" name="guardianAddress${guardianCount}" placeholder="Enter address or city" class="form-control"><br>
   
           <button class="btn btn-danger" onclick="removeGuardian(${guardianCount})">Remove Guardian</button><br><br>
