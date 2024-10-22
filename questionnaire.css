@@ -1,3 +1,54 @@
+/* Hide the actual radio button */
+input[type="radio"] {
+    display: none;
+}
+
+/* Style the label as a rectangular button */
+.form-check-label {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px; /* Slightly rounded corners for a rectangular shape */
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #ccc; /* Default gray border */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    min-width: 150px;
+    text-align: center;
+}
+
+/* Hover effect for buttons */
+.form-check-label:hover {
+    background-color: #f1f1f1;
+    border-color: #007bff;
+}
+
+/* Style for the checked state (when a radio button is selected) */
+input[type="radio"]:checked + .form-check-label {
+    background-color: #e7f1ff; /* Pale blue background */
+    color: #007bff; /* Blue text */
+    border-color: #007bff; /* Darker blue border */
+    box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+/* Add a darker blue border with a checkmark */
+input[type="radio"]:checked + .form-check-label::before {
+    content: ''; /* No checkmark for this design, but you can add one if you prefer */
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 16px;
+    color: #007bff;
+}
+
+/* Align buttons in a row */
+.form-check {
+    display: inline-block;
+}
+
+
 /* Input wrapper for the floating label effect */
 .input-wrapper {
     position: relative;

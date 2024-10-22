@@ -197,158 +197,113 @@ function removeCharity(id) {
 
 // Function to dynamically populate gift recipients (beneficiaries and charities)
 function populateGiftRecipientList() {
-  const giftRecipientList = document.getElementById("giftRecipientList")
-  giftRecipientList.innerHTML = "" // Clear previous content
+  const giftRecipientList = document.getElementById("giftRecipientList");
+  giftRecipientList.innerHTML = ""; // Clear previous content
 
   // Gather all beneficiary and charity names
-  const beneficiaries = document.querySelectorAll(
-    'input[name="beneficiaryName"]',
-  )
-  const charities = document.querySelectorAll('input[name="charityName"]')
+  const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
+  const charities = document.querySelectorAll('input[name="charityName"]');
 
   // Create a list for beneficiaries
   if (beneficiaries.length > 0) {
-    beneficiaries.forEach((beneficiary, index) => {
-      const recipientDiv = document.createElement("div")
-      recipientDiv.classList.add("mt-3")
-      recipientDiv.innerHTML = `
-                  <h4>${beneficiary.value}</h4>
-                  <div id="giftDetailsBeneficiary${index}" class="hidden mt-3"></div>
-                   <button class="btn btn-outline-primary" onclick="addGift(${index}, 'beneficiary')">Add a new gift for ${beneficiary.value}</button>
-              `
-      giftRecipientList.appendChild(recipientDiv)
-    })
+      beneficiaries.forEach((beneficiary, index) => {
+          const recipientDiv = document.createElement("div");
+          recipientDiv.classList.add("mt-3");
+          recipientDiv.innerHTML = `
+              <h4>${beneficiary.value}</h4>
+              <div id="giftDetailsBeneficiary${index}" class="mt-3"></div>
+              <button class="btn btn-outline-primary" onclick="addGift(${index}, 'beneficiary')">Add a new gift for ${beneficiary.value}</button>
+          `;
+          giftRecipientList.appendChild(recipientDiv);
+      });
   }
 
   // Create a list for charities
   if (charities.length > 0) {
-    charities.forEach((charity, index) => {
-      const recipientDiv = document.createElement("div")
-      recipientDiv.classList.add("mt-3")
-      recipientDiv.innerHTML = `
-                  <h4>${charity.value}</h4>
-                  <div id="giftDetailsCharity${index}" class="hidden mt-3"></div>
-                  <button class="btn btn-outline-primary" onclick="addGift(${index}, 'charity')">Add a new gift for ${charity.value}</button>
-              `
-      giftRecipientList.appendChild(recipientDiv)
-    })
+      charities.forEach((charity, index) => {
+          const recipientDiv = document.createElement("div");
+          recipientDiv.classList.add("mt-3");
+          recipientDiv.innerHTML = `
+              <h4>${charity.value}</h4>
+              <div id="giftDetailsCharity${index}" class="mt-3"></div>
+              <button class="btn btn-outline-primary" onclick="addGift(${index}, 'charity')">Add a new gift for ${charity.value}</button>
+          `;
+          giftRecipientList.appendChild(recipientDiv);
+      });
   }
 }
 
 // STEP 6 - GIFTS
 //Function to add a gift for a recipient (either beneficiary or charity)
-let giftCounters = {} // Initialize the gift counter object
+let giftCounters = { beneficiary: {}, charity: {} }; // Track gift counts separately
 
-function addGift(id, type) {
-  const giftDetailsDiv = document.getElementById(
-    `giftDetails${type.charAt(0).toUpperCase() + type.slice(1)}${id}`,
-  )
+function addGift(index, type) {
+    const giftDiv = document.getElementById(`giftDetails${capitalizeFirstLetter(type)}${index}`);
+    const recipientName = type === "beneficiary" ? "Beneficiary" : "Charity";
 
-  // Remove 'hidden' class to make the gift details section visible
-  giftDetailsDiv.classList.remove("hidden")
+    if (!giftCounters[type][index]) {
+        giftCounters[type][index] = 0;
+    }
 
-  // Initialize the gift counter for the recipient if not already initialized
-  if (!giftCounters[id]) {
-    giftCounters[id] = 0
-  }
+    const giftId = giftCounters[type][index]++;
+    const newGiftDiv = document.createElement("div");
+    newGiftDiv.id = `giftDiv${type}${index}${giftId}`;
+    newGiftDiv.classList.add("mt-3");
 
-  // Increment the gift counter for this recipient
-  const giftCount = ++giftCounters[id]
+    newGiftDiv.innerHTML = `
+        <label>Select a gift type:</label>
+        <input type="radio" name="giftType${type}${index}${giftId}" value="cash" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'cash')"> Cash
+        <input type="radio" name="giftType${type}${index}${giftId}" value="property" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'property')"> Property
+        <input type="radio" name="giftType${type}${index}${giftId}" value="collection" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'collection')"> Collection of items
+        <input type="radio" name="giftType${type}${index}${giftId}" value="item" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'item')"> Item
+        <div id="giftDetails${type}${index}${giftId}" class="gift-details mt-2"></div>
+        <button class="btn btn-danger mt-2" onclick="removeGift(${index}, ${giftId}, '${type}')">Remove Gift</button>
+        <hr>
+    `;
+    giftDiv.appendChild(newGiftDiv);
+}
 
-  const giftDiv = document.createElement("div")
-  giftDiv.id = `giftDiv${id}${giftCount}`
-  giftDiv.classList.add("mt-3")
-  giftDiv.innerHTML = `
-          <div class="form-group">
-              <label for="giftType${id}${giftCount}">Select a gift type:</label><br>
-              <div class="form-check">
-                  <input class="form-check-input" type="radio" name="giftType${id}${giftCount}" value="cash" onclick="showGiftOptions('${id}', ${giftCount}, 'cash', '${type}')"> 
-                  <label class="form-check-label">Cash</label>
-              </div>
-              <div class="form-check">
-                  <input class="form-check-input" type="radio" name="giftType${id}${giftCount}" value="property" onclick="showGiftOptions('${id}', ${giftCount}, 'property', '${type}')">
-                  <label class="form-check-label">Property</label>
-              </div>
-              <div class="form-check">
-                  <input class="form-check-input" type="radio" name="giftType${id}${giftCount}" value="collection" onclick="showGiftOptions('${id}', ${giftCount}, 'collection', '${type}')">
-                  <label class="form-check-label">Collection of items</label>
-              </div>
-              <div class="form-check">
-                  <input class="form-check-input" type="radio" name="giftType${id}${giftCount}" value="item" onclick="showGiftOptions('${id}', ${giftCount}, 'item', '${type}')">
-                  <label class="form-check-label">Item</label>
-              </div>
-          </div>
-  
-          <div id="giftOptionDetails${id}${giftCount}" class="mt-3"></div>
-          <button class="btn btn-danger" onclick="removeGift('${id}', ${giftCount})">Remove Gift</button>
-          <hr>
-      `
+// Function to handle gift details based on the selected type
+function showGiftDetails(index, giftId, type, giftType) {
+    const giftDetailsDiv = document.getElementById(`giftDetails${type}${index}${giftId}`);
+    giftDetailsDiv.innerHTML = ''; // Clear previous content
 
-  giftDetailsDiv.appendChild(giftDiv) // Append the new gift
+    if (giftType === 'cash') {
+        giftDetailsDiv.innerHTML = `
+            <label for="cashAmount${type}${index}${giftId}">Cash Amount:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">£</span>
+                </div>
+                <input type="number" class="form-control" id="cashAmount${type}${index}${giftId}" name="cashAmount${type}${index}${giftId}" placeholder="Enter amount">
+            </div>
+        `;
+    } else if (giftType === 'property') {
+        giftDetailsDiv.innerHTML = `
+            <label for="propertyAddress${type}${index}${giftId}">Property Address:</label>
+            <input type="text" id="propertyAddress${type}${index}${giftId}" name="propertyAddress${type}${index}${giftId}" class="form-control" placeholder="Enter property address">
+            <label for="propertyPercentage${type}${index}${giftId}" class="mt-2">Percentage:</label>
+            <input type="number" class="form-control" id="propertyPercentage${type}${index}${giftId}" name="propertyPercentage${type}${index}${giftId}" placeholder="Enter percentage">
+        `;
+    } else if (giftType === 'collection') {
+        giftDetailsDiv.innerHTML = `
+            <label for="collectionDescription${type}${index}${giftId}">Collection Description:</label>
+            <input type="text" id="collectionDescription${type}${index}${giftId}" name="collectionDescription${type}${index}${giftId}" class="form-control" placeholder="Describe the collection">
+        `;
+    } else if (giftType === 'item') {
+        giftDetailsDiv.innerHTML = `
+            <label for="itemDescription${type}${index}${giftId}">Item Description:</label>
+            <input type="text" id="itemDescription${type}${index}${giftId}" name="itemDescription${type}${index}${giftId}" class="form-control" placeholder="Describe the item">
+        `;
+    }
 }
 
 // Function to remove a gift
-function removeGift(id, giftCount) {
-  const giftDiv = document.getElementById(`giftDiv${id}${giftCount}`)
-  giftDiv.remove() // Remove the selected gift
+function removeGift(index, giftId, type) {
+    const giftDiv = document.getElementById(`giftDiv${type}${index}${giftId}`);
+    giftDiv.remove();
 }
 
-// Function to show gift options based on the selected type (cash, property, etc.)
-function showGiftOptions(id, giftCount, type, recipientType) {
-  const giftOptionDetailsDiv = document.getElementById(
-    `giftOptionDetails${id}${giftCount}`,
-  )
-
-  let giftOptionFields = ""
-
-if (type === "cash") {
-  giftOptionFields = `
-            <div class="form-group">
-                <label for="cashAmount${id}${giftCount}">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">£</span>
-                    </div>
-                    <input type="number" class="form-control" id="cashAmount${id}${giftCount}" placeholder="Enter amount"></label>
-                </div>
-            </div>
-        `
-
-  } else if (type === "property") {
-    giftOptionFields = `
-              <!-- Property Address Field -->
-              <div class="form-group">
-                  <label for="propertyAddress${id}${giftCount}">
-                  <input type="text" class="custom-input" id="propertyAddress${id}${giftCount}" placeholder="My property located at...">
-                  <small class="helper-text">e.g. 28 Mount Pleasent Road SE9 H56, London</small></label>
-              </div>
-  
-              <!-- Property Percentage Field -->
-              <div class="form-group input-group-percentage">
-                  <input type="number" class="custom-input" id="propertyPercentage${id}${giftCount}" placeholder="Percentage of the property..." min="0" max="100"><div class="input-group-prepend"><span class="input-group-text">%</span>
-                  <small class="helper-text">e.g., to split this property between two beneficiaries you can gift 50% each</small>
-              </div>
-              `
-  } else if (type === "collection") {
-    giftOptionFields = `
-              <div class="form-group">
-                  <label for="collectionDescription${id}${giftCount}">
-                  <input type="text" class="form-control" id="collectionDescription${id}${giftCount}" placeholder="Enter collection details"></label>
-                  <small class="helper-text">All of my jewels, or gold, etc</small>
-              </div>
-          `
-  } else if (type === "item") {
-    giftOptionFields = `
-              <div class="form-group">
-                  <label for="itemDescription${id}${giftCount}">Describe the item:</label>
-                  <input type="text" class="form-control" id="itemDescription${id}${giftCount}" placeholder="Enter item details">
-                  <small class="helper-text">e.g. my Honda car registered WXX0000, my pearl necklace, etc.</small>
-              </div>
-          `
-  }
-
-  giftOptionDetailsDiv.innerHTML = giftOptionFields
-}
 
 // STEP 7 - RESIDUAL ESTATE
 //Function to dynamically populate the names for residual estate division
@@ -528,62 +483,63 @@ function hideSpecificPersonFields(index) {
 
 // STEP 9 - EXECUTOR
 function populateExecutorOptions() {
-  const executorList = document.getElementById("executorList")
-  executorList.innerHTML = ""
+  const executorList = document.getElementById("executorList");
+  executorList.innerHTML = "";
 
+  // Option for Swiftwills
   executorList.innerHTML += `
-          <div class="radio-button-toggle">
-              <input type="radio" id="swiftwills" name="executor" value="Swiftwills">
-              <label for="swiftwills">Swiftwills</label>
-          </div>
-      `
+      <div class="checkbox-toggle">
+          <input type="checkbox" id="swiftwills" name="executor" value="Swiftwills">
+          <label for="swiftwills">Swiftwills</label>
+      </div>
+  `;
 
-  const beneficiaries = document.querySelectorAll(
-    'input[name="beneficiaryName"]',
-  )
+  // Options for beneficiaries as executors
+  const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
   beneficiaries.forEach((beneficiary, index) => {
-    executorList.innerHTML += `
-              <div class="radio-button-toggle">
-                  <input type="radio" id="executor${index}" name="executor" value="${beneficiary.value}">
-                  <label for="executor${index}">${beneficiary.value}</label>
-              </div>
-          `
-  })
-
-  executorList.innerHTML += `
-          <div class="radio-button-toggle">
-              <input type="radio" id="someoneElse" name="executor" value="someoneElse" onclick="showAdditionalExecutors()">
-              <label for="someoneElse">Someone else</label>
+      executorList.innerHTML += `
+          <div class="checkbox-toggle">
+              <input type="checkbox" id="executor${index}" name="executor" value="${beneficiary.value}">
+              <label for="executor${index}">${beneficiary.value}</label>
           </div>
-          <div id="additionalExecutorFields" class="hidden mt-3">
-            <input type="text" class="form-control mt-2" name="executorFullName" placeholder="Full Name">
-            <select name="executorRelationship" class="form-control mt-2">
-                <option value="Select">Relationship</option>
-                <option value="Spouse">Spouse</option>
-                <option value="Civil partner">Civil partner</option>
-                <option value="Partner">Partner</option>
-                <option value="Mother">Mother</option>
-                <option value="Father">Father</option>
-                <option value="Daughter">Daughter</option>
-                <option value="Son">Son</option>
-                <option value="Grandson">Grandson</option>
-                <option value="Granddaughter">Granddaughter</option>
-                <option value="Great grandson">Great grandson</option>
-                <option value="Great granddaughter">Great granddaughter</option>
-                <option value="Niece">Niece</option>
-                <option value="Nephew">Nephew</option>
-                <option value="Friend">Friend</option>
-                <option value="Other">Other</option>
-            </select>
-            <input type="text" class="form-control mt-2" name="executorAddress" placeholder="Address or City">
-            <br>
-        </div>
-      `
+      `;
+  });
+
+  // Option for someone else
+  executorList.innerHTML += `
+      <div class="checkbox-toggle">
+          <input type="checkbox" id="someoneElse" name="executor" value="someoneElse" onclick="toggleAdditionalExecutorFields(this)">
+          <label for="someoneElse">Someone else</label>
+      </div>
+      <div id="additionalExecutorFields" class="hidden mt-3">
+          <input type="text" class="form-control mt-2" name="executorFullName" placeholder="Full Name">
+          <select name="executorRelationship" class="form-control mt-2">
+              <option value="Select">Relationship</option>
+              <option value="Spouse">Spouse</option>
+              <option value="Civil partner">Civil partner</option>
+              <option value="Partner">Partner</option>
+              <option value="Mother">Mother</option>
+              <option value="Father">Father</option>
+              <option value="Daughter">Daughter</option>
+              <option value="Son">Son</option>
+              <option value="Friend">Friend</option>
+              <option value="Other">Other</option>
+          </select>
+          <input type="text" class="form-control mt-2" name="executorAddress" placeholder="Address or City">
+      </div>
+  `;
 }
 
-function showAdditionalExecutors() {
-  document.getElementById("additionalExecutorFields").classList.remove("hidden")
+// Function to toggle the additional executor fields when 'Someone else' is selected
+function toggleAdditionalExecutorFields(checkbox) {
+  const additionalExecutorFields = document.getElementById('additionalExecutorFields');
+  if (checkbox.checked) {
+      additionalExecutorFields.classList.remove('hidden');
+  } else {
+      additionalExecutorFields.classList.add('hidden');
+  }
 }
+
 
 // STEP 10 - CHILDREN
 // Show or hide children fields based on user selection (Children under 18)
@@ -727,78 +683,243 @@ function hideLeaveMoneyAmount() {
   document.getElementById("leaveMoneyAmount").classList.add("hidden")
 }
 
-//STEP 15 - REVIEW
+// STEP 15 - REVIEW
+// Function to populate the review page dynamically with data from earlier steps
+// Function to populate the review page dynamically with data from earlier steps
 // Function to populate the review page dynamically with data from earlier steps
 function populateReviewPage() {
-  // Ensure that we're not affecting the existing code by isolating this functionality
+    // Clear previous review content
+    document.getElementById("reviewGeneralInfo").innerHTML = "";
+    document.getElementById("reviewGifts").innerHTML = "";
+    document.getElementById("reviewResiduaryEstate").innerHTML = "";
+    document.getElementById("reviewExecutors").innerHTML = "";
+    document.getElementById("reviewChildren").innerHTML = "";
+    document.getElementById("reviewPets").innerHTML = "";
+    document.getElementById("reviewDigitalAssets").innerHTML = "";
 
-  // General Information
-  const firstName =
-    document.getElementById("firstName")?.value || "Not provided"
-  const lastName = document.getElementById("lastName")?.value || "Not provided"
-  const address1 = document.getElementById("address1")?.value || "Not provided"
-  const city = document.getElementById("city")?.value || "Not provided"
-  const postcode = document.getElementById("postcode")?.value || "Not provided"
-  const relationshipStatus =
-    document.querySelector('input[name="relationship"]:checked')?.value ||
-    "Not provided"
-  document.getElementById("reviewGeneralInfo").innerHTML =
-    `${firstName} ${lastName}<br>${address1}, ${city}, ${postcode}<br>Status: ${relationshipStatus}`
+    // Step 1: General Information (including address)
+    const firstName = document.getElementById("firstName")?.value || "Not provided";
+    const lastName = document.getElementById("lastName")?.value || "Not provided";
+    const address1 = document.getElementById("address1")?.value || "Not provided";
+    const address2 = document.getElementById("address2")?.value || "";
+    const city = document.getElementById("city")?.value || "Not provided";
+    const postcode = document.getElementById("postcode")?.value || "Not provided";
+    const email = document.getElementById("email")?.value || "Not provided";
+    const relationshipStatus = document.querySelector('input[name="relationship"]:checked')?.value || "Not provided";
 
-  // Gifts Section
-  let giftsReview = ""
-  const beneficiaries = document.querySelectorAll(
-    'input[name="beneficiaryName"]',
-  )
-  beneficiaries.forEach((beneficiary, index) => {
-    const giftAmount =
-      document.getElementById(`beneficiaryGift${index}`)?.value ||
-      "Not provided"
-    giftsReview += `${beneficiary.value}: £${giftAmount}<br>`
-  })
-  document.getElementById("reviewGifts").innerHTML =
-    giftsReview || "No gifts provided."
+    // Populate general info section
+    document.getElementById("reviewGeneralInfo").innerHTML = `
+        <strong>Full Name:</strong> ${firstName} ${lastName}<br>
+        <strong>Email:</strong> ${email}<br>
+        <strong>Relationship Status:</strong> ${relationshipStatus}<br>
+        <strong>Address:</strong> ${address1}, ${address2} ${city}, ${postcode}
+    `;
 
-  // Residuary Estate
-  const residuaryPercentage =
-    document.getElementById("totalPercentage")?.value || "0%"
-  document.getElementById("reviewResiduaryEstate").innerHTML =
-    `Residuary Estate: ${residuaryPercentage}`
+    // Step 5 & Step 6: Beneficiaries and Gifts (Include specific gifts for beneficiaries and charities)
+   // Clear previous review content
+   document.getElementById("reviewGifts").innerHTML = "";
 
-  // Executors
-  let executorsReview = ""
-  const executors = document.querySelectorAll('input[name="executorName"]')
-  executors.forEach((executor) => {
-    executorsReview += `${executor.value}<br>`
-  })
-  document.getElementById("reviewExecutors").innerHTML =
-    executorsReview || "No executors provided."
+   let giftsReview = "<h3>Beneficiaries</h3>";
+   const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
+   
+   beneficiaries.forEach((beneficiary, index) => {
+       giftsReview += `<strong>Beneficiary:</strong> ${beneficiary.value}<br>`;
+       const gifts = getGiftDetailsForRecipient(index, 'beneficiary');
 
-  // Children Section
-  const childrenInfo =
-    document.getElementById("childrenInfo")?.value || "No information provided."
-  document.getElementById("reviewChildren").innerHTML = childrenInfo
+       if (gifts.length > 0) {
+           giftsReview += "<strong>Gifts:</strong><br>";
+           gifts.forEach((gift, giftIndex) => {
+               giftsReview += `Gift ${giftIndex + 1}: ${gift.giftInfo}<br>`;
+           });
+       } else {
+           giftsReview += "<strong>Gifts:</strong> None<br>";
+       }
+       giftsReview += "<br>";  // Add space between beneficiaries
+   });
 
-  // Pets Section
-  const petsInfo =
-    document.getElementById("petsInfo")?.value || "No information provided."
-  document.getElementById("reviewPets").innerHTML = petsInfo
+   giftsReview += "<h3>Charities</h3>";
+   const charities = document.querySelectorAll('input[name="charityName"]');
+   
+   charities.forEach((charity, index) => {
+       giftsReview += `<strong>Charity:</strong> ${charity.value}<br>`;
+       const gifts = getGiftDetailsForRecipient(index, 'charity');
 
-  // Digital Assets
-  const digitalAssetsInfo =
-    document.getElementById("digitalAssetsInfo")?.value ||
-    "No instructions provided."
-  document.getElementById("reviewDigitalAssets").innerHTML = digitalAssetsInfo
+       if (gifts.length > 0) {
+           giftsReview += "<strong>Gifts:</strong><br>";
+           gifts.forEach((gift, giftIndex) => {
+               giftsReview += `Gift ${giftIndex + 1}: ${gift.giftInfo}<br>`;
+           });
+       } else {
+           giftsReview += "<strong>Gifts:</strong> None<br>";
+       }
+       giftsReview += "<br>";  // Add space between charities
+   });
+
+   document.getElementById("reviewGifts").innerHTML = giftsReview;
+
+    // Step 7: Residuary Estate
+    const totalPercentage = document.getElementById("totalPercentage")?.value || "0%";
+    let residuaryReview = `Total Residuary Estate: ${totalPercentage}<br>`;
+
+    const beneficiaryPercentages = document.querySelectorAll('input[name^="beneficiaryPercentage"]');
+    beneficiaryPercentages.forEach((input, index) => {
+        const beneficiary = beneficiaries[index]?.value || "Not provided";
+        residuaryReview += `${beneficiary}: ${input.value}%<br>`;
+    });
+
+    const charityPercentages = document.querySelectorAll('input[name^="charityPercentage"]');
+    charityPercentages.forEach((input, index) => {
+        const charity = charities[index]?.value || "Not provided";
+        residuaryReview += `${charity}: ${input.value}%<br>`;
+    });
+
+    document.getElementById("reviewResiduaryEstate").innerHTML = residuaryReview;
+
+    // Step 9: Executors
+   // Clear previous review content
+   document.getElementById("reviewExecutors").innerHTML = "";
+
+   // Executors Review
+   let executorsReview = `<strong>Executors:</strong><br>`;
+   const selectedExecutors = [];
+
+   document.querySelectorAll('input[name="executor"]:checked').forEach((executor) => {
+       if (executor.value === 'someoneElse') {
+           const additionalExecutorName = document.querySelector('input[name="executorFullName"]')?.value || 'Not provided';
+           const additionalExecutorRelationship = document.querySelector('select[name="executorRelationship"]')?.value || 'Not provided';
+           const additionalExecutorAddress = document.querySelector('input[name="executorAddress"]')?.value || 'Not provided';
+
+           executorsReview += `Name: ${additionalExecutorName}, Relationship: ${additionalExecutorRelationship}, Address: ${additionalExecutorAddress}<br>`;
+       } else {
+           executorsReview += `Name: ${executor.value}<br>`;
+       }
+   });
+
+   document.getElementById("reviewExecutors").innerHTML = executorsReview;
+
+    // Step 10: Children and Guardianship
+    const hasChildren = document.querySelector('input[name="hasChildren"]:checked')?.value || "Not provided";
+    let childrenInfo = hasChildren === "yes" ? "Children under 18: Yes" : "No children under 18.";
+    if (hasChildren === "yes") {
+        const childrenManagement = document.querySelector('input[name="manageInheritance"]:checked')?.value || "Not provided";
+        childrenInfo += `<br>Manage inheritance: ${childrenManagement}`;
+        const guardians = document.querySelectorAll('input[name^="guardianFullName"]');
+        if (guardians.length > 0) {
+            childrenInfo += `<br><strong>Guardians:</strong><br>`;
+            guardians.forEach((guardian, index) => {
+                const guardianName = guardian?.value || "Not provided";
+                const guardianRelationship = document.querySelector(`select[name="guardianRelationship${index}"]`)?.value || "Not provided";
+                const guardianAddress = document.querySelector(`input[name="guardianAddress${index}"]`)?.value || "Not provided";
+                childrenInfo += `${guardianName}, Relationship: ${guardianRelationship}, Address: ${guardianAddress}<br>`;
+            });
+        }
+    }
+    document.getElementById("reviewChildren").innerHTML = childrenInfo;
+
+    // Step 11: Pets
+    const hasPets = document.querySelector('input[name="hasPets"]:checked')?.value || "Not provided";
+    let petInfo = hasPets === "yes" ? "Has pets: Yes" : "No pets.";
+    if (hasPets === "yes") {
+        const caretaker = document.querySelector('input[name="petCaretaker"]:checked')?.value || "Not provided";
+        petInfo += `<br>Pet caretaker: ${caretaker}`;
+        if (caretaker === "someoneElse") {
+            const caretakerFullName = document.querySelector('input[name="petCaretakerFullName"]')?.value || "Not provided";
+            const caretakerRelationship = document.querySelector('select[name="petCaretakerRelationship"]')?.value || "Not provided";
+            const caretakerAddress = document.querySelector('input[name="petCaretakerAddress"]')?.value || "Not provided";
+            petInfo += `<br>Caretaker: ${caretakerFullName}, Relationship: ${caretakerRelationship}, Address: ${caretakerAddress}`;
+        }
+        const leaveMoney = document.querySelector('input[name="leaveMoneyForPets"]:checked')?.value || "Not provided";
+        if (leaveMoney === "yes") {
+            const petMoneyAmount = document.querySelector('input[name="petMoneyAmount"]')?.value || "Not provided";
+            petInfo += `<br>Money left for pets: £${petMoneyAmount}`;
+        }
+    }
+    document.getElementById("reviewPets").innerHTML = petInfo;
+
+    // Step 12: Digital Assets
+    const digitalAssets = document.querySelector('input[name="allowDigitalAssets"]:checked')?.value || "Not provided";
+    document.getElementById("reviewDigitalAssets").innerHTML = `Allow executor to handle digital assets: ${digitalAssets}`;
 }
 
-// Final submission function (isolated, won’t interfere with the rest of the code)
-function submitForm() {
-  // Handle submission logic here. You can extend it to send the form data to the server.
-  alert("Your will has been submitted for review!")
+function getGiftDetailsForRecipient(index, type) {
+  const giftDivs = document.querySelectorAll(`#giftDetails${capitalizeFirstLetter(type)}${index} > div`);
+  let giftDetails = [];
+
+  giftDivs.forEach((giftDiv, giftIndex) => {
+      const giftType = document.querySelector(`input[name="giftType${type}${index}${giftIndex}"]:checked`)?.value || "Not specified";
+      let giftInfo = "";
+
+      // Handling different types of gifts
+      if (giftType === 'cash') {
+          const cashAmount = document.getElementById(`cashAmount${type}${index}${giftIndex}`)?.value || "Not provided";
+          giftInfo = `Money: £${cashAmount}`;
+      } else if (giftType === 'property') {
+          const propertyAddress = document.getElementById(`propertyAddress${type}${index}${giftIndex}`)?.value || "Not provided";
+          const propertyPercentage = document.getElementById(`propertyPercentage${type}${index}${giftIndex}`)?.value || "Not provided";
+          giftInfo = `Property: ${propertyAddress}, ${propertyPercentage}% of the property`;
+      } else if (giftType === 'collection') {
+          const collectionDescription = document.getElementById(`collectionDescription${type}${index}${giftIndex}`)?.value || "Not provided";
+          giftInfo = `Collection of items: ${collectionDescription}`;
+      } else if (giftType === 'item') {
+          const itemDescription = document.getElementById(`itemDescription${type}${index}${giftIndex}`)?.value || "Not provided";
+          giftInfo = `Item: ${itemDescription}`;
+      }
+
+      // Push the gift info to the array if it's valid
+      if (giftInfo) {
+          giftDetails.push({
+              giftType,
+              giftInfo
+          });
+      }
+  });
+
+  return giftDetails.length > 0 ? giftDetails : [];
 }
 
-// Final submission function
-function submitForm() {
-  // You would handle the form submission here, such as sending the data to a server
-  alert("Your will has been submitted for review!")
+
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+function submitWill() {
+  // Collect multiple executors
+  const selectedExecutors = [];
+  document.querySelectorAll('input[name="executor"]:checked').forEach((executor) => {
+      if (executor.value === 'someoneElse') {
+          const additionalExecutorName = document.querySelector('input[name="executorFullName"]')?.value || '';
+          const additionalExecutorRelationship = document.querySelector('select[name="executorRelationship"]')?.value || '';
+          const additionalExecutorAddress = document.querySelector('input[name="executorAddress"]')?.value || '';
+
+          selectedExecutors.push({
+              name: additionalExecutorName,
+              relationship: additionalExecutorRelationship,
+              address: additionalExecutorAddress
+          });
+      } else {
+          selectedExecutors.push({
+              name: executor.value
+          });
+      }
+  });
+
+  // Now submit the collected executors along with the rest of the will data
+  const willData = {
+      // Other data like beneficiaries, gifts, etc.
+      executors: selectedExecutors,  // Store multiple executors here
+      // Collect the rest of the form data similarly...
+  };
+
+  console.log("Submitting the following data:", willData);  // For debugging
+
+  // You would submit the data (e.g., using Firestore or an API)
+  alert("Your will has been submitted successfully!");
+}
+
+
+function submitWill() {
+    // Collect all the data and submit it, possibly using Firebase as demonstrated in your previous code.
+    alert("Your will has been submitted successfully!");
+}
+
