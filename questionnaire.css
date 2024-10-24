@@ -383,7 +383,7 @@ input[type="radio"] {
 }
 
 .form-group {
-    margin-top: 1px; /* Adjust as needed */
+    margin-top: 2px !important; /* Adjust as needed */
 }
 
 .bubble-container .form-group {
@@ -434,13 +434,183 @@ input[type="radio"] {
 }
 
 .form-control {
-    margin-bottom: -15px !important;
-    margin-top: -15px !important;
+    margin-bottom: -12px !important;
+    margin-top: -12px !important;
 }
-
-
 
 /* Optional: Styling for the Remove button */
 .bubble-container .btn-danger {
     margin-top: 10px; /* Space above the button */
 }
+
+
+/* --- Beneficiary and Charity Card Styling --- */
+
+/* Make sure to target the card containing all inputs */
+.beneficiary-card {
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding-top: 25px !important;  /* Use !important to force the change */
+    padding-right: 15px;           /* Other padding values remain unchanged */
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Charity card container */
+.charity-card {
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Avatar Placeholder (for Beneficiaries and Charities) --- */
+.avatar-placeholder {
+    background-color: #f5f5f5;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px; /* Spacing between the icon and input fields */
+}
+
+/* Icon inside avatar placeholder (Beneficiaries & Charities) */
+.avatar-placeholder .lni-users {
+    font-size: 40px; /* Adjust icon size */
+    color: #aaa;
+}
+
+.avatar-placeholder .lni-world {
+    font-size: 40px; /* Adjust icon size */
+    color: #aaa;
+}
+
+/* --- Inputs and Alignment for Beneficiary and Charity Cards --- */
+
+/* Align inputs and avatar vertically */
+.beneficiary-card .row.align-items-center,
+.charity-card .row.align-items-center {
+    align-items: center;
+}
+
+/* Ensure responsive column widths for avatar, inputs, and delete button */
+.beneficiary-card .col-md-2,
+.charity-card .col-md-2 {
+    padding-right: 10px; /* Adjust spacing between avatar and input fields */
+}
+
+.beneficiary-card .col-md-1,
+.charity-card .col-md-1 {
+    padding-left: 5px; /* Reduce space between last input and trash icon */
+}
+
+/* Standardize input and select dropdown heights */
+.beneficiary-card .form-control,
+.charity-card .form-control {
+    height: 45px; /* Ensure consistent height across inputs and dropdowns */
+}
+
+/* Reduce the horizontal padding inside the card */
+.beneficiary-card,
+.charity-card {
+    padding-left: 10px;  /* Less padding on the left */
+    padding-right: 10px; /* Less padding on the right */
+}
+
+/* Add consistent vertical margin between form elements */
+.beneficiary-card .row .mb-2,
+.charity-card .row .mb-2 {
+    margin-bottom: 10px; /* Adjust the margin to make it consistent */
+}
+
+/* --- Remove Buttons (Beneficiaries & Charities) --- */
+
+.remove-beneficiary-btn,
+.remove-charity-btn {
+    background-color: transparent;
+    border: none;
+    color: #dc3545;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Vertically center the icon */
+    justify-content: center; /* Horizontally center */
+}
+
+/* Hover state for remove buttons */
+.remove-beneficiary-btn:hover,
+.remove-charity-btn:hover {
+    color: #bd2130; /* Darker red on hover */
+}
+
+/* Trash icon size and color */
+.lni-trash-can {
+    font-size: 20px !important;
+    color: #dc3545;
+}
+
+/* --- Add New Buttons (Beneficiaries & Charities) --- */
+
+/* Add new person button */
+#addNewPersonBtn,
+#addNewCharityBtn {
+    background-color: #f0f8ff;
+    border: 2px dashed #007bff;
+    color: #007bff;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 12px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover state for Add New Buttons */
+#addNewPersonBtn:hover,
+#addNewCharityBtn:hover {
+    background-color: #e0f0ff;
+}
+
+/* --- Responsive Adjustments --- */
+
+@media (max-width: 768px) {
+    /* Reduce avatar size on smaller screens */
+    .avatar-placeholder {
+        width: 50px;
+        height: 50px;
+    }
+
+    .avatar-placeholder .lni-users .lni-world {
+        font-size: 25px; /* Smaller icon size for smaller screens */
+    }
+
+    /* Remove extra padding around trash icon */
+    .beneficiary-card .col-1,
+    .charity-card .col-1 {
+        padding-left: 0;
+    }
+
+    /* Add space between inputs and trash icon on smaller screens */
+    .beneficiary-card .col-8,
+    .charity-card .col-8 {
+        margin-bottom: 10px;
+    }
+}
+
+/* --- Adjust spacing between the last input field and the trash icon --- */
+.beneficiary-card .col-md-1,
+.charity-card .col-md-1 {
+    padding-left: 5px;
+}
+
+
+
+

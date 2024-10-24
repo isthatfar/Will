@@ -140,47 +140,68 @@ let beneficiaryCount = 0
 let charityCount = 0
 
 // Function to add a beneficiary
+// Function to add a beneficiary
 function addBeneficiary() {
-  const beneficiaryDiv = document.createElement("div")
-  beneficiaryDiv.id = `beneficiary${beneficiaryCount}`
-  beneficiaryDiv.classList.add("mt-3")
+  const beneficiaryDiv = document.createElement("div");
+  beneficiaryDiv.id = `beneficiary${beneficiaryCount}`;
+  beneficiaryDiv.classList.add("beneficiary-card", "mt-3", "p-3", "shadow-sm");
 
   beneficiaryDiv.innerHTML = `
-          <div class="form-group">
-              <label for="beneficiaryName${beneficiaryCount}">
-              <input type="text" class="form-control" name="beneficiaryName" id="beneficiaryName${beneficiaryCount}" placeholder="Full name"></label>
-          </div>
-  
-          <div class="form-group">
-              <label for="beneficiaryRelationship${beneficiaryCount}">
-              <select name="beneficiaryRelationship" class="form-control" id="beneficiaryRelationship${beneficiaryCount}"></label>
-                  <option value="Select">Relationship to you</option>
-                  <option value="Spouse">Spouse</option>
-                  <option value="Civil partner">Civil partner</option>
-                  <option value="Partner">Partner</option>
-                  <option value="Mother">Mother</option>
-                  <option value="Father">Father</option>
-                  <option value="Daughter">Daughter</option>
-                  <option value="Son">Son</option>
-                  <option value="Grandson">Grandson</option>
-                  <option value="Granddaughter">Granddaughter</option>
-                  <option value="Friend">Friend</option>
-                  <option value="Other">Other</option>
-              </select>
-          </div>
-  
-          <div class="form-group">
-              <label for="beneficiaryAddress${beneficiaryCount}">
-              <input type="text" class="form-control" name="beneficiaryAddress" id="beneficiaryAddress${beneficiaryCount}" placeholder="Address or city"></label>
-          </div>
-  
-          <button class="btn btn-danger" onclick="removeBeneficiary(${beneficiaryCount})">Remove Beneficiary</button>
-          <hr>
-      `
+          <div class="row align-items-center">
+              <!-- Avatar placeholder -->
+              <div class="col-3 col-md-2 text-center">
+                  <div class="avatar-placeholder">
+                      <i class="lni lni-users"></i> <!-- LineIcon Users Icon -->
+                  </div>
+              </div><br>
 
-  document.getElementById("beneficiaryList").appendChild(beneficiaryDiv)
-  beneficiaryCount++
+              <!-- Beneficiary input fields -->
+              <div class="col-8 col-md-9">
+                  <div class="row">
+                      <!-- Full name field -->
+                      <div class="col-12 col-md-6 mb-2">
+                          <input type="text" class="form-control" name="beneficiaryName" id="beneficiaryName${beneficiaryCount}" placeholder="Full name">
+                      </div>
+                      <!-- Relationship dropdown -->
+                      <div class="col-12 col-md-6 mb-2">
+                          <select name="beneficiaryRelationship" class="form-control" id="beneficiaryRelationship${beneficiaryCount}">
+                              <option value="Select">Relationship to you</option>
+                              <option value="Spouse">Spouse</option>
+                              <option value="Civil partner">Civil partner</option>
+                              <option value="Partner">Partner</option>
+                              <option value="Mother">Mother</option>
+                              <option value="Father">Father</option>
+                              <option value="Daughter">Daughter</option>
+                              <option value="Son">Son</option>
+                              <option value="Grandson">Grandson</option>
+                              <option value="Granddaughter">Granddaughter</option>
+                              <option value="Friend">Friend</option>
+                              <option value="Other">Other</option>
+                          </select>
+                      </div>
+                  </div><br>
+
+                  <!-- Address field -->
+                  <div class="row">
+                      <div class="col-12 mb-2">
+                          <input type="text" class="form-control" name="beneficiaryAddress" id="beneficiaryAddress${beneficiaryCount}" placeholder="Address or city">
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Remove Beneficiary button beside inputs -->
+              <div class="col-1 text-right">
+                  <button class="btn btn-danger btn-sm remove-beneficiary-btn" onclick="removeBeneficiary(${beneficiaryCount})">
+                      <i class="lni lni-trash-can"></i>
+                  </button>
+              </div>
+          </div>
+      `;
+
+  document.getElementById("beneficiaryList").appendChild(beneficiaryDiv);
+  beneficiaryCount++;
 }
+
 
 // Function to remove a beneficiary
 function removeBeneficiary(id) {
@@ -189,27 +210,48 @@ function removeBeneficiary(id) {
 }
 
 // Function to add a charity
+// Function to add a charity
 function addCharity() {
-  const charityDiv = document.createElement("div")
-  charityDiv.id = `charity${charityCount}`
-  charityDiv.classList.add("mt-3")
+  const charityDiv = document.createElement("div");
+  charityDiv.id = `charity${charityCount}`;
+  charityDiv.classList.add("charity-card", "mt-3", "p-3", "shadow-sm");
 
   charityDiv.innerHTML = `
-          <div class="form-group">
-              <label for="charityName${charityCount}"><input type="text" class="form-control" name="charityName" id="charityName${charityCount}" placeholder="Name of the charity"></label>
-          </div>
-  
-          <div class="form-group">
-              <label for="charityAddress${charityCount}"><input type="text" class="form-control" name="charityAddress" id="charityAddress${charityCount}" placeholder="Address or city"></label>
-          </div>
-  
-          <button class="btn btn-danger" onclick="removeCharity(${charityCount})">Remove Charity</button>
-          <hr>
-      `
+          <div class="row align-items-center">
+              <!-- Charity Avatar placeholder -->
+              <div class="col-3 col-md-2 text-center">
+                  <div class="avatar-placeholder">
+                      <i class="lni lni-world"></i> <!-- LineIcon World Icon -->
+                  </div>
+              </div>
 
-  document.getElementById("charityList").appendChild(charityDiv)
-  charityCount++
+              <!-- Charity input fields -->
+              <div class="col-8 col-md-9">
+                  <div class="row">
+                      <!-- Charity name field -->
+                      <div class="col-12 col-md-6 mb-2">
+                          <input type="text" class="form-control" name="charityName" id="charityName${charityCount}" placeholder="Name of the charity">
+                      </div>
+                      <!-- Charity address field -->
+                      <div class="col-12 col-md-6 mb-2">
+                          <input type="text" class="form-control" name="charityAddress" id="charityAddress${charityCount}" placeholder="Address or city">
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Remove Charity button beside inputs -->
+              <div class="col-1 text-right">
+                  <button class="btn btn-danger btn-sm remove-charity-btn" onclick="removeCharity(${charityCount})">
+                      <i class="lni lni-trash-can"></i>
+                  </button>
+              </div>
+          </div>
+      `;
+
+  document.getElementById("charityList").appendChild(charityDiv);
+  charityCount++;
 }
+
 
 // Function to remove a charity
 function removeCharity(id) {
@@ -234,7 +276,7 @@ function populateGiftRecipientList() {
           recipientDiv.innerHTML = `
               <h4>${beneficiary.value}</h4>
               <div id="giftDetailsBeneficiary${index}" class="mt-3"></div>
-              <button class="btn btn-outline-primary" onclick="addGift(${index}, 'beneficiary')">Add a new gift for ${beneficiary.value}</button>
+              <button class="btn btn-outline-primary" onclick="addGift(${index}, 'beneficiary')">Add a new gift for ${beneficiary.value}</button><br>
           `;
           giftRecipientList.appendChild(recipientDiv);
       });
