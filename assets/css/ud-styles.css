@@ -15,8 +15,12 @@
   --font: "Inter", sans-serif;
   --body-color: #637381;
   --heading-color: #212b36;
-  --primary-color: #3056d3;
+  --primary-color: #4d1baf;
   --white: #ffffff;
+}
+
+.shape.shape-1 {
+  display: none;
 }
 
 body {
@@ -507,9 +511,8 @@ p {
 /* ===== Hero CSS ===== */
 .ud-hero {
   background: var(--primary-color);
-  padding-top: 180px;
-  padding-bottom: 90; /* Add more bottom padding */
-  min-height: 90; 
+  padding-top: 180px !important;
+  padding-bottom: 180px !important;
 }
 
 
@@ -678,7 +681,7 @@ p {
 
 .ud-section-title {
   max-width: 620px;
-  margin-bottom: 70px;
+  margin-bottom: 50px;
 }
 
 .ud-section-title span {
@@ -879,8 +882,8 @@ p {
 
 /* ===== Pricing CSS ===== */
 .ud-pricing {
-  padding-top: 120px;
-  padding-bottom: 90px;
+  padding-top: 80px;
+  padding-bottom: 50px;
 }
 
 @media (max-width: 767px) {
@@ -898,11 +901,12 @@ p {
   text-align: center;
   padding: 45px 30px;
   position: relative;
+  
 }
 
 .ud-single-pricing.active {
   background: -webkit-gradient(linear, left top, left bottom, from(#3056d3), to(#179bee));
-  background: linear-gradient(180deg, #3056d3 0%, #179bee 100%);
+  background: linear-gradient(180deg, #4d1baf 0%, #855fd0 100%);
   border: none;
   padding: 55px 30px;
 }
@@ -1214,8 +1218,8 @@ p {
 
 /* ===== Team CSS ===== */
 .ud-team {
-  padding-top: 120px;
-  padding-bottom: 80px;
+  padding-top: 100px;
+  padding-bottom: 50px;
 }
 
 @media (max-width: 767px) {
@@ -1230,19 +1234,19 @@ p {
 }
 
 .ud-single-team .ud-team-image-wrapper {
-  width: 170px;
-  height: 170px;
+  width: 100px;
+  height: 100px;
   position: relative;
   margin: 0px auto 25px;
 }
 
 .ud-single-team .ud-team-image {
-  border-radius: 50%;
+  border-radius: 0%;
 }
 
 .ud-single-team .ud-team-image img {
   width: 100%;
-  border-radius: 50%;
+  border-radius: 0%;
 }
 
 .ud-single-team .shape {
@@ -1312,7 +1316,7 @@ p {
 
 /* ===== Contact CSS ===== */
 .ud-contact {
-  padding: 120px 0px;
+  padding: 50px 0px;
   position: relative;
 }
 

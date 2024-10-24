@@ -1,21 +1,18 @@
-/* Hide the actual radio button */
-input[type="radio"] {
-    display: none;
-}
+
 
 /* Style the label as a rectangular button */
 .form-check-label {
     display: inline-block;
-    padding: 10px 20px;
-    border-radius: 10px; /* Slightly rounded corners for a rectangular shape */
+    padding: 7px 20px;
+    border-radius: 10px;
     background-color: #fff;
     color: #333;
     border: 2px solid #ccc; /* Default gray border */
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin-right: 5px; /* Smaller gap between buttons */
+    margin-bottom: 5px; /* Smaller gap below buttons */
     min-width: 150px;
     text-align: center;
 }
@@ -23,30 +20,64 @@ input[type="radio"] {
 /* Hover effect for buttons */
 .form-check-label:hover {
     background-color: #f1f1f1;
-    border-color: #007bff;
+    border-color: #4e0980; /* Dark purple for hover */
 }
 
 /* Style for the checked state (when a radio button is selected) */
 input[type="radio"]:checked + .form-check-label {
-    background-color: #e7f1ff; /* Pale blue background */
-    color: #007bff; /* Blue text */
-    border-color: #007bff; /* Darker blue border */
-    box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.2);
+    background-color: #f0dbfe; /* Pale purple background */
+    color: #000000; /* Dark purple text */
+    border-color: #6a0dad; /* Dark purple border */
+    box-shadow: 0px 4px 10px #6a0dad33; /* Purple shadow */
 }
 
-/* Add a darker blue border with a checkmark */
-input[type="radio"]:checked + .form-check-label::before {
-    content: ''; /* No checkmark for this design, but you can add one if you prefer */
-    display: inline-block;
-    margin-right: 8px;
-    font-size: 16px;
-    color: #007bff;
+.form-check {
+    display: inline-block;  /* Make sure each radio/checkbox appears inline */
+    margin-right: 1px;     /* Add space between each button */
+    margin-bottom: 0;       /* Remove bottom margin to keep them aligned in one row */
+}
+
+/* Hide the actual checkbox */
+input[type="checkbox"] {
+    display: none;
+}
+
+/* Style for the checked state (when a checkbox is selected) */
+input[type="checkbox"]:checked + .form-check-label {
+    background-color: #f0dbfe; /* Pale purple background */
+    color: #000000; /* Dark purple text */
+    border-color: #6a0dad; /* Dark purple border */
+    box-shadow: 0px 4px 10px #6a0dad33; /* Purple shadow */
+}
+
+/* Hide the actual checkbox */
+input[type="checkbox"] {
+    display: none;
+}
+
+/* Hover effect for buttons */
+.form-check-label:hover {
+    background-color: #f1f1f1;
+    border-color: #6a0dad; /* Dark purple for hover */
+}
+
+/* Style for the checked state (when a checkbox is selected) */
+input[type="checkbox"]:checked + .form-check-label {
+    background-color: #e0b3ff; /* Pale purple background */
+    color: #6a0dad; /* Dark purple text */
+    border-color: #6a0dad; /* Dark purple border */
+    box-shadow: 0px 4px 10px rgba(106, 13, 173, 0.2); /* Purple shadow */
 }
 
 /* Align buttons in a row */
 .form-check {
     display: inline-block;
 }
+
+
+
+
+
 
 
 /* Input wrapper for the floating label effect */
@@ -107,7 +138,7 @@ body {
 
 h2 {
     font-size: 1.75rem;
-    color: #007bff;
+    color: #6f3597;
 }
 
 label {
@@ -156,7 +187,7 @@ input::placeholder {
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #6f3597;
     border: none;
 }
 
@@ -308,12 +339,12 @@ input[type="radio"] {
 }
 /* Progress Bar Styling */
 .progress {
-    height: 25px;
+    height: 15px;
     margin-bottom: 20px;
 }
 
 .progress-bar {
-    background-color: #007bff;
+    background-color: #6f3597;
     font-weight: bold;
     transition: width 0.5s ease;
 }
@@ -346,6 +377,10 @@ input[type="radio"] {
     padding: 20px; /* Padding inside the bubble */
     margin-bottom: 20px; /* Margin below the bubble */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for depth */
+}
+
+.form-group {
+    margin-top: 2px; /* Adjust as needed */
 }
 
 .bubble-container .form-group {

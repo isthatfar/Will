@@ -92,13 +92,23 @@ function updateWillOptions() {
     relationship &&
     (relationship.value === "Single" || relationship.value === "Widowed")
   ) {
-    willOptionsDiv.innerHTML =
-      '<input type="radio" name="whoNeedsWill" value="Just me"> Just me'
+    willOptionsDiv.innerHTML = `
+      <div class="form-check">
+        <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
+        <label class="form-check-label" for="whoNeedsWillJustMe">Just me</label>
+      </div>
+    `
   } else if (relationship) {
     willOptionsDiv.innerHTML = `
-              <input type="radio" name="whoNeedsWill" value="Just me"> Just me<br>
-              <input type="radio" name="whoNeedsWill" value="Me and my partner"> Me and my partner
-          `
+      <div class="form-check">
+        <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
+        <label class="form-check-label" for="whoNeedsWillJustMe">Just me</label>
+      </div>
+      <div class="form-check">
+        <input type="radio" id="whoNeedsWillPartner" name="whoNeedsWill" value="Me and my partner">
+        <label class="form-check-label" for="whoNeedsWillPartner">Me and my partner</label>
+      </div>
+    `
   }
 }
 
@@ -251,11 +261,24 @@ function addGift(index, type) {
     newGiftDiv.classList.add("mt-3");
 
     newGiftDiv.innerHTML = `
-        <label>Select a gift type:</label>
-        <input type="radio" name="giftType${type}${index}${giftId}" value="cash" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'cash')"> Cash
-        <input type="radio" name="giftType${type}${index}${giftId}" value="property" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'property')"> Property
-        <input type="radio" name="giftType${type}${index}${giftId}" value="collection" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'collection')"> Collection of items
-        <input type="radio" name="giftType${type}${index}${giftId}" value="item" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'item')"> Item
+        <label>Select a gift type:</label><br>
+        <div class="form-check">
+            <input type="radio" id="giftCash${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="cash" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'cash')">
+            <label class="form-check-label" for="giftCash${type}${index}${giftId}">Cash</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" id="giftProperty${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="property" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'property')">
+            <label class="form-check-label" for="giftProperty${type}${index}${giftId}">Property</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" id="giftCollection${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="collection" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'collection')">
+            <label class="form-check-label" for="giftCollection${type}${index}${giftId}">Collection of items</label>
+        </div>
+        <div class="form-check">
+            <input type="radio" id="giftItem${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="item" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'item')">
+            <label class="form-check-label" for="giftItem${type}${index}${giftId}">Item</label>
+        </div>
+
         <div id="giftDetails${type}${index}${giftId}" class="gift-details mt-2"></div>
         <button class="btn btn-danger mt-2" onclick="removeGift(${index}, ${giftId}, '${type}')">Remove Gift</button>
         <hr>
@@ -306,92 +329,79 @@ function removeGift(index, giftId, type) {
 
 
 // STEP 7 - RESIDUAL ESTATE
-//Function to dynamically populate the names for residual estate division
 function populateResidualEstateDivisionList() {
-  const divisionList = document.getElementById("residualEstateDivisionList")
-  divisionList.innerHTML = "" // Clear previous content
+  const divisionList = document.getElementById("residualEstateDivisionList");
+  divisionList.innerHTML = ""; // Clear previous content
 
-  // Gather all beneficiary and charity names from previous sections
-  const beneficiaries = document.querySelectorAll(
-    'input[name="beneficiaryName"]',
-  )
-  const charities = document.querySelectorAll('input[name="charityName"]')
+  const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
+  const charities = document.querySelectorAll('input[name="charityName"]');
 
-  // Create input fields for beneficiaries
-  if (beneficiaries.length > 0) {
-    beneficiaries.forEach((beneficiary, index) => {
-      const recipientDiv = document.createElement("div")
-      recipientDiv.classList.add("form-group", "mt-3")
-      recipientDiv.innerHTML = `
-                  <label for="beneficiaryPercentage${index}">${beneficiary.value}:</label>
-                  <div class="input-group">
-                      <input type="number" class="form-control" name="beneficiaryPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
-                      <div class="input-group-append">
-                          <span class="input-group-text">%</span>
-                      </div>
-                  </div>
-              `
-      divisionList.appendChild(recipientDiv)
-    })
-  }
+  // Add inputs for beneficiaries
+  beneficiaries.forEach((beneficiary, index) => {
+      const div = document.createElement("div");
+      div.classList.add("form-group", "mt-3");
+      div.innerHTML = `
+          <label for="beneficiaryPercentage${index}">${beneficiary.value}:</label>
+          <div class="input-group">
+              <input type="number" class="form-control" name="beneficiaryPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
+              <div class="input-group-append">
+                  <span class="input-group-text">%</span>
+              </div>
+          </div>`;
+      divisionList.appendChild(div);
+  });
 
-  // Create input fields for charities
-  if (charities.length > 0) {
-    charities.forEach((charity, index) => {
-      const recipientDiv = document.createElement("div")
-      recipientDiv.classList.add("form-group", "mt-3")
-      recipientDiv.innerHTML = `
-                  <label for="charityPercentage${index}">${charity.value}:</label>
-                  <div class="input-group">
-                      <input type="number" class="form-control" name="charityPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
-                      <div class="input-group-append">
-                          <span class="input-group-text">%</span>
-                      </div>
-                  </div>
-              `
-      divisionList.appendChild(recipientDiv)
-    })
-  }
+  // Add inputs for charities
+  charities.forEach((charity, index) => {
+      const div = document.createElement("div");
+      div.classList.add("form-group", "mt-3");
+      div.innerHTML = `
+          <label for="charityPercentage${index}">${charity.value}:</label>
+          <div class="input-group">
+              <input type="number" class="form-control" name="charityPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
+              <div class="input-group-append">
+                  <span class="input-group-text">%</span>
+              </div>
+          </div>`;
+      divisionList.appendChild(div);
+  });
 }
 
+// Function to calculate total percentage
 function calculateTotalPercentage() {
-  let total = 0
+  let total = 0;
 
-  // Sum the percentages for beneficiaries
-  const beneficiaryPercentages = document.querySelectorAll(
-    'input[name^="beneficiaryPercentage"]',
-  )
+  // Sum the percentages from beneficiaries
+  const beneficiaryPercentages = document.querySelectorAll('input[name^="beneficiaryPercentage"]');
   beneficiaryPercentages.forEach((input) => {
-    total += parseFloat(input.value || 0)
-  })
+      total += parseFloat(input.value || 0);
+  });
 
-  // Sum the percentages for charities
-  const charityPercentages = document.querySelectorAll(
-    'input[name^="charityPercentage"]',
-  )
+  // Sum the percentages from charities
+  const charityPercentages = document.querySelectorAll('input[name^="charityPercentage"]');
   charityPercentages.forEach((input) => {
-    total += parseFloat(input.value || 0)
-  })
+      total += parseFloat(input.value || 0);
+  });
 
-  // Update the total percentage display in the input field
-  document.getElementById("totalPercentage").value = total.toFixed(2) + "%"
+  // Display the total percentage
+  document.getElementById("totalPercentage").value = total.toFixed(2) + "%";
 
-  return total // Return the calculated total for validation
+  return total; // Return the total percentage
 }
 
-// Function to validate before moving to the next page
+// Validate that the total percentage equals 100%
 function validatePercentage() {
-  const total = calculateTotalPercentage() // Get the total from the calculation function
+  const total = calculateTotalPercentage(); // Get the total percentage
 
-  // Now check if the total is exactly 100 (with a small tolerance to handle floating-point errors)
+  // Allow for a small floating-point margin (e.g., 99.99 - 100.01)
   if (Math.abs(total - 100) <= 0.01) {
-    // Allow small floating-point margin of error
-    document.getElementById("percentageError").classList.add("hidden") // Hide error message if total is 100%
-    goToStep8() // Proceed to Step 8
+      document.getElementById("percentageError").classList.add("hidden");
+      goToStep8(); // Proceed to the next step
   } else {
-    document.getElementById("percentageError").classList.remove("hidden") // Show error message if total is not 100%
+      document.getElementById("percentageError").classList.remove("hidden");
   }
 }
+
 
 
 
@@ -417,7 +427,7 @@ function populateContingencyList() {
       const contingencyDiv = document.createElement("div")
       contingencyDiv.innerHTML = `
                   <h4>${beneficiary.value}</h4>
-                  <label>What should happen to ${beneficiary.value}'s share if they pass away before you?</label>
+                  <label>What should happen to ${beneficiary.value}'s share if they pass away before you?</label><br>
                   <div class="form-check">
                       <input class="form-check-input" type="radio" id="contingencyChildren${index}" name="contingency${index}" value="children">
                       <label for="contingencyChildren${index}" class="form-check-label">Children</label>
@@ -488,28 +498,28 @@ function populateExecutorOptions() {
 
   // Option for Swiftwills
   executorList.innerHTML += `
-      <div class="checkbox-toggle">
+      <div class="form-check">
           <input type="checkbox" id="swiftwills" name="executor" value="Swiftwills">
-          <label for="swiftwills">Swiftwills</label>
+          <label class="form-check-label" for="swiftwills">Swiftwills</label>
       </div>
   `;
 
-  // Options for beneficiaries as executors
+  // Options for beneficiaries as executors (from Step 5)
   const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
   beneficiaries.forEach((beneficiary, index) => {
       executorList.innerHTML += `
-          <div class="checkbox-toggle">
+          <div class="form-check">
               <input type="checkbox" id="executor${index}" name="executor" value="${beneficiary.value}">
-              <label for="executor${index}">${beneficiary.value}</label>
+              <label class="form-check-label" for="executor${index}">${beneficiary.value}</label>
           </div>
       `;
   });
 
   // Option for someone else
   executorList.innerHTML += `
-      <div class="checkbox-toggle">
+      <div class="form-check">
           <input type="checkbox" id="someoneElse" name="executor" value="someoneElse" onclick="toggleAdditionalExecutorFields(this)">
-          <label for="someoneElse">Someone else</label>
+          <label class="form-check-label" for="someoneElse">Someone else</label>
       </div>
       <div id="additionalExecutorFields" class="hidden mt-3">
           <input type="text" class="form-control mt-2" name="executorFullName" placeholder="Full Name">
@@ -539,6 +549,7 @@ function toggleAdditionalExecutorFields(checkbox) {
       additionalExecutorFields.classList.add('hidden');
   }
 }
+
 
 
 // STEP 10 - CHILDREN
@@ -881,40 +892,6 @@ function getGiftDetailsForRecipient(index, type) {
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function submitWill() {
-  // Collect multiple executors
-  const selectedExecutors = [];
-  document.querySelectorAll('input[name="executor"]:checked').forEach((executor) => {
-      if (executor.value === 'someoneElse') {
-          const additionalExecutorName = document.querySelector('input[name="executorFullName"]')?.value || '';
-          const additionalExecutorRelationship = document.querySelector('select[name="executorRelationship"]')?.value || '';
-          const additionalExecutorAddress = document.querySelector('input[name="executorAddress"]')?.value || '';
-
-          selectedExecutors.push({
-              name: additionalExecutorName,
-              relationship: additionalExecutorRelationship,
-              address: additionalExecutorAddress
-          });
-      } else {
-          selectedExecutors.push({
-              name: executor.value
-          });
-      }
-  });
-
-  // Now submit the collected executors along with the rest of the will data
-  const willData = {
-      // Other data like beneficiaries, gifts, etc.
-      executors: selectedExecutors,  // Store multiple executors here
-      // Collect the rest of the form data similarly...
-  };
-
-  console.log("Submitting the following data:", willData);  // For debugging
-
-  // You would submit the data (e.g., using Firestore or an API)
-  alert("Your will has been submitted successfully!");
 }
 
 
