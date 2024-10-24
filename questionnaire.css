@@ -1,5 +1,3 @@
-
-
 /* Style the label as a rectangular button */
 .form-check-label {
     display: inline-block;
@@ -21,6 +19,11 @@
 .form-check-label:hover {
     background-color: #f1f1f1;
     border-color: #4e0980; /* Dark purple for hover */
+}
+
+/* Hide the radio buttons */
+input[type="radio"] {
+    display: none;
 }
 
 /* Style for the checked state (when a radio button is selected) */
@@ -122,7 +125,7 @@ input[type="checkbox"]:checked + .form-check-label {
 
 /* Focus state styling for the input field */
 #totalPercentage:focus {
-    border-color: #28a745;
+    border-color: #622ecb;
     box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
     outline: none;
 }
@@ -187,23 +190,23 @@ input::placeholder {
 }
 
 .btn-primary {
-    background-color: #6f3597;
+    background-color: #551ec2;
     border: none;
 }
 
 .btn-secondary {
-    background-color: #6c757d;
+    background-color: #b3b6b9;
     border: none;
 }
 
 .btn-danger {
-    background-color: #dc3545;
+    background-color: #86222c;
     border: none;
 }
 
 .btn-outline-primary {
-    border-color: #007bff;
-    color: #007bff;
+    border-color: #551ec2;
+    color: #551ec2;
     background-color: transparent;
 }
 
@@ -257,7 +260,7 @@ hr {
 
 /* Error Styles */
 #percentageError {
-    color: #dc3545;
+    color: #86212b;
     font-weight: bold;
 }
 
@@ -305,7 +308,7 @@ button:focus {
 /* Specific Form Sections */
 #giftRecipientList h4, #contingencyList h4 {
     margin-bottom: 10px;
-    color: #17a2b8;
+    color: #551ec2;
 }
 
 #giftOptionDetails, #specificPersonFields {
@@ -344,7 +347,7 @@ input[type="radio"] {
 }
 
 .progress-bar {
-    background-color: #6f3597;
+    background-color: #551ec2;
     font-weight: bold;
     transition: width 0.5s ease;
 }
@@ -380,7 +383,7 @@ input[type="radio"] {
 }
 
 .form-group {
-    margin-top: 2px; /* Adjust as needed */
+    margin-top: 1px; /* Adjust as needed */
 }
 
 .bubble-container .form-group {
@@ -401,6 +404,41 @@ input[type="radio"] {
     border-radius: 6px; /* Rounded corners for inputs */
     box-sizing: border-box; /* Include padding and border in the element's width */
 }
+
+/* Flexbox layout to keep the options close */
+#willOptions {
+    display: flex;
+    justify-content: flex-start; /* Align items to the start */
+    gap: 20px; /* Adjust gap as needed */
+    align-items: center;
+}
+
+/* Add extra padding for 'Just me' and 'Me and my partner' radio buttons */
+#whoNeedsWillJustMe + .form-check-label,
+#whoNeedsWillPartner + .form-check-label {
+    padding: 50px 75px; /* Increase padding as needed */
+    border-radius: 12px; /* Optional: adjust border radius if you want */
+}
+
+.d-flex {
+    display: flex;
+    gap: 10px; /* Adjusts space between city and postcode */
+}
+
+.flex-fill {
+    flex: 1; /* Ensure equal width for city and postcode inputs */
+}
+
+.ml-2 {
+    margin-left: 10px; /* Adds space between the two fields */
+}
+
+.form-control {
+    margin-bottom: -15px !important;
+    margin-top: -15px !important;
+}
+
+
 
 /* Optional: Styling for the Remove button */
 .bubble-container .btn-danger {

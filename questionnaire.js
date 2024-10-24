@@ -95,18 +95,30 @@ function updateWillOptions() {
     willOptionsDiv.innerHTML = `
       <div class="form-check">
         <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
-        <label class="form-check-label" for="whoNeedsWillJustMe">Just me</label>
+        <label class="form-check-label" for="whoNeedsWillJustMe">
+            <h5>Just me (£99)</h5>
+            <p>If your partner already has a will and doesn't need to update it</p>
+          </div>
+        </label>
       </div>
     `
   } else if (relationship) {
     willOptionsDiv.innerHTML = `
       <div class="form-check">
         <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
-        <label class="form-check-label" for="whoNeedsWillJustMe">Just me</label>
+       <label class="form-check-label" for="whoNeedsWillJustMe">
+            <h5>Just me (£99)</h5>
+            <p>If your partner already has a will and doesn't need to update it</p>
+          </div>
+        </label>
       </div>
       <div class="form-check">
         <input type="radio" id="whoNeedsWillPartner" name="whoNeedsWill" value="Me and my partner">
-        <label class="form-check-label" for="whoNeedsWillPartner">Me and my partner</label>
+        <label class="form-check-label" for="whoNeedsWillPartner">
+            <h5>Me and my partner (£149)</h5>
+            <p>If you are married, partnered, or just with someone</p>
+          </div>
+        </label>
       </div>
     `
   }
