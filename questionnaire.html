@@ -425,7 +425,7 @@
                 <input type="text" id="beneficiaryRelationship1" name="beneficiaryRelationship1" placeholder="Enter Relationship">
                 
                 <!-- Add Gift Button -->
-                <button class="btn btn-outline-primary mt-2" onclick="addGift(1)">Add Gift</button>
+                <button class="btn btn-outline-primary mt-2" onclick="addGift(1)">Add Gift</button><br>
                 
                 <!-- Placeholder for dynamically added gifts for Beneficiary 1 -->
                 <div id="giftDetailsBeneficiary1" class="mt-3"></div>
@@ -461,6 +461,7 @@
     </div>
 </div>
 
+<!--lajrwbabkwbrkhwrkvbwkbvksdbkjsbdkvbsdkbvksdbvks-->
 
     <!-- Step 8: Contingency Planning -->
 <div id="step8" class="hidden container mt-5">
@@ -477,13 +478,13 @@
     
     <!-- Step 9: Executors -->
 <div id="step9" class="hidden container mt-5">
-    <h2>Executors</h2>
-    <h5>Who do you want to appoint as executor?</h5>
-<div id="executorList">
-    <!-- Dynamically populated by JavaScript -->
-</div>
-    <button class="btn btn-secondary" onclick="goToStep8()">Previous</button>
-    <button class="btn btn-primary" onclick="goToStep10()">Next</button>
+        <h2>Executors</h2>
+        <h5>Who do you want to appoint as executor?</h5>
+    <div id="executorList"></div>
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" onclick="goToStep8()">Previous</button>
+        <button class="btn btn-primary" onclick="goToStep10()">Next</button>
+    </div>
 </div>
 
     <!-- Step 10: Children and Guardianship -->
@@ -686,11 +687,11 @@
         <label class="form-label">How would you like to get your will?</label><br>
         <div class="form-check">
             <input type="radio" class="form-check-input" name="deliveryMethod" value="digitalDownload" id="deliveryDigital">
-            <label class="form-check-label" for="deliveryDigital">Digital download</label>
+            <label class="form-check-label" for="deliveryDigital" id="labelDigitalDownload">Digital download</label>
             <input type="radio" class="form-check-input" name="deliveryMethod" value="1stClassPost" id="delivery1stClass">
-            <label class="form-check-label" for="delivery1stClass">1st class post delivery</label>
+            <label class="form-check-label" for="delivery1stClass" id="label1stClassPost">1st class post delivery</label>
             <input type="radio" class="form-check-input" name="deliveryMethod" value="priorityReview" id="deliveryPriority">
-            <label class="form-check-label" for="deliveryPriority">Priority review & post delivery</label><br><br>
+            <label class="form-check-label" for="deliveryPriority" id="labelPriorityReview">Priority review & post delivery</label><br><br>
         </div>
     </div>
 
@@ -702,95 +703,145 @@
 
     <!-- Step 15: Review Page -->
 <!-- Step 15: Review Page -->
+<!-- Step 15: Review Page -->
 <div id="step15" class="hidden container mt-5">
     <h2>Review Your Will</h2>
     <p>Please review the information below and ensure everything is correct before submitting your will.</p>
+    <div class="row">
+        <div class="col-md-8 col-md-12">
+            <div class="review-container">
+                <div class="review-card-modern"></div>
 
-    <!-- General Information -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Your Information</h5>
-            <p id="reviewGeneralInfo"></p>
-            <button class="btn btn-outline-primary btn-sm" onclick="goToStep1()">Edit</button>
+        <!-- General Information -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <h5>Your Information <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
+                    </div>
+                    <div class="review-card-body">
+                        <p id="reviewGeneralInfo"></p>
+                    </div>
+                    <div class="review-card-footer">
+                        <button class="btn btn-outline-primary btn-sm" onclick="goToStep1()">Edit</button>
+                    </div>
+                </div>
+
+                <!-- Gifts & Beneficiaries -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <h5>Gifts & Beneficiaries <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
+                    </div>
+                    <div class="review-card-body">
+                        <p id="reviewGifts"></p>
+                    </div>
+                    <div class="review-card-footer">
+                        <button class="btn btn-outline-primary btn-sm" onclick="goToStep5()">Edit</button>
+                    </div>
+                </div>
+
+                <!-- Residuary Estate -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <h5>Residuary Estate <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
+                    </div>
+                    <div class="review-card-body">
+                        <p id="reviewResiduaryEstate"></p>
+                    </div>
+                    <div class="review-card-footer">
+                        <button class="btn btn-outline-primary btn-sm" onclick="goToStep7()">Edit</button>
+                    </div>
+                </div>
+
+                <!-- Executors -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <h5>Executors <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
+                    </div>
+                    <div class="review-card-body">
+                        <p id="reviewExecutors"></p>
+                    </div>
+                    <div class="review-card-footer">
+                        <button class="btn btn-outline-primary btn-sm" onclick="goToStep9()">Edit</button>
+                    </div>
+                </div>
+
+                <!-- Children & Guardianship -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <h5>Children & Guardianship <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
+                    </div>
+                    <div class="review-card-body">
+                        <p id="reviewChildren"></p>
+                    </div>
+                    <div class="review-card-footer">
+                        <button class="btn btn-outline-primary btn-sm" onclick="goToStep10()">Edit</button>
+                    </div>
+                </div>
+
+                <!-- Pets -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <h5>Pets <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
+                    </div>
+                    <div class="review-card-body">
+                        <p id="reviewPets"></p>
+                    </div>
+                    <div class="review-card-footer">
+                        <button class="btn btn-outline-primary btn-sm" onclick="goToStep11()">Edit</button>
+                    </div>
+                </div>
+
+                <!-- Digital Assets -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <h5>Digital Assets <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
+                    </div>
+                    <div class="review-card-body">
+                        <p id="reviewDigitalAssets"></p>
+                    </div>
+                    <div class="review-card-footer">
+                        <button class="btn btn-outline-primary btn-sm" onclick="goToStep12()">Edit</button>
+                    </div>
+                </div>
+
+                <!-- Funeral Wishes -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <h5>Funeral Wishes <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
+                    </div>
+                    <div class="review-card-body">
+                        <p id="reviewFuneral"></p>
+                    </div>
+                    <div class="review-card-footer">
+                        <button class="btn btn-outline-primary btn-sm" onclick="goToStep13()">Edit</button>
+                    </div>
+                </div>
+
+                <!-- Delivery Method -->
+                <div class="review-card">
+                    <div class="review-card-header">
+                        <h5>Delivery Method <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
+                    </div>
+                    <div class="review-card-body">
+                        <p id="reviewDelivery"></p>
+                    </div>
+                    <div class="review-card-footer">
+                        <button class="btn btn-outline-primary btn-sm" onclick="goToStep14()">Edit</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- Gifts & Beneficiaries -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Gifts & Beneficiaries</h5>
-            <p id="reviewGifts"></p>
-            <button class="btn btn-outline-primary btn-sm" onclick="goToStep5()">Edit</button>
-        </div>
-    </div>
-
-    <!-- Residuary Estate -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Residuary Estate</h5>
-            <p id="reviewResiduaryEstate"></p>
-            <button class="btn btn-outline-primary btn-sm" onclick="goToStep7()">Edit</button>
-        </div>
-    </div>
-
-    <!-- Executors -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Executors</h5>
-            <p id="reviewExecutors"></p>
-            <button class="btn btn-outline-primary btn-sm" onclick="goToStep9()">Edit</button>
-        </div>
-    </div>
-
-    <!-- Children & Guardianship -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Children & Guardianship</h5>
-            <p id="reviewChildren"></p>
-            <button class="btn btn-outline-primary btn-sm" onclick="goToStep10()">Edit</button>
-        </div>
-    </div>
-
-    <!-- Pets -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Pets</h5>
-            <p id="reviewPets"></p>
-            <button class="btn btn-outline-primary btn-sm" onclick="goToStep11()">Edit</button>
-        </div>
-    </div>
-
-    <!-- Digital Assets -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Digital Assets</h5>
-            <p id="reviewDigitalAssets"></p>
-            <button class="btn btn-outline-primary btn-sm" onclick="goToStep12()">Edit</button>
-        </div>
-    </div>
-
-    <!-- Funeral Wishes -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Funeral Wishes</h5>
-            <p id="reviewFuneral"></p>
-            <button class="btn btn-outline-primary btn-sm" onclick="goToStep13()">Edit</button>
-        </div>
-    </div>
-
-    <!-- Delivery Method -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Delivery Method</h5>
-            <p id="reviewDelivery"></p>
-            <button class="btn btn-outline-primary btn-sm" onclick="goToStep14()">Edit</button>
-        </div>
-    </div>
-
-    <!-- Submit Button -->
-    <form class="submit-will-form">
-        <div class="mt-4">
-          <button class="btn btn-primary" onclick="submitWill()">Submit Will</button>
+    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+        <div class="summary-box modern">
+        <h4>Your will is ready to be checked.</h4>
+        <ul class="summary-list modern">
+            <li>Pay securely</li>
+            <li>We write your will based on your answers</li>
+            <li id="deliveryDate">Receive your will via 1st Class post by <strong>Tuesday, Oct. 22</strong></li>
+        </ul>
+            <form class="submit-will-form">
+        <div class="mt-5">
+          <button class="btn btn-primary btn-lg" onclick="submitWill()">Submit Will</button>
         </div>
       </form>
       

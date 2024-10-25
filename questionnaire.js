@@ -46,10 +46,12 @@ function goToStep13() {
 }
 function goToStep14() {
   showStep(14)
+  updateDeliveryOptionsWithDates()
 }
 function goToStep15() {
   populateReviewPage()
   showStep(15)
+  populateDeliveryDate()
 }
 
 // STEPS + PROGRESS BAR
@@ -276,7 +278,7 @@ function populateGiftRecipientList() {
           recipientDiv.innerHTML = `
               <h4>${beneficiary.value}</h4>
               <div id="giftDetailsBeneficiary${index}" class="mt-3"></div>
-              <button class="btn btn-outline-primary" onclick="addGift(${index}, 'beneficiary')">Add a new gift for ${beneficiary.value}</button><br>
+              <button class="btn btn-outline-primary" onclick="addGift(${index}, 'beneficiary')">Add a new gift for ${beneficiary.value}</button>
           `;
           giftRecipientList.appendChild(recipientDiv);
       });
@@ -761,6 +763,8 @@ function populateReviewPage() {
     document.getElementById("reviewChildren").innerHTML = "";
     document.getElementById("reviewPets").innerHTML = "";
     document.getElementById("reviewDigitalAssets").innerHTML = "";
+    document.getElementById("reviewFuneral").innerHTML = "";
+    document.getElementById("reviewDelivery").innerHTML = "";
 
     // Step 1: General Information (including address)
     const firstName = document.getElementById("firstName")?.value || "Not provided";
@@ -904,6 +908,18 @@ function populateReviewPage() {
     // Step 12: Digital Assets
     const digitalAssets = document.querySelector('input[name="allowDigitalAssets"]:checked')?.value || "Not provided";
     document.getElementById("reviewDigitalAssets").innerHTML = `Allow executor to handle digital assets: ${digitalAssets}`;
+
+    // Step 13: Funeral Plans
+    const funeralPlan = document.querySelector('input[name="funeralPlan"]:checked')?.value || "Not provided";
+    document.getElementById("reviewFuneral").innerHTML = `
+        <strong>Funeral Plan:</strong> ${funeralPlan}
+    `;
+
+    // Step 14: Delivery Method
+    const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked')?.value || "Not provided";
+    document.getElementById("reviewDelivery").innerHTML = `
+        <strong>Delivery Method:</strong> ${deliveryMethod}
+`;
 }
 
 function getGiftDetailsForRecipient(index, type) {
@@ -947,6 +963,113 @@ function getGiftDetailsForRecipient(index, type) {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+function updateDeliveryOptionsWithDates() {
+  const today = new Date();
+
+  // Calculate dates based on delivery method
+  const digitalDownloadDate = new Date(today);
+  digitalDownloadDate.setDate(today.getDate() + 2); // 2 calendar days
+
+  const firstClassPostDate = addWorkingDays(today, 5); // 5 working days
+  const priorityReviewDate = addWorkingDays(today, 2); // 3 working days
+
+  // Format each date as "Thursday, 22 Oct" in UK format
+  const options = { weekday: 'long', day: 'numeric', month: 'short', timeZone: 'Europe/London' };
+  const digitalDownloadFormatted = digitalDownloadDate.toLocaleDateString('en-GB', options);
+  const firstClassPostFormatted = firstClassPostDate.toLocaleDateString('en-GB', options);
+  const priorityReviewFormatted = priorityReviewDate.toLocaleDateString('en-GB', options);
+
+  // Update each radio button label with the formatted date
+  document.getElementById('labelDigitalDownload').innerText = `Digital Download - ${digitalDownloadFormatted}`;
+  document.getElementById('label1stClassPost').innerText = `1st Class Post - ${firstClassPostFormatted}`;
+  document.getElementById('labelPriorityReview').innerText = `Priority Review & Post - ${priorityReviewFormatted}`;
+}
+
+// Function to add working days (ignoring weekends)
+function addWorkingDays(startDate, days) {
+  let currentDate = new Date(startDate);
+  let addedDays = 0;
+
+  // Loop until we've added the specified number of working days
+  while (addedDays < days) {
+      currentDate.setDate(currentDate.getDate() + 1);
+      // If it's a weekday, increment the counter
+      if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) { // 0 = Sunday, 6 = Saturday
+          addedDays++;
+      }
+  }
+  return currentDate;
+}
+
+function populateDeliveryDate() {
+  // Get the selected delivery method from Step 14
+  const deliveryMethodElement = document.querySelector('input[name="deliveryMethod"]:checked');
+  if (!deliveryMethodElement) {
+      // No delivery method selected, provide a default message
+      document.getElementById('deliveryDate').innerHTML = `Please select a delivery method.`;
+      return;
+  }
+
+  const deliveryMethod = deliveryMethodElement.value;
+  const today = new Date();
+  let deliveryDate;
+
+  // Determine the delivery date based on the selected method
+  if (deliveryMethod === 'digitalDownload') {
+      // 2 calendar days
+      deliveryDate = new Date(today);
+      deliveryDate.setDate(today.getDate() + 2);
+  } else if (deliveryMethod === '1stClassPost') {
+      // 5 working days
+      deliveryDate = addWorkingDays(today, 5);
+  } else if (deliveryMethod === 'priorityReview') {
+      // 3 working days
+      deliveryDate = addWorkingDays(today, 2);
+  }
+
+  // Format the delivery date as "Thursday, 22 Oct" in UK format
+  const options = { weekday: 'long', day: 'numeric', month: 'short', timeZone: 'Europe/London' };
+  const formattedDate = deliveryDate.toLocaleDateString('en-GB', options);
+
+  // Update the delivery date in the review page summary
+  document.getElementById('deliveryDate').innerHTML = `Receive your will via ${getDeliveryMethodName(deliveryMethod)} by <strong>${formattedDate}</strong>`;
+}
+
+// Helper function to get the delivery method name
+function getDeliveryMethodName(method) {
+  if (method === 'digitalDownload') {
+      return 'Digital Download';
+  } else if (method === '1stClassPost') {
+      return '1st Class Post';
+  } else if (method === 'priorityReview') {
+      return 'Priority Review & Post';
+  }
+  return '';
+}
+
+// Function to add working days (ignoring weekends)
+function addWorkingDays(startDate, days) {
+  let currentDate = new Date(startDate);
+  let addedDays = 0;
+
+  // Loop until we've added the specified number of working days
+  while (addedDays < days) {
+      currentDate.setDate(currentDate.getDate() + 1);
+      // If it's a weekday, increment the counter
+      if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) { // 0 = Sunday, 6 = Saturday
+          addedDays++;
+      }
+  }
+  return currentDate;
+}
+
+// Call this function when the review page (Step 15) is shown
+function showStep15() {
+  populateDeliveryDate(); // Populate the delivery date in Step 15
+}
+
+
 
 
 function submitWill() {

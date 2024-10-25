@@ -611,6 +611,143 @@ input[type="radio"] {
     padding-left: 5px;
 }
 
+/* step 6
 
 
+/* General Styling for Review Page */
+.review-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
+/* Page Title and Subtitle */
+.review-title {
+    font-size: 2rem;
+    color: #6f3597;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.review-subtitle {
+    font-size: 1rem;
+    color: #777;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Card Style */
+.review-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Header Style with Completed Icon */
+.review-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.review-card-header h5 {
+    font-weight: 700;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.review-completed-icon {
+    color: #28a745; /* Green color for completed status */
+    font-size: 1.5rem;
+}
+
+/* Body Style */
+.review-card-body {
+    font-size: 1rem;
+    color: #444;
+}
+
+.review-card-body p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* Footer Style for Edit Button */
+.review-card-footer {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.btn-outline-primary {
+    border-color: #6f3597;
+    color: #6f3597;
+    background-color: transparent;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+.btn-outline-primary:hover {
+    background-color: #6f3597;
+    color: #fff;
+}
+
+/* Summary Box on the Right */
+/* Summary Box on the Right */
+.summary-box-modern {
+    background-color: #e0f7e7;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.summary-box-modern h4 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.summary-list-modern {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+.summary-list-modern li {
+    padding: 12px 0;
+    font-size: 1rem;
+    color: #444;
+    position: relative;
+}
+
+.summary-list-modern li::before {
+    content: "\2022";
+    color: #28a745;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .summary-box-modern {
+        margin-top: 30px;
+    }
+}
