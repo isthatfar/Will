@@ -1,0 +1,1075 @@
+h5 {
+    margin-bottom: 15px;  /* Adjust to control space after h5 */
+}
+/* Style the label as a rectangular button */
+.form-check-label {
+    display: inline-block;
+    padding: 7px 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #ccc; /* Default gray border */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-right: 5px; /* Smaller gap between buttons */
+    margin-bottom: 5px; /* Smaller gap below buttons */
+    min-width: 150px;
+    text-align: center;
+}
+
+/* Hover effect for buttons */
+.form-check-label:hover {
+    background-color: #ffffff;
+    border-color: #4e0980; /* Dark purple for hover */
+}
+
+/* Hide the radio buttons */
+input[type="radio"] {
+    display: none;
+}
+
+/* Style for the checked state (when a radio button is selected) */
+input[type="radio"]:checked + .form-check-label {
+    background-color: #f0dbfe; /* Pale purple background */
+    color: #000000; /* Dark purple text */
+    border-color: #6a0dad; /* Dark purple border */
+    box-shadow: 0px 4px 10px #6a0dad33; /* Purple shadow */
+}
+
+.form-check {
+    display: inline-block;  /* Make sure each radio/checkbox appears inline */
+    margin-right: 1px;     /* Add space between each button */
+    margin-bottom: 0;       /* Remove bottom margin to keep them aligned in one row */
+}
+
+/* Hide the actual checkbox */
+input[type="checkbox"] {
+    display: none;
+}
+
+/* Style for the checked state (when a checkbox is selected) */
+input[type="checkbox"]:checked + .form-check-label {
+    background-color: #f0dbfe; /* Pale purple background */
+    color: #000000; /* Dark purple text */
+    border-color: #6a0dad; /* Dark purple border */
+    box-shadow: 0px 4px 10px #6a0dad33; /* Purple shadow */
+}
+
+/* Hide the actual checkbox */
+input[type="checkbox"] {
+    display: none;
+}
+
+/* Hover effect for buttons */
+.form-check-label:hover {
+    background-color: #ffffff;
+    border-color: #6a0dad; /* Dark purple for hover */
+}
+
+/* Style for the checked state (when a checkbox is selected) */
+input[type="checkbox"]:checked + .form-check-label {
+    background-color: #e0b3ff; /* Pale purple background */
+    color: #6a0dad; /* Dark purple text */
+    border-color: #6a0dad; /* Dark purple border */
+    box-shadow: 0px 4px 10px rgba(106, 13, 173, 0.2); /* Purple shadow */
+}
+
+/* Align buttons in a row */
+.form-check {
+    display: inline-block;
+}
+
+
+
+
+
+
+
+/* Input wrapper for the floating label effect */
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Style for the input field */
+#totalPercentage {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #d3d3d3;
+    border-radius: 8px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Style for the floating label */
+.floating-label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    background-color: white;
+    padding: 0 5px;
+    font-size: 16px;
+    color: #888;
+    pointer-events: none;
+    transition: 0.2s ease all;
+}
+
+/* Shift the label when the input has focus or contains text */
+#totalPercentage:focus + .floating-label,
+#totalPercentage:not([value="0%"]) + .floating-label {
+    top: -10px;
+    font-size: 12px;
+    color: #28a745; /* Green color on focus */
+}
+
+/* Focus state styling for the input field */
+#totalPercentage:focus {
+    border-color: #622ecb;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+    outline: none;
+}
+
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    font-size: 1.75rem;
+    color: #6f3597;
+}
+
+label {
+    font-weight:;
+}
+
+
+/* Input and Form Styling */
+.form-control, .form-select, .form-check-input {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+input {
+    vertical-align: middle; /* Align the text input fields properly */
+}
+
+input[type="radio"] + label {
+    margin-right: 15px;
+}
+
+input[type="text"], input[type="email"], input[type="number"] {
+    width: 100%;
+    margin-top: 5px;
+}
+
+input::placeholder {
+    color: #adb5bd;
+}
+
+.form-check {
+    margin-bottom: 10px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+/* Button Styles */
+.btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background-color: #551ec2;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #b3b6b9;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #86222c;
+    border: none;
+}
+
+.btn-outline-primary {
+    border-color: #551ec2;
+    color: #551ec2;
+    background-color: transparent;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* Spacing and Alignment */
+.mt-2 {
+    margin-top: 10px;
+}
+
+.mt-3 {
+    margin-top: 15px;
+}
+
+.mt-4 {
+    margin-top: 20px;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+.mb-4 {
+    margin-bottom: 20px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.container.mt-5 {
+    margin-top: 50px;
+}
+
+hr {
+    margin: 15px 0;
+    border: 1px solid #dee2e6;
+}
+
+/* Helper Text */
+.helper-text {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+/* Error Styles */
+#percentageError {
+    color: #86212b;
+    font-weight: bold;
+}
+
+/* Input Group Styling */
+.input-group-percentage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input-group-append {
+    background-color: #e9ecef;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.input-group-append .input-group-text {
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.input-group-text {
+    border-radius: 0 4px 4px 0;
+    border: 1px solid #ced4da;
+    background-color: #e9ecef;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+/* Step-by-Step Navigation Buttons */
+button {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Specific Form Sections */
+#giftRecipientList h4, #contingencyList h4 {
+    margin-bottom: 10px;
+    color: #551ec2;
+}
+
+#giftOptionDetails, #specificPersonFields {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Child Selection Fields */
+#childrenUnder18List label {
+    margin-left: 5px;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* Progress Bar Styling */
+.progress {
+    height: 15px;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    background-color: #551ec2;
+    font-weight: bold;
+    transition: width 0.5s ease;
+}
+
+    /* Card Styling */
+    .card {
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    /* Success Checkmarks */
+    .text-success i {
+        font-size: 1.2rem;
+    }
+
+    /* Submission Panel */
+    .btn-success {
+        padding: 12px 20px;
+        font-size: 1.1rem;
+    }
+    
+    
+    
+    .bubble-container {
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding-top: 35px !important;  /* Use !important to force the change */
+    padding-right: 15px;           /* Other padding values remain unchanged */
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    display: block;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.bubble-container.lni-users,
+.bubble-container .lni-world {
+    font-size: 40px;      /* Adjust icon size */
+    color: #aaa;
+    line-height: 1;       /* Ensure the line-height is set to 1 */
+    height: auto;         /* Ensure the icon height is not stretching */
+    width: auto;          /* Ensures width is defined by font size */
+}
+
+.form-group {
+    margin-top: 2px !important; /* Adjust as needed */
+}
+
+.bubble-container .form-group {
+    margin-bottom: 15px; /* Adjust spacing between form elements */
+}
+
+.bubble-container label {
+    font-weight: bold; /* Make label text bold for better readability */
+    margin-bottom: 5px; /* Space below the label */
+    display: block; /* Ensure labels are on their own line */
+}
+
+.bubble-container input, 
+.bubble-container select {
+    width: 100%; /* Make the input and select elements full width */
+    padding: 10px; /* Add padding for a better appearance */
+    border: 1px solid #ccc; /* Border for the inputs */
+    border-radius: 6px; /* Rounded corners for inputs */
+    box-sizing: border-box; /* Include padding and border in the element's width */
+}
+
+/* Flexbox layout to keep the options close */
+#willOptions {
+    display: flex;
+    justify-content: flex-start; /* Align items to the start */
+    gap: 20px; /* Adjust gap as needed */
+    align-items: center;
+}
+
+/* Add extra padding for 'Just me' and 'Me and my partner' radio buttons */
+#whoNeedsWillJustMe + .form-check-label,
+#whoNeedsWillPartner + .form-check-label {
+    padding: 50px 75px; /* Increase padding as needed */
+    border-radius: 12px; /* Optional: adjust border radius if you want */
+}
+
+.d-flex {
+    display: flex;
+    gap: 10px; /* Adjusts space between city and postcode */
+}
+
+.flex-fill {
+    flex: 1; /* Ensure equal width for city and postcode inputs */
+}
+
+.ml-2 {
+    margin-left: 10px; /* Adds space between the two fields */
+}
+
+.form-control {
+    margin-top: 20px; /* Push input fields lower */
+    height: 45px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    padding: 5px 10px;
+}
+
+/* Optional: Styling for the Remove button */
+.bubble-container .btn-danger {
+    margin-top: 10px; /* Space above the button */
+}
+
+
+/* --- Beneficiary and Charity Card Styling --- */
+
+/* Make sure to target the card containing all inputs */
+.beneficiary-card {
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding-top: 35px !important;  /* Use !important to force the change */
+    padding-right: 15px;           /* Other padding values remain unchanged */
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    display: block;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.guardian-card {
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding-top: 35px !important;  /* Use !important to force the change */
+    padding-right: 15px;           /* Other padding values remain unchanged */
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-bottom: 20px;
+    display: block;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Charity card container */
+.charity-card {
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding-top: 35px !important;  /* Use !important to force the change */
+    padding-right: 15px;           /* Other padding values remain unchanged */
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-bottom: 0px;
+    display: block;
+    align-items: center;
+    height: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Avatar Placeholder (for Beneficiaries and Charities) --- */
+.avatar-placeholder {
+    background-color: #f5f5f5;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;               /* Flex container */
+    align-items: center;          /* Vertically centers the icon */
+    justify-content: center;      /* Horizontally centers the icon */
+    margin-right: 15px;           /* Spacing between the icon and input fields */
+    margin-top: -15px; /* Negative margin to lift it higher */
+}
+
+/* Icon inside avatar placeholder (Beneficiaries & Charities) */
+.avatar-placeholder .lni-users,
+.avatar-placeholder .lni-world {
+    font-size: 40px;      /* Adjust icon size */
+    color: #aaa;
+    line-height: 1;       /* Ensure the line-height is set to 1 */
+    height: auto;         /* Ensure the icon height is not stretching */
+    width: auto;          /* Ensures width is defined by font size */
+}
+/* --- Inputs and Alignment for Beneficiary and Charity Cards --- */
+
+/* Align inputs and avatar vertically */
+.beneficiary-card .row.align-items-center,
+.charity-card .row.align-items-center {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* Ensure responsive column widths for avatar, inputs, and delete button */
+.beneficiary-card .col-md-2,
+.charity-card .col-md-2 {
+    padding-right: 10px; /* Adjust spacing between avatar and input fields */
+}
+
+.beneficiary-card .col-md-1,
+.charity-card .col-md-1 {
+    padding-left: 5px; /* Reduce space between last input and trash icon */
+}
+
+/* Standardize input and select dropdown heights */
+.beneficiary-card .form-control,
+.charity-card .form-control {
+    margin-bottom: -5px !important;
+    margin-top: -20px !important;
+    flex: 1;  /* Allow the input fields to grow and fill the available space */
+    margin-right: 10px;  /* Space between inputs */
+    height: 45px;  /* Ensure consistent height for input fields */
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Allows input fields to take up remaining space */
+}
+
+
+
+/* Reduce the horizontal padding inside the card */
+.beneficiary-card,
+.charity-card {
+    padding-left: 10px;  /* Less padding on the left */
+    padding-right: 10px; /* Less padding on the right */
+}
+
+/* Add consistent vertical margin between form elements */
+.beneficiary-card .row .mb-2,
+.charity-card .row .mb-2 {
+    margin-bottom: 10px; /* Adjust the margin to make it consistent */
+}
+
+
+
+/* Remove beneficiary and charity button styles */
+.remove-beneficiary-btn,
+.remove-charity-btn {
+    background-color: transparent;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    display: block;
+    align-items: center;  /* Vertically center the icon */
+    justify-content: center;  /* Horizontally center the icon */
+    width: 40px;  /* Define a width for the button */
+    height: 40px; /* Explicit height for the button */    
+    padding: 0;  /* Remove any default padding */
+    margin: 0;  /* Remove any margins to avoid offset */
+    margin-top: -20px; /* Negative margin to lift it higher */
+
+}
+
+/* Trash icon size and color */
+.lni-trash-can {
+    font-size: 20px !important;
+    color: #dc3545;
+    line-height: 1; /* Ensure no extra line height is added */
+}
+
+/* Hover state for remove buttons */
+.remove-beneficiary-btn:hover,
+.remove-charity-btn:hover {
+    color: #bd2130; /* Darker red on hover */
+}
+
+
+
+/* --- Add New Buttons (Beneficiaries & Charities) --- */
+
+/* Add new person button */
+#addNewPersonBtn,
+#addNewCharityBtn {
+    background-color: #f0f8ff;
+    border: 2px dashed #ffffff;
+    color: #6f3597;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 12px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover state for Add New Buttons */
+#addNewPersonBtn:hover,
+#addNewCharityBtn:hover {
+    background-color: #ffffff;
+}
+
+
+/* --- Adjust spacing between the last input field and the trash icon --- */
+.beneficiary-card .col-md-1,
+.charity-card .col-md-1 {
+    padding-left: 5px;
+}
+
+/* step 6
+
+
+/* General Styling for Review Page */
+.review-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Page Title and Subtitle */
+.review-title {
+    font-size: 2rem;
+    color: #6f3597;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.review-subtitle {
+    font-size: 1rem;
+    color: #777;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Card Style */
+.review-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Header Style with Completed Icon */
+.review-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.review-card-header h5 {
+    font-weight: 700;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.review-completed-icon {
+    color: #28a745; /* Green color for completed status */
+    font-size: 1.5rem;
+}
+
+/* Body Style */
+.review-card-body {
+    font-size: 1rem;
+    color: #444;
+}
+
+.review-card-body p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* Footer Style for Edit Button */
+.review-card-footer {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.btn-outline-primary {
+    border-color: #6f3597;
+    color: #6f3597;
+    background-color: transparent;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+.btn-outline-primary:hover {
+    background-color: #6f3597;
+    color: #fff;
+}
+
+/* Summary Box on the Right */
+/* Summary Box on the Right */
+.summary-box-modern {
+    background-color: #e0f7e7;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.summary-box-modern h4 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.summary-list-modern {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+.summary-list-modern li {
+    padding: 12px 0;
+    font-size: 1rem;
+    color: #444;
+    position: relative;
+}
+
+.summary-list-modern li::before {
+    content: "\2022";
+    color: #28a745;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .summary-box-modern {
+        margin-top: 30px;
+    }
+}
+
+
+
+
+
+/* Button to add a new person */
+.add-person {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-add-person {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #f0f9ff;
+    color: #8c42bd;
+    border: 2px dashed #8c42bd;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-add-person i {
+    margin-right: 10px;
+    font-size: 1.25rem;
+}
+
+.btn-add-person:hover {
+    background-color: #e0f0ff;
+    border-color: #8c42bd;
+    color: #ffffff;
+}
+
+
+/* Error message container styling */
+.error-message {
+    background-color: #f8d7da;  /* Light red background for error */
+    color: #721c24;             /* Dark red text for error */
+    border-color: #f5c6cb;      /* Red border for error */
+    font-weight: bold;          /* Bold text for emphasis */
+    padding: 20px;              /* Padding inside the bubble */
+    border-radius: 12px;        /* Rounded corners */
+    margin-top: 15px;           /* Spacing from the element above */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+    display: flex;              /* Flexbox layout to align icon and text */
+    align-items: center;        /* Vertically center align icon and text */
+}
+
+/* Icon styling */
+.lni-warning {
+    font-size: 24px;        /* Icon size */
+    color: #721c24;         /* Dark red to match the error text */
+    margin-right: 10px;     /* Spacing between icon and text */
+}
+
+
+
+
+/* Adjust icon and input alignment */
+.d-flex.align-items-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+
+/* Label and input group adjustments for percentage inputs */
+#residualEstateDivisionList .form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#residualEstateDivisionList .input-group {
+    display: flex;
+    align-items: center;
+    width: 50%; /* Adjust this value to control input size */
+}
+
+#residualEstateDivisionList label {
+    width: 10%; /* Label width for better alignment */
+}
+
+#residualEstateDivisionList .form-control {
+    width: -10px;  /* Make the input box larger */
+    padding: 8px;  /* Add padding for better visibility */
+    text-align: left;  /* Center the percentage number */
+}
+
+/* Only apply the input group text styles within the residual estate section */
+#residualEstateDivisionList .input-group-text {
+    background-color: #f0f0f0;  /* Subtle background for percentage symbol */
+    border: 1px solid #ced4da;
+    padding: 8px 12px; /* Adjust padding for the percentage symbol */
+}
+
+/* Target the label within the residual estate section */
+#residualEstateDivisionList label {
+    width: 30%;  /* Set a fixed width for labels */
+    margin-left: 15px;  /* Add space between the label and the icon */
+    font-size: 16px;  /* Adjust font size */
+}
+
+/* Flexbox adjustments for the residual estate section */
+#residualEstateDivisionList .d-flex.align-items-center {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensure even spacing between items */
+    width: 100%; /* Ensure the entire row uses full width */
+    margin-bottom: 15px;
+}
+
+/* Icon circle adjustments specific to residual estate */
+#residualEstateDivisionList .icon-circle {
+    background-color: #28a745;  /* Green background */
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+#residualEstateDivisionList .icon-circle i {
+    font-size: 18px;  /* Slightly smaller icon inside the circle */
+}
+
+/* Basic reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Container styling */
+.pet-care-section {
+    margin-top: 20px;
+}
+
+/* Label styling */
+.pet-care-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Modern input group styling */
+* Modern Input Group */
+.modern-input-group {
+    display: flex;
+    align-items: flex-end;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 5px;
+    padding-left: 10px !important;
+    background-color: #f9f9f9;
+    width: 100%;
+    max-width: 200px;
+    height: 40px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modern-input {
+    border: none;
+    outline: none;
+    font-size: 18px;
+    width: 100%;
+    background: none;
+    padding-left: 10px;
+}
+
+.modern-input::placeholder {
+    color: #aaa;
+}
+
+/* Hover and Focus Effects */
+.modern-input-group:hover {
+    border-color: #888;
+}
+
+.modern-input-group:focus-within {
+    border-color: #007bff;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.25);
+}
+
+
+/* Currency symbol styling */
+.currency-symbol {
+    font-size: 18px;
+    margin-right: 5px;
+    color: #555;
+}
+
+/* Input styling */
+.modern-input {
+    border: none;
+    outline: none;
+    font-size: 18px;
+    width: 100%;
+    background: none;
+    padding-left: 5px;
+}
+
+.modern-input::placeholder {
+    color: #aaa;
+}
+
+/* Hide spinner arrows */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.no-spinner {
+    -moz-appearance: textfield;
+}
+
+/* Hover and focus effects */
+.modern-input-group:hover {
+    border-color: #888;
+}
+
+.modern-input-group:focus-within {
+    border-color: #007bff;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.25);
+}
+
+
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #fafafa;
+    max-width: 300px;
+}
+
+.input-group .input-group-text,
+.input-group .currency-symbol {
+    font-size: 18px;
+    color: #555;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    line-height: 1; /* Ensures the symbol aligns properly */
+}
+
+.input-group input[type="text"] {
+    border: none;
+    outline: none;
+    font-size: 18px;
+    line-height: 1; /* Aligns the text input vertically */
+    padding: 0; /* Ensures no extra padding disrupts alignment */
+    color: #333;
+    background-color: transparent;
+    flex-grow: 1; /* Allows input to expand and keep alignment */
+}
+
+/* Remove spinner arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+} can you organise this entire file. provide it as a file when you are done

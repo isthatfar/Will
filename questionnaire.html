@@ -433,7 +433,7 @@
         </div>
     
         
-        <div id="giftRecipientList"></div>
+        <div id="giftRecipientList"></div><br>
 
         <!-- Navigation Buttons -->
         <div class="d-flex justify-content-between">
@@ -449,11 +449,14 @@
 
     <div id="residualEstateDivisionList"></div> <!-- This is dynamically populated -->
 
-    <label for="totalPercentage">Total Percentage:</label>
-    <input type="text" id="totalPercentage" readonly value="0%"><!-- Total percentage -->
-
-    <br><br>
-    <p id="percentageError" class="hidden" style="color:red;">Total must add up to 100%</p> <!-- Error message -->
+    <div class="form-group mt-3">
+    <label for="totalPercentage"></label>
+    <input type="text" id="totalPercentage" class="total-percentage-bar" readonly value="0%" ><!-- Total percentage -->
+    </div>
+    <div id="percentageError" class="error-container error-message hidden">
+        <i class="lni lni-warning" style="color: #ad4e58; font-size: 24px; margin-right: 10px;"></i>
+        Total must add up to 100%
+    </div><br>
 
     <div class="d-flex justify-content-between">
         <button class="btn btn-secondary" onclick="goToStep6()">Previous Page</button>
@@ -461,7 +464,6 @@
     </div>
 </div>
 
-<!--lajrwbabkwbrkhwrkvbwkbvksdbkjsbdkvbsdkbvksdbvks-->
 
     <!-- Step 8: Contingency Planning -->
 <div id="step8" class="hidden container mt-5">
@@ -584,26 +586,42 @@
         </div>
 
         <!-- Additional caretaker fields for "Someone else" (hidden by default) -->
-        <div id="additionalPetCaretaker" class="hidden">
-            <label for="petCaretakerRelationship">What is your relationship to the pet caretaker?</label>
-            <select name="petCaretakerRelationship" id="petCaretakerRelationship" class="form-select">
-                <option value="Select">Select Relationship</option>
-                <option value="Spouse">Spouse</option>
-                <option value="Civil partner">Civil partner</option>
-                <option value="Partner">Partner</option>
-                <option value="Mother">Mother</option>
-                <option value="Father">Father</option>
-                <option value="Daughter">Daughter</option>
-                <option value="Son">Son</option>
-                <option value="Grandson">Grandson</option>
-                <option value="Granddaughter">Granddaughter</option>
-                <option value="Friend">Friend</option>
-                <option value="Other">Other</option>
-            </select>
-
-            <label for="petCaretakerAddress" class="mt-3">What is the address of the pet caretaker?</label>
-            <input type="text" name="petCaretakerAddress" id="petCaretakerAddress" placeholder="Enter address or city" class="form-control mt-2">
+        <div id="additionalPetCaretaker" class="beneficiary-card hidden mt-3 shadow-sm">
+            <div class="row align-items-center">
+                <div class="col-3 col-md-2 text-center">
+                    <div class="avatar-placeholder">
+                        <i class="lni lni-users"></i> <!-- LineIcon for User -->
+                    </div>
+                </div>
+                <div class="col-8 col-md-9">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-2">
+                            <input type="text" class="form-control" name="petCaretakerFullName" placeholder="Full Name"><br>
+                        </div>
+                        <div class="col-12 col-md-6 mb-2">
+                            <select name="petCaretakerRelationship" class="form-control">
+                                <option value="Select">Relationship</option>
+                                <option value="Spouse">Spouse</option>
+                                <option value="Civil partner">Civil partner</option>
+                                <option value="Partner">Partner</option>
+                                <option value="Mother">Mother</option>
+                                <option value="Father">Father</option>
+                                <option value="Daughter">Daughter</option>
+                                <option value="Son">Son</option>
+                                <option value="Friend">Friend</option>
+                                <option value="Other">Other</option>
+                            </select><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <input type="text" class="form-control" name="petCaretakerAddress" placeholder="Address or City">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
 
         <!-- Question 3: Leave money for pet care? -->
         <div class="mb-3">
@@ -618,12 +636,16 @@
             </div>
 
             <!-- Show if 'Yes' is selected -->
-            <div id="leaveMoneyAmount" class="hidden mt-2">
+            <div id="leaveMoneyAmount" class="hidden pet-care-section mt-2">
                 <label for="petMoneyAmount">Amount of money for pet care</label>
-                <input type="number" class="form-control" id="petMoneyAmount" name="petMoneyAmount" placeholder="Enter amount">
+                <div class="modern-input-group">
+                    <span class="currency-symbol">£</span>
+                    <input type="number" class="modern-input no-spinne" id="petMoneyAmount" name="petMoneyAmount" placeholder="Enter amount">
             </div>            
-        </div>
+            </div>
+        </div>            
     </div>
+
 
     <!-- Navigation Buttons -->
     <div class="d-flex justify-content-between">
@@ -631,6 +653,7 @@
         <button class="btn btn-primary" onclick="goToStep12()">Next</button>
     </div>
 </div>
+
 
 
     <!-- Step 12: Digital Assets -->
@@ -828,22 +851,24 @@
                         <button class="btn btn-outline-primary btn-sm" onclick="goToStep14()">Edit</button>
                     </div>
                 </div>
+                <div class="review-card">
+                    <div class="review-card-header">
+                    <h5>Your will is ready to be checked.</h5>
+                    <p class="review-card-body">
+                        <li> Pay securely</li>
+                        <li> We write your will based on your answers</li>
+                        <li id="deliveryDate"> Receive your will via 1st Class post by <strong>Tuesday, Oct. 22</strong></li>
+                    </p>
+                    <div class="review-card-footer">
+                        <form class="submit-will-form">
+                    <div class="mt-5">
+                      <button class="btn btn-primary btn-lg" onclick="submitWill()">Submit Will</button>
+                    </div>
+                  </form>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
-        <div class="summary-box modern">
-        <h4>Your will is ready to be checked.</h4>
-        <ul class="summary-list modern">
-            <li>Pay securely</li>
-            <li>We write your will based on your answers</li>
-            <li id="deliveryDate">Receive your will via 1st Class post by <strong>Tuesday, Oct. 22</strong></li>
-        </ul>
-            <form class="submit-will-form">
-        <div class="mt-5">
-          <button class="btn btn-primary btn-lg" onclick="submitWill()">Submit Will</button>
-        </div>
-      </form>
+    
       
 
 </div>
