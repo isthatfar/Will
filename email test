@@ -1,0 +1,38 @@
+fun postEventData(email:String,name:String,surname:String,dollarqty:Int):LiveData<Resource<Boolean>>{
+        val datastatus = MutableLiveData<Resource<Boolean>>()
+        val userData = User(email,name,surname,dollarqty)
+        FirebaseFirestore.getInstance()
+            .collection("purchases")
+            .add(userData)
+            .addOnCompleteListener {
+                if(it.isSuccessful) datastatus.value = Resource.success(true)
+            }.addOnFailureListener {
+                datastatus.value = Resource.error(it.message!!,false)
+            }
+        return datastatus
+    }
+
+
+
+
+
+    FB Cloud Function
+    exports.onItemCreation = functions.firestore.document('purchases/{purchaseId}')
+ .onCreate(async(snapshot, context) => {
+     const itemDataSnap = await snapshot.ref.get()
+     console.log("Name of user requesting the ticket "+itemDataSnap.data().name):
+ });
+
+
+
+ exports.onItemCreation = functions.firestore.document('purchases/{purchaseId}')
+ .onCreate(async(snapshot, context) => {
+     const itemDataSnap = await snapshot.ref.get()
+     return admin.firestore().collection('mail').add({
+        to: [itemDataSnap.data().email],
+        message: {
+          subject: 'Your reservation is here !',
+          html: 'Hey '+ itemDataSnap.data().name +'. This is your reservation for the event and it costs $' + itemDataSnap.data().dollarqty +', thanks for the purchase.',
+        }
+      }).then(() => console.log('Queued email for delivery!'));
+ });

@@ -395,7 +395,8 @@ button:focus {
 .bubble-container,
 .beneficiary-card,
 .guardian-card,
-.charity-card {
+.charity-card
+.dyn-card, {
     background-color: #fff;
     border-radius: 12px;
     border: 1px solid #ddd;
@@ -1041,4 +1042,6 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 } can you organise this entire file. provide it as a file when you are done
+
+
 
