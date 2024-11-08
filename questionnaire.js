@@ -68,9 +68,101 @@ function goToStep15() {
   populateDeliveryDate()
 }
 
+function goToStep16() {
+    showStep(16)
+  };
+
+
+
+// Save data to localStorage on input change
+document.querySelectorAll('input, textarea, select').forEach(input => {
+    input.addEventListener('change', () => {
+        let valueToStore;
+        if (input.type === 'checkbox' || input.type === 'radio') {
+            valueToStore = input.checked ? 'true' : 'false';
+        } else {
+            valueToStore = input.value;
+        }
+        console.log(`Storing ${input.id}: ${valueToStore}`); // Debugging line
+        localStorage.setItem(input.id, valueToStore);
+    });
+});
+
+// Load data from localStorage on page load
+window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('input, textarea, select').forEach(input => {
+        const storedValue = localStorage.getItem(input.id);
+        if (storedValue !== null) {
+            console.log(`Retrieving ${input.id}: ${storedValue}`); // Debugging line
+            if (input.type === 'checkbox' || input.type === 'radio') {
+                input.checked = storedValue === 'true';
+            } else {
+                input.value = storedValue; // Set the value as a string directly
+            }
+        }
+    });
+});
+
+function saveGiftDataToLocalStorage() {
+    const gifts = [];
+    document.querySelectorAll('div[id^="giftDetails"]').forEach((giftDiv, index) => {
+        const giftInputs = giftDiv.querySelectorAll('input, select');
+        const giftData = {};
+
+        giftInputs.forEach(input => {
+            giftData[input.id] = input.type === 'checkbox' ? input.checked : input.value;
+        });
+
+        gifts.push(giftData);
+    });
+
+    localStorage.setItem('giftData', JSON.stringify(gifts));
+}
+
+// Call this function whenever a gift input changes
+document.querySelectorAll('input, select').forEach(input => {
+    input.addEventListener('change', saveGiftDataToLocalStorage);
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    const giftData = JSON.parse(localStorage.getItem('giftData'));
+
+    if (giftData) {
+        giftData.forEach((data, index) => {
+            // Logic to recreate the gift input fields dynamically
+            // Use index and stored data to set values
+            for (let key in data) {
+                const input = document.getElementById(key);
+                if (input) {
+                    input.type === 'checkbox' ? input.checked = data[key] === 'true' : input.value = data[key];
+                }
+            }
+        });
+    }
+});
+
+// Function to handle redirection based on the will option selected
+function handleWillRedirect() {
+    const whoNeedsWill = document.querySelector('input[name="whoNeedsWill"]:checked')?.value;
+
+    if (whoNeedsWill === 'Just me') {
+        window.location.href = 'https://buy.stripe.com/00gg2DgUU1sbbqUfYZ';
+    } else if (whoNeedsWill === 'Me and my partner') {
+        window.location.href = 'https://buy.stripe.com/5kAaIj6ggeeX1Qk288';
+    } else {
+        alert('Please select an option for who needs a will.');
+    }
+}
+
+
+
+
+
+  
+
 // STEPS + PROGRESS BAR
 // Define the total number of steps in your form
-const totalSteps = 15
+const totalSteps = 16
 
 function showStep(stepNumber) {
   const steps = document.querySelectorAll('div[id^="step"]')
@@ -112,7 +204,7 @@ function updateWillOptions() {
     <div class="form-check">
       <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
       <label class="form-check-label" for="whoNeedsWillJustMe">
-          <h5>Just me (£99)</h5>
+          <h5>Just me (£79)</h5>
           <p>If your partner already has a will and doesn't need to update it</p>
         </div>
       </label>
@@ -123,7 +215,7 @@ function updateWillOptions() {
     <div class="form-check">
       <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
      <label class="form-check-label" for="whoNeedsWillJustMe">
-          <h5>Just me (£99)</h5>
+          <h5>Just me (£79)</h5>
           <p>If your partner already has a will and doesn't need to update it</p>
         </div>
       </label>
@@ -131,7 +223,7 @@ function updateWillOptions() {
     <div class="form-check">
       <input type="radio" id="whoNeedsWillPartner" name="whoNeedsWill" value="Me and my partner">
       <label class="form-check-label" for="whoNeedsWillPartner">
-          <h5>Me and my partner (£149)</h5>
+          <h5>Me and my partner (£129)</h5>
           <p>If you are married, partnered, or just with someone</p>
         </div>
       </label>
@@ -187,10 +279,17 @@ function addBeneficiary() {
                             <option value="Partner">Partner</option>
                             <option value="Mother">Mother</option>
                             <option value="Father">Father</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Cousin">Cousin</option>
                             <option value="Daughter">Daughter</option>
                             <option value="Son">Son</option>
                             <option value="Grandson">Grandson</option>
                             <option value="Granddaughter">Granddaughter</option>
+                            <option value="Great grandson">Great grandson</option>
+                            <option value="Great granddaughter">Great granddaughter</option>
+                            <option value="Niece">Niece</option>
+                            <option value="Nephew">Nephew</option>
                             <option value="Friend">Friend</option>
                             <option value="Other">Other</option>
                         </select>
@@ -207,12 +306,13 @@ function addBeneficiary() {
 
             <!-- Remove Beneficiary button beside inputs -->
             <div class="col-1 text-right">
-                <button class="btn btn-danger btn-sm remove-beneficiary-btn" onclick="removeBeneficiary(${beneficiaryCount})">
-                    <i class="lni lni-trash-can"></i>
+                <button class="btn-danger btn-sm remove-beneficiary-btn" onclick="removeBeneficiary(${beneficiaryCount})">
+                    <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
         </div>
     `
+
 
   document.getElementById("beneficiaryList").appendChild(beneficiaryDiv)
   beneficiaryCount++
@@ -224,7 +324,6 @@ function removeBeneficiary(id) {
   beneficiaryDiv.remove()
 }
 
-// Function to add a charity
 // Function to add a charity
 function addCharity() {
   const charityDiv = document.createElement("div")
@@ -256,8 +355,8 @@ function addCharity() {
 
             <!-- Remove Charity button beside inputs -->
             <div class="col-1 text-right">
-                <button class="btn btn-danger btn-sm remove-charity-btn" onclick="removeCharity(${charityCount})">
-                    <i class="lni lni-trash-can"></i>
+                <button class="btn-danger btn-sm remove-charity-btn" onclick="removeCharity(${charityCount})">
+                    <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
         </div>
@@ -316,95 +415,140 @@ function populateGiftRecipientList() {
 // STEP 6 - GIFTS
 //Function to add a gift for a recipient (either beneficiary or charity)
 let giftCounters = {
-  beneficiary: {},
-  charity: {}
-} // Track gift counts separately
+    beneficiary: {},
+    charity: {}
+};
 
+// Function to capitalize the first letter of a string
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Function to add a new gift card (for either beneficiary or charity)
 function addGift(index, type) {
-  const giftDiv = document.getElementById(
-      `giftDetails${capitalizeFirstLetter(type)}${index}`,
-  )
-  const recipientName = type === "beneficiary" ? "Beneficiary" : "Charity"
+    if (!giftCounters[type][index]) {
+        giftCounters[type][index] = 0;
+    }
 
-  if (!giftCounters[type][index]) {
-      giftCounters[type][index] = 0
-  }
+    const giftId = giftCounters[type][index]++;
+    const giftDivId = `giftDiv${type}${index}${giftId}`;
+    const newGiftDiv = document.createElement("div");
+    newGiftDiv.id = giftDivId;
+    newGiftDiv.classList.add("gift-selection-container", "mt-3");
 
-  const giftId = giftCounters[type][index]++
-  const newGiftDiv = document.createElement("div")
-  newGiftDiv.id = `giftDiv${type}${index}${giftId}`
-  newGiftDiv.classList.add("mt-3")
+    newGiftDiv.innerHTML = `
+        <div id="giftSelectionCard${type}${index}${giftId}" class="gift-selection-card">
+            <div class="gift-icon"><i class="fas fa-gift"></i></div>
+            <div class="gift-options">
+                <button class="gift-option" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'cash')">Cash</button>
+                <button class="gift-option" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'property')">Property</button>
+                <button class="gift-option" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'collection')">Collection of items</button>
+                <button class="gift-option" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'item')">Item</button>
+            </div>
+            <div class="delete-icon" onclick="removeGift(${index}, ${giftId}, '${type}')"><i class="fas fa-trash-alt"></i></div>
+        </div>
 
-  newGiftDiv.innerHTML = `
-      <label>Select a gift type:</label><br>
-      <div class="form-check">
-          <input type="radio" id="giftCash${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="cash" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'cash')">
-          <label class="form-check-label" for="giftCash${type}${index}${giftId}">Cash</label>
-      </div>
-      <div class="form-check">
-          <input type="radio" id="giftProperty${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="property" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'property')">
-          <label class="form-check-label" for="giftProperty${type}${index}${giftId}">Property</label>
-      </div>
-      <div class="form-check">
-          <input type="radio" id="giftCollection${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="collection" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'collection')">
-          <label class="form-check-label" for="giftCollection${type}${index}${giftId}">Collection of items</label>
-      </div>
-      <div class="form-check">
-          <input type="radio" id="giftItem${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="item" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'item')">
-          <label class="form-check-label" for="giftItem${type}${index}${giftId}">Item</label>
-      </div>
+        <div id="cashInputForm${type}${index}${giftId}" class="gift-input-form hidden">
+            <div class="gift-icon"><i class="fas fa-money-bill-wave"></i></div>
+            <div class="gift-input-field">
+                <label for="cashAmount${type}${index}${giftId}">Cash Amount:</label>
+                <input type="number" id="cashAmount${type}${index}${giftId}" placeholder="Enter amount">
+                <p class="example-text">e.g. £500</p>
+            </div>
+            <div class="delete-icon" onclick="resetSelection(${index}, ${giftId}, '${type}')"><i class="fas fa-trash-alt"></i></div>
+        </div>
 
-      <div id="giftDetails${type}${index}${giftId}" class="gift-details mt-2"></div>
-      <button class="btn btn-danger mt-2" onclick="removeGift(${index}, ${giftId}, '${type}')">Remove Gift</button>
-      <hr>
-  `
-  giftDiv.appendChild(newGiftDiv)
+         <div id="propertyInputForm${type}${index}${giftId}" class="gift-selection-card hidden">
+        <div class="gift-icon"><i class="fas fa-home"></i></div> <!-- Icon on the left -->
+        <!-- Center content: Address and Percentage fields stacked vertically -->
+        <div class="gift-content">
+            <div class="gift-input-field">
+                <label for="propertyAddress${type}${index}${giftId}">My property</label>
+                <input type="text" id="propertyAddress${type}${index}${giftId}" placeholder="Enter address">
+                <p class="example-text">e.g. 12 Bridge Road W12 N34, London</p>
+            </div>
+            <div class="gift-input-field">
+                <label for="propertyPercentage${type}${index}${giftId}">Percentage of the property</label>
+                <input type="number" id="propertyPercentage${type}${index}${giftId}" placeholder="Enter percentage">
+                <p class="example-text">e.g. to split this property between two beneficiaries you can gift 50% each</p>
+            </div>
+        </div>
+        <!-- Delete icon on the right -->
+        <div class="delete-icon" onclick="resetSelection(${index}, ${giftId}, '${type}')">
+            <i class="fas fa-trash-alt"></i>
+        </div>
+    </div>
+
+        <div id="collectionInputForm${type}${index}${giftId}" class="gift-input-form hidden">
+            <div class="gift-icon"><i class="fas fa-gift"></i></div>
+            <div class="gift-input-field">
+                <label for="collectionDescription${type}${index}${giftId}">All my collection of</label>
+                <input type="text" id="collectionDescription${type}${index}${giftId}" placeholder="Enter collection description">
+                <p class="example-text">e.g. all of my jewels</p>
+            </div>
+            <div class="delete-icon" onclick="resetSelection(${index}, ${giftId}, '${type}')"><i class="fas fa-trash-alt"></i></div>
+        </div>
+
+        <div id="itemInputForm${type}${index}${giftId}" class="gift-input-form hidden">
+            <div class="gift-icon"><i class="fas fa-gift"></i></div>
+            <div class="gift-input-field">
+                <label for="itemDescription${type}${index}${giftId}">My item</label>
+                <input type="text" id="itemDescription${type}${index}${giftId}" placeholder="Enter item description">
+                <p class="example-text">e.g. my Volvo car registered WXX0000, my green necklace, etc.</p>
+            </div>
+            <div class="delete-icon" onclick="resetSelection(${index}, ${giftId}, '${type}')"><i class="fas fa-trash-alt"></i></div>
+        </div><br>
+    `;
+
+    // Append the new gift div to the correct section (beneficiary or charity)
+    document.getElementById(`giftDetails${capitalizeFirstLetter(type)}${index}`).appendChild(newGiftDiv);
 }
 
-// Function to handle gift details based on the selected type
-function showGiftDetails(index, giftId, type, giftType) {
-  const giftDetailsDiv = document.getElementById(
-      `giftDetails${type}${index}${giftId}`,
-  )
-  giftDetailsDiv.innerHTML = "" // Clear previous content
-
-  if (giftType === "cash") {
-      giftDetailsDiv.innerHTML = `
-          <label for="cashAmount${type}${index}${giftId}">Cash Amount:</label>
-          <div class="input-group">
-              <div class="input-group-prepend">
-                  <span class="input-group-text">£</span>
-              </div>
-              <input type="number" class="form-control" id="cashAmount${type}${index}${giftId}" name="cashAmount${type}${index}${giftId}" placeholder="Enter amount">
-          </div>
-      `
-  } else if (giftType === "property") {
-      giftDetailsDiv.innerHTML = `
-          <label for="propertyAddress${type}${index}${giftId}">Property Address:</label>
-          <input type="text" id="propertyAddress${type}${index}${giftId}" name="propertyAddress${type}${index}${giftId}" class="form-control" placeholder="Enter property address">
-          <label for="propertyPercentage${type}${index}${giftId}" class="mt-2">Percentage:</label>
-          <input type="number" class="form-control" id="propertyPercentage${type}${index}${giftId}" name="propertyPercentage${type}${index}${giftId}" placeholder="Enter percentage">
-      `
-  } else if (giftType === "collection") {
-      giftDetailsDiv.innerHTML = `
-          <label for="collectionDescription${type}${index}${giftId}">Collection Description:</label>
-          <input type="text" id="collectionDescription${type}${index}${giftId}" name="collectionDescription${type}${index}${giftId}" class="form-control" placeholder="Describe the collection">
-      `
-  } else if (giftType === "item") {
-      giftDetailsDiv.innerHTML = `
-          <label for="itemDescription${type}${index}${giftId}">Item Description:</label>
-          <input type="text" id="itemDescription${type}${index}${giftId}" name="itemDescription${type}${index}${giftId}" class="form-control" placeholder="Describe the item">
-      `
-  }
-}
-
-
-
-// Function to remove a gift
+// Function to remove a gift entry
 function removeGift(index, giftId, type) {
-  const giftDiv = document.getElementById(`giftDiv${type}${index}${giftId}`)
-  giftDiv.remove()
+    const giftDiv = document.getElementById(`giftDiv${type}${index}${giftId}`);
+    if (giftDiv) {
+        giftDiv.remove();
+    }
 }
+
+// Function to show the selected gift type details and hide the initial options
+function showGiftDetails(index, giftId, type, giftType) {
+    document.getElementById(`giftSelectionCard${type}${index}${giftId}`).classList.add("hidden");
+    document.getElementById(`cashInputForm${type}${index}${giftId}`).classList.add("hidden");
+    document.getElementById(`propertyInputForm${type}${index}${giftId}`).classList.add("hidden");
+    document.getElementById(`collectionInputForm${type}${index}${giftId}`).classList.add("hidden");
+    document.getElementById(`itemInputForm${type}${index}${giftId}`).classList.add("hidden");
+
+    if (giftType === 'cash') {
+        document.getElementById(`cashInputForm${type}${index}${giftId}`).classList.remove("hidden");
+    } else if (giftType === 'property') {
+        document.getElementById(`propertyInputForm${type}${index}${giftId}`).classList.remove("hidden");
+    } else if (giftType === 'collection') {
+        document.getElementById(`collectionInputForm${type}${index}${giftId}`).classList.remove("hidden");
+    } else if (giftType === 'item') {
+        document.getElementById(`itemInputForm${type}${index}${giftId}`).classList.remove("hidden");
+    }
+}
+
+// Function to reset the selection back to the main options
+function resetSelection(index, giftId, type) {
+    document.getElementById(`giftSelectionCard${type}${index}${giftId}`).classList.remove("hidden");
+    document.getElementById(`cashInputForm${type}${index}${giftId}`).classList.add("hidden");
+    document.getElementById(`propertyInputForm${type}${index}${giftId}`).classList.add("hidden");
+    document.getElementById(`collectionInputForm${type}${index}${giftId}`).classList.add("hidden");
+    document.getElementById(`itemInputForm${type}${index}${giftId}`).classList.add("hidden");
+}
+
+// Function to remove a specific beneficiary or charity, including all its gifts
+function removeEntity(index, type) {
+    const entityDiv = document.getElementById(`giftDetails${capitalizeFirstLetter(type)}${index}`);
+    if (entityDiv) {
+        entityDiv.innerHTML = ''; // Clear all dynamic gift details for that entity
+        entityDiv.remove(); // Remove the entire beneficiary or charity div
+    }
+}
+
 
 // STEP 7 - RESIDUAL ESTATE
 function populateResidualEstateDivisionList() {
@@ -419,25 +563,18 @@ function populateResidualEstateDivisionList() {
   // Add inputs for beneficiaries
   beneficiaries.forEach((beneficiary, index) => {
       const div = document.createElement("div")
-      div.classList.add("form-group", "bubble-container", "mt-3")
+      div.classList.add("residual-item-container")
       div.innerHTML = `
-    <div class="d-flex align-items-center">
-      <!-- Avatar Placeholder (kept as you like it) -->
-      <div class="col-3 col-md-2 text-center">
-          <div class="avatar-placeholder">
-              <i class="lni lni-user" style="color: #28a745; font-size: 24px;"></i> <!-- Green user icon -->
-          </div>
+    <div class="residual-item">
+        <div class="icon-container">
+          <i class="lni lni-user" style="color: #28a745; font-size: 24px;"></i>
+        </div>
+        <span class="beneficiary-name">${beneficiary.value}</span>
+        <div class="input-group">
+          <input type="number" class="form-control residual-input" id="beneficiaryPercentage${index}" name="beneficiaryPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
+          <span class="percent-sign">%</span>
+        </div>
       </div>
-      
-      <!-- Label and Input for Beneficiary (aligned to the left) -->
-      <div class="col-9 col-md-10 d-flex align-items-center">
-          <label for="beneficiaryPercentage${index}" class="font-weight-bold mr-2">${beneficiary.value}:</label>
-          <div class="input-with-percent-wrapper">
-              <input type="number" class="form-control input-with-percent" name="charityPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
-              <span class="percent-sign">%</span>
-          </div>
-      </div>
-  </div>
       `
       divisionList.appendChild(div)
   })
@@ -445,21 +582,19 @@ function populateResidualEstateDivisionList() {
   // Add inputs for charities
   charities.forEach((charity, index) => {
       const div = document.createElement("div")
-      div.classList.add("form-group", "bubble-container", "mt-3")
+      div.classList.add("residual-item-container")
       div.innerHTML = `
-      <div class="d-flex align-items-center">
-      <div class="col-3 col-md-2 text-center">
-          <div class="avatar-placeholder">
-            <i class="lni lni-world" style="color: #28a745; font-size: 24px; margin-right: 10px;"></i> <!-- Green user icon -->
-            </div>
-            </div>
-        <label for="charityPercentage${index}">${charity.value}:</label>
-            <input type="number" class="form-control" name="charityPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
-            <div class="modern-input-group">
-                <span class="currency-symbol">%</span>
-            </div>
+      <div class="residual-item">
+        <div class="icon-container">
+          <i class="lni lni-world" style="color: #28a745; font-size: 24px;"></i>
         </div>
-      </div>`
+        <span class="charity-name">${charity.value}</span>
+        <div class="input-group">
+          <input type="number" class="form-control residual-input" id="charityPercentage${index}" name="charityPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
+          <span class="percent-sign">%</span>
+        </div>
+      </div>
+      `
       divisionList.appendChild(div)
   })
 }
@@ -522,7 +657,7 @@ function populateContingencyList() {
           const contingencyDiv = document.createElement("div")
           contingencyDiv.innerHTML = `
                 <h4>${beneficiary.value}</h4>
-                <label>What should happen to ${beneficiary.value}'s share if they pass away before you?</label><br>
+                <label>What should happen to ${beneficiary.value}'s share if they pass away before you?</label><br><br>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" id="contingencyChildren${index}" name="contingency${index}" value="children">
                     <label for="contingencyChildren${index}" class="form-check-label">Children</label>
@@ -565,6 +700,9 @@ function populateContingencyList() {
                             <option value="Partner">Partner</option>
                             <option value="Mother">Mother</option>
                             <option value="Father">Father</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Cousin">Cousin</option>
                             <option value="Daughter">Daughter</option>
                             <option value="Son">Son</option>
                             <option value="Grandson">Grandson</option>
@@ -587,7 +725,7 @@ function populateContingencyList() {
             </div>
              <!-- Optional Remove button for specific person entry -->
             <div class="col-1 text-right">
-                <button class="btn btn-danger btn-sm" onclick="removeSpecificPerson(${index})">
+                <button class="btn-danger btn-sm" onclick="removeSpecificPerson(${index})">
                     <i class="lni lni-trash-can"></i>
                 </button>
             </div>
@@ -684,16 +822,25 @@ function generateExecutorCard(idx) {
                   </div>
                   <div class="col-12 col-md-6 mb-2">
                       <select name="executorRelationship${idx}" class="form-control mt-2">
-                          <option value="Select">Relationship</option>
-                          <option value="Spouse">Spouse</option>
-                          <option value="Civil partner">Civil partner</option>
-                          <option value="Partner">Partner</option>
-                          <option value="Mother">Mother</option>
-                          <option value="Father">Father</option>
-                          <option value="Daughter">Daughter</option>
-                          <option value="Son">Son</option>
-                          <option value="Friend">Friend</option>
-                          <option value="Other">Other</option>
+                          <option value="Select">Relationship to you</option>
+                            <option value="Spouse">Spouse</option>
+                            <option value="Civil partner">Civil partner</option>
+                            <option value="Partner">Partner</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Father">Father</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Cousin">Cousin</option>
+                            <option value="Daughter">Daughter</option>
+                            <option value="Son">Son</option>
+                            <option value="Grandson">Grandson</option>
+                            <option value="Granddaughter">Granddaughter</option>
+                            <option value="Great grandson">Great grandson</option>
+                            <option value="Great granddaughter">Great granddaughter</option>
+                            <option value="Niece">Niece</option>
+                            <option value="Nephew">Nephew</option>
+                            <option value="Friend">Friend</option>
+                            <option value="Other">Other</option>
                       </select><br>
                   </div>
               </div>
@@ -704,7 +851,7 @@ function generateExecutorCard(idx) {
               </div>
           </div>
           <div class="col-1 text-right">
-              <button type="button" class="btn btn-danger btn-sm" onclick="removeExecutor(${idx})">
+              <button type="button" class="btn-danger btn-sm" onclick="removeExecutor(${idx})">
                   <i class="lni lni-trash-can"></i>
               </button>
           </div>
@@ -815,65 +962,73 @@ function hideGuardianFields() {
 let guardianCount = 0
 
 function addGuardian() {
-  const guardianDiv = document.createElement("div")
-  guardianDiv.id = `guardian${guardianCount}`
-  guardianDiv.classList.add("guardian-card", "mt-3", "p-3", "shadow-sm")
-
-  guardianDiv.innerHTML = `
-    <div class="row align-items-center">
-        <!-- Avatar Icon for Guardian -->
-        <div class="col-3 col-md-2 text-center">
-            <div class="avatar-placeholder">
-                <i class="lni lni-users"></i>
-            </div>
-        </div>
-                  <!-- Guardian Input Fields -->
- <div class="col-8 col-md-9">
-            <div class="row">
-                <div class="col-12 col-md-6 mb-2">
-        <label for="guardianFullName${guardianCount}" class="form-label"</label>
-        <input type="text" name="guardianFullName${guardianCount}" placeholder="Enter full name" class="form-control"><br>
-        </div>
-<div class="col-12 col-md-6 mb-2">
-        <label for="guardianRelationship${guardianCount}" class="form-label"></label>
-        <select name="guardianRelationship${guardianCount}" class="form-select">
-              <option value="Select">Relationship</option>
-              <option value="Spouse">Spouse</option>
-              <option value="Civil partner">Civil partner</option>
-              <option value="Partner">Partner</option>
-              <option value="Mother">Mother</option>
-              <option value="Father">Father</option>
-              <option value="Daughter">Daughter</option>
-              <option value="Son">Son</option>
-              <option value="Grandson">Grandson</option>
-              <option value="Granddaughter">Granddaughter</option>
-              <option value="Great grandson">Great grandson</option>
-              <option value="Great granddaughter">Great granddaughter</option>
-              <option value="Niece">Niece</option>
-              <option value="Nephew">Nephew</option>
-              <option value="Friend">Friend</option>
-              <option value="Other">Other</option>
-        </select><br>
-</div>
-            </div>
-            <div class="row">
-                <div class="col-12 mb-2">
-        <label for="guardianAddress${guardianCount}" class="form-label"></label>
-        <input type="text" name="guardianAddress${guardianCount}" placeholder="Enter address or city" class="form-control"><br>
-</div>
-            </div>
-        </div>
-         <div class="col-1 text-right">
-        <button type="button" class="btn btn-danger btn-sm" onclick="removeGuardian(${guardianCount})">
-        <i class="lni lni-trash-can"></i>
-        </button>
-         </div>
-    </div>
-    `
-
-  document.getElementById("guardianList").appendChild(guardianDiv)
-  guardianCount++
-}
+    const guardianDiv = document.createElement("div");
+    guardianDiv.id = `guardian${guardianCount}`;
+    guardianDiv.classList.add("beneficiary-card", "p-3", "shadow-sm");
+  
+    guardianDiv.innerHTML = `
+       <div class="row align-items-center">
+          <!-- Avatar Icon for Guardian -->
+          <div class="col-3 col-md-2 text-center">
+              <div class="avatar-placeholder">
+                  <i class="lni lni-users"></i>
+              </div>
+          </div>
+  
+          <!-- Guardian Input Fields -->
+          <div class="col-8 col-md-9">
+              <div class="row">
+                  <div class="col-12 col-md-6 mb-2">
+                      <label for="guardianFullName${guardianCount}" class="form-label"></label>
+                      <input type="text" class="form-control" name="guardianFullName${guardianCount}" id="guardianFullName${guardianCount}" placeholder="Enter full name">
+                  </div>
+                  <div class="col-12 col-md-6 mb-2">
+                      <label for="guardianRelationship${guardianCount}" class="form-label"></label>
+                      <select name="guardianRelationship${guardianCount}" id="guardianRelationship${guardianCount}" class="form-control">
+                          <option value="Select">Relationship to you</option>
+                            <option value="Spouse">Spouse</option>
+                            <option value="Civil partner">Civil partner</option>
+                            <option value="Partner">Partner</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Father">Father</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Cousin">Cousin</option>
+                            <option value="Daughter">Daughter</option>
+                            <option value="Son">Son</option>
+                            <option value="Grandson">Grandson</option>
+                            <option value="Granddaughter">Granddaughter</option>
+                            <option value="Great grandson">Great grandson</option>
+                            <option value="Great granddaughter">Great granddaughter</option>
+                            <option value="Niece">Niece</option>
+                            <option value="Nephew">Nephew</option>
+                            <option value="Friend">Friend</option>
+                            <option value="Other">Other</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12 mb-2">
+                      <label for="guardianAddress${guardianCount}" class="form-label"></label>
+                      <input type="text" class="form-control" name="guardianAddress${guardianCount}" id="guardianAddress${guardianCount}" placeholder="Enter address or city">
+                  </div>
+              </div>
+          </div>
+  
+          <!-- Remove Guardian Button -->
+          <div class="col-1 text-right">
+              <button type="button" class="btn-danger btn-sm" onclick="removeGuardian(${guardianCount})">
+                  <i class="lni lni-trash-can"></i>
+              </button>
+          </div>
+       </div>
+    `;
+  
+    // Append the guardianDiv to the guardianList div in the HTML
+    document.getElementById("guardianList").appendChild(guardianDiv);
+    guardianCount++; // Increment the guardian count for unique IDs
+  }
+  
 
 // Remove guardian
 function removeGuardian(id) {
@@ -951,7 +1106,7 @@ function populateReviewPage() {
 
   // Step 5 & Step 6: Beneficiaries and Gifts (Include specific gifts for beneficiaries and charities)
   // Clear previous review content
-  document.getElementById("reviewGifts").innerHTML = ""
+document.getElementById("reviewGifts").innerHTML = ""
 
   let giftsReview = "<h3>Beneficiaries</h3>"
   const beneficiaries = document.querySelectorAll(
@@ -990,8 +1145,9 @@ function populateReviewPage() {
       }
       giftsReview += "<br>" // Add space between charities
   })
-
-  document.getElementById("reviewGifts").innerHTML = giftsReview
+  
+  document.getElementById("reviewGifts").innerHTML = giftsReview;
+  
 
   // Step 7: Residuary Estate
   const totalPercentage =
@@ -1046,11 +1202,11 @@ function populateReviewPage() {
                       ?.value || "Not provided"
 
                   // Add each executor's details to the review text
-                  executorsReview += `Name: ${additionalExecutorName}, Relationship: ${additionalExecutorRelationship}, Address: ${additionalExecutorAddress}<br>`
+                  executorsReview += `${additionalExecutorName}, Relationship: ${additionalExecutorRelationship}, Address: ${additionalExecutorAddress}<br>`
               })
           } else {
               // If it's a standard executor, just add the value
-              executorsReview += `Name: ${executor.value}<br>`
+              executorsReview += `${executor.value}<br>`
           }
       })
 
@@ -1062,7 +1218,7 @@ function populateReviewPage() {
       document.querySelector('input[name="hasChildren"]:checked')?.value ||
       "Not provided"
   let childrenInfo =
-      hasChildren === "yes" ? "Children under 18: Yes" : "No children under 18."
+      hasChildren === "yes" ? "Children Under 18: Yes" : "No children under 18."
   if (hasChildren === "yes") {
       const childrenManagement =
           document.querySelector('input[name="manageInheritance"]:checked')
@@ -1072,7 +1228,7 @@ function populateReviewPage() {
           'input[name^="guardianFullName"]',
       )
       if (guardians.length > 0) {
-          childrenInfo += `<br><strong>Guardians:</strong><br>`
+          childrenInfo += `Guardians:`
           guardians.forEach((guardian, index) => {
               const guardianName = guardian?.value || "Not provided"
               const guardianRelationship =
@@ -1133,7 +1289,7 @@ function populateReviewPage() {
       document.querySelector('input[name="funeralPlan"]:checked')?.value ||
       "Not provided"
   document.getElementById("reviewFuneral").innerHTML = `
-      <strong>Funeral Plan:</strong> ${funeralPlan}
+      ${funeralPlan}
   `
 
   // Step 14: Delivery Method
@@ -1141,61 +1297,44 @@ function populateReviewPage() {
       document.querySelector('input[name="deliveryMethod"]:checked')?.value ||
       "Not provided"
   document.getElementById("reviewDelivery").innerHTML = `
-      <strong>Delivery Method:</strong> ${deliveryMethod}
+      ${deliveryMethod}
 `
 }
 
 function getGiftDetailsForRecipient(index, type) {
-  const giftDivs = document.querySelectorAll(
-      `#giftDetails${capitalizeFirstLetter(type)}${index} > div`,
-  )
-  let giftDetails = []
+    const gifts = [];
+    const giftDivPrefix = `giftDiv${type}${index}`;
 
-  giftDivs.forEach((giftDiv, giftIndex) => {
-      const giftType =
-          document.querySelector(
-              `input[name="giftType${type}${index}${giftIndex}"]:checked`,
-          )?.value || "Not specified"
-      let giftInfo = ""
+    // Loop through each gift ID counter for the specific type and index
+    for (let giftId = 0; giftId < giftCounters[type][index]; giftId++) {
+        const giftDiv = document.getElementById(`${giftDivPrefix}${giftId}`);
+        if (!giftDiv) continue; // Skip if the giftDiv does not exist
 
-      // Handling different types of gifts
-      if (giftType === "cash") {
-          const cashAmount =
-              document.getElementById(`cashAmount${type}${index}${giftIndex}`)
-              ?.value || "Not provided"
-          giftInfo = `Money: £${cashAmount}`
-      } else if (giftType === "property") {
-          const propertyAddress =
-              document.getElementById(`propertyAddress${type}${index}${giftIndex}`)
-              ?.value || "Not provided"
-          const propertyPercentage =
-              document.getElementById(`propertyPercentage${type}${index}${giftIndex}`)
-              ?.value || "Not provided"
-          giftInfo = `Property: ${propertyAddress}, ${propertyPercentage}% of the property`
-      } else if (giftType === "collection") {
-          const collectionDescription =
-              document.getElementById(
-                  `collectionDescription${type}${index}${giftIndex}`,
-              )?.value || "Not provided"
-          giftInfo = `Collection of items: ${collectionDescription}`
-      } else if (giftType === "item") {
-          const itemDescription =
-              document.getElementById(`itemDescription${type}${index}${giftIndex}`)
-              ?.value || "Not provided"
-          giftInfo = `Item: ${itemDescription}`
-      }
+        let giftInfo = "";
 
-      // Push the gift info to the array if it's valid
-      if (giftInfo) {
-          giftDetails.push({
-              giftType,
-              giftInfo,
-          })
-      }
-  })
+        // Check for each type and retrieve the visible form’s value
+        if (!giftDiv.querySelector(`#cashInputForm${type}${index}${giftId}`).classList.contains("hidden")) {
+            const cashAmount = document.getElementById(`cashAmount${type}${index}${giftId}`).value;
+            giftInfo = `Cash - £${cashAmount}`;
+        } else if (!giftDiv.querySelector(`#propertyInputForm${type}${index}${giftId}`).classList.contains("hidden")) {
+            const propertyAddress = document.getElementById(`propertyAddress${type}${index}${giftId}`).value;
+            const propertyPercentage = document.getElementById(`propertyPercentage${type}${index}${giftId}`).value;
+            giftInfo = `Property - Address: ${propertyAddress}, Percentage: ${propertyPercentage}%`;
+        } else if (!giftDiv.querySelector(`#collectionInputForm${type}${index}${giftId}`).classList.contains("hidden")) {
+            const collectionDescription = document.getElementById(`collectionDescription${type}${index}${giftId}`).value;
+            giftInfo = `Collection - ${collectionDescription}`;
+        } else if (!giftDiv.querySelector(`#itemInputForm${type}${index}${giftId}`).classList.contains("hidden")) {
+            const itemDescription = document.getElementById(`itemDescription${type}${index}${giftId}`).value;
+            giftInfo = `Item - ${itemDescription}`;
+        }
 
-  return giftDetails.length > 0 ? giftDetails : []
+        if (giftInfo) {
+            gifts.push({ giftInfo });
+        }
+    }
+    return gifts;
 }
+
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
@@ -1232,29 +1371,9 @@ function updateDeliveryOptionsWithDates() {
   )
 
   // Update each radio button label with the formatted date
-  document.getElementById("labelDigitalDownload").innerText =
-      `Digital Download - ${digitalDownloadFormatted}`
-  document.getElementById("label1stClassPost").innerText =
-      `1st Class Post - ${firstClassPostFormatted}`
-  document.getElementById("labelPriorityReview").innerText =
-      `Priority Review & Post - ${priorityReviewFormatted}`
-}
-
-// Function to add working days (ignoring weekends)
-function addWorkingDays(startDate, days) {
-  let currentDate = new Date(startDate)
-  let addedDays = 0
-
-  // Loop until we've added the specified number of working days
-  while (addedDays < days) {
-      currentDate.setDate(currentDate.getDate() + 1)
-      // If it's a weekday, increment the counter
-      if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
-          // 0 = Sunday, 6 = Saturday
-          addedDays++
-      }
-  }
-  return currentDate
+  document.getElementById("dateDigitalDownload").innerText = `by ${digitalDownloadFormatted}`;
+  document.getElementById("date1stClassPost").innerText = `by ${firstClassPostFormatted}`;
+  document.getElementById("datePriorityReview").innerText = `by ${priorityReviewFormatted}`;
 }
 
 function populateDeliveryDate() {
@@ -1329,15 +1448,12 @@ function addWorkingDays(startDate, days) {
   return currentDate
 }
 
-// Call this function when the review page (Step 15) is shown
-function showStep15() {
-  populateDeliveryDate() // Populate the delivery date in Step 15
-}
 
 function submitWill() {
   // Collect all the data and submit it, possibly using Firebase as demonstrated in your previous code.
   alert("Your will has been submitted successfully!")
 }
+
 
 
 

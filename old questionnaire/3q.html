@@ -9,7 +9,6 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="questionnaire.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.lineicons.com/3.0/lineicons.css">
-    <script src="https://js.stripe.com/v3/"></script>
 
 
     <style>
@@ -67,91 +66,77 @@
 
                 // Beneficiaries data collection
                 document.querySelectorAll('input[name="beneficiaryName"]').forEach((beneficiary, index) => {
-    const name = beneficiary?.value || '';
-    const relationship = document.getElementById(`beneficiaryRelationship${index}`)?.value || '';
-    const address = document.getElementById(`beneficiaryAddress${index}`)?.value || '';
+                    const name = beneficiary?.value || '';
+                    const relationship = document.getElementById(`beneficiaryRelationship${index}`)?.value || '';
+                    const address = document.getElementById(`beneficiaryAddress${index}`)?.value || '';
 
-    const beneficiaryGifts = [];
-    document.querySelectorAll(`#giftDetailsBeneficiary${index} > div`).forEach((giftDiv, giftIndex) => {
-        const giftType = document.querySelector(`input[name="giftTypebeneficiary${index}${giftIndex}"]:checked`)?.value || '';
-        let giftDetails = '';
+                    const beneficiaryGifts = [];
+                    document.querySelectorAll(`#giftDetailsBeneficiary${index} > div`).forEach((giftDiv, giftIndex) => {
+                        const giftType = document.querySelector(`input[name="giftTypebeneficiary${index}${giftIndex}"]:checked`)?.value || '';
+                        let giftDetails = '';
 
-        if (giftType === 'cash') {
-            giftDetails = document.getElementById(`cashAmountbeneficiary${index}${giftIndex}`)?.value || '';
-        } else if (giftType === 'property') {
-            const propertyAddress = document.getElementById(`propertyAddressbeneficiary${index}${giftIndex}`)?.value || '';
-            const propertyPercentage = document.getElementById(`propertyPercentagebeneficiary${index}${giftIndex}`)?.value || '';
-            giftDetails = `${propertyAddress} (Percentage: ${propertyPercentage}%)`;
-        } else if (giftType === 'collection') {
-            giftDetails = document.getElementById(`collectionDescriptionbeneficiary${index}${giftIndex}`)?.value || '';
-        } else if (giftType === 'item') {
-            giftDetails = document.getElementById(`itemDescriptionbeneficiary${index}${giftIndex}`)?.value || '';
-        }
+                        if (giftType === 'cash') {
+                            giftDetails = document.getElementById(`cashAmountbeneficiary${index}${giftIndex}`)?.value || '';
+                        } else if (giftType === 'property') {
+                            const propertyAddress = document.getElementById(`propertyAddressbeneficiary${index}${giftIndex}`)?.value || '';
+                            const propertyPercentage = document.getElementById(`propertyPercentagebeneficiary${index}${giftIndex}`)?.value || '';
+                            giftDetails = `${propertyAddress} (Percentage: ${propertyPercentage}%)`;
+                        } else if (giftType === 'collection') {
+                            giftDetails = document.getElementById(`collectionDescriptionbeneficiary${index}${giftIndex}`)?.value || '';
+                        } else if (giftType === 'item') {
+                            giftDetails = document.getElementById(`itemDescriptionbeneficiary${index}${giftIndex}`)?.value || '';
+                        }
 
-        if (giftType && giftDetails) {
-            beneficiaryGifts.push({
-                giftType,
-                giftDetails
-            });
-        }
+                        beneficiaryGifts.push({
+                            giftType,
+                            giftDetails
+                        });
+                    });
 
-        // Log the collected gift details for debugging
-        console.log(`Beneficiary ${index} Gift ${giftIndex}:`, { giftType, giftDetails });
-    });
-
-    if (name || relationship || address) {
-        gifts.push({
-            type: 'beneficiary',
-            name,
-            relationship,
-            address,
-            beneficiaryGifts
-        });
-    }
-});
+                    gifts.push({
+                        type: 'beneficiary',
+                        name,
+                        relationship,
+                        address,
+                        beneficiaryGifts
+                    });
+                });
 
                 // Collect gifts for charities
                 document.querySelectorAll('input[name="charityName"]').forEach((charity, index) => {
-    const name = charity?.value || '';
-    const address = document.getElementById(`charityAddress${index}`)?.value || '';
+                    const name = charity?.value || '';
+                    const address = document.getElementById(`charityAddress${index}`)?.value || '';
 
-    const charityGifts = [];
-    document.querySelectorAll(`#giftDetailsCharity${index} > div`).forEach((giftDiv, giftIndex) => {
-        const giftType = document.querySelector(`input[name="giftTypecharity${index}${giftIndex}"]:checked`)?.value || '';
-        let giftDetails = '';
+                    const charityGifts = [];
+                    document.querySelectorAll(`#giftDetailsCharity${index} > div`).forEach((giftDiv, giftIndex) => {
+                        const giftType = document.querySelector(`input[name="giftTypecharity${index}${giftIndex}"]:checked`)?.value || '';
+                        let giftDetails = '';
 
-        if (giftType === 'cash') {
-            giftDetails = document.getElementById(`cashAmountcharity${index}${giftIndex}`)?.value || '';
-        } else if (giftType === 'property') {
-            const propertyAddress = document.getElementById(`propertyAddresscharity${index}${giftIndex}`)?.value || '';
-            const propertyPercentage = document.getElementById(`propertyPercentagecharity${index}${giftIndex}`)?.value || '';
-            giftDetails = `${propertyAddress} (Percentage: ${propertyPercentage}%)`;
-        } else if (giftType === 'collection') {
-            giftDetails = document.getElementById(`collectionDescriptioncharity${index}${giftIndex}`)?.value || '';
-        } else if (giftType === 'item') {
-            giftDetails = document.getElementById(`itemDescriptioncharity${index}${giftIndex}`)?.value || '';
-        }
+                        if (giftType === 'cash') {
+                            giftDetails = document.getElementById(`cashAmountcharity${index}${giftIndex}`)?.value || '';
+                        } else if (giftType === 'property') {
+                            const propertyAddress = document.getElementById(`propertyAddresscharity${index}${giftIndex}`)?.value || '';
+                            const propertyPercentage = document.getElementById(`propertyPercentagecharity${index}${giftIndex}`)?.value || '';
+                            giftDetails = `${propertyAddress} (Percentage: ${propertyPercentage}%)`;
+                        } else if (giftType === 'collection') {
+                            giftDetails = document.getElementById(`collectionDescriptioncharity${index}${giftIndex}`)?.value || '';
+                        } else if (giftType === 'item') {
+                            giftDetails = document.getElementById(`itemDescriptioncharity${index}${giftIndex}`)?.value || '';
+                        }
 
-        if (giftType && giftDetails) {
-            charityGifts.push({
-                giftType,
-                giftDetails
-            });
-        }
+                        charityGifts.push({
+                            giftType,
+                            giftDetails
+                        });
+                    });
 
-        // Log the collected gift details for debugging
-        console.log(`Charity ${index} Gift ${giftIndex}:`, { giftType, giftDetails });
-    });
-
-    if (name || address) {
-        gifts.push({
-            type: 'charity',
-            name,
-            address,
-            charityGifts
-        });
-    }
-});
+                    gifts.push({
+                        type: 'charity',
+                        name,
+                        address,
+                        charityGifts
+                    });
+                });
 
                 // Residual Estate
                 const residualEstate = [];
@@ -170,55 +155,35 @@
 
                 // Contingency Planning
                 const contingencies = [];
-document.querySelectorAll('input[name="beneficiaryName"]').forEach((beneficiary, index) => {
-    const plan = document.querySelector(`input[name="contingency${index}"]:checked`)?.value || '';
-    let specificPersonDetails = {};
-
-    if (plan === 'specific') {
-        const specificName = document.querySelector(`input[name="specificFullName${index}"]`)?.value || '';
-        const specificRelationship = document.querySelector(`select[name="specificRelationship${index}"]`)?.value || '';
-        const specificAddress = document.querySelector(`input[name="specificAddress${index}"]`)?.value || '';
-
-        if (specificName && specificRelationship && specificAddress) {
-            specificPersonDetails = {
-                name: specificName,
-                relationship: specificRelationship,
-                address: specificAddress
-            };
-        }
-    }
-
-    contingencies.push({
-        beneficiary: beneficiary?.value || '',
-        plan,
-        specificPerson: plan === 'specific' ? specificPersonDetails : null
-    });
-});
-
+                document.querySelectorAll('input[name="beneficiaryName"]').forEach((beneficiary, index) => {
+                    contingencies.push({
+                        beneficiary: beneficiary?.value || '',
+                        plan: document.querySelector(`input[name="contingency${index}"]:checked`)?.value || ''
+                    });
+                });
 
                 // Executors
                 const executors = [];
-document.querySelectorAll('input[name="executor"]:checked').forEach((executor, idx) => {
-    if (executor.value === 'someoneElse') {
-        const executorName = document.querySelector(`input[name="executorFullName${idx}"]`)?.value || '';
-        const executorRelationship = document.querySelector(`select[name="executorRelationship${idx}"]`)?.value || '';
-        const executorAddress = document.querySelector(`input[name="executorAddress${idx}"]`)?.value || '';
+                document.querySelectorAll('input[name="executor"]:checked').forEach((executor) => {
+                    if (executor.value === 'someoneElse') {
+                        const executorName = document.querySelector('input[name="executorFullName"]')?.value || '';
+                        const executorRelationship = document.querySelector('select[name="executorRelationship"]')?.value || '';
+                        const executorAddress = document.querySelector('input[name="executorAddress"]')?.value || '';
 
-        if (executorName && executorRelationship && executorAddress) {
-            executors.push({
-                type: 'someoneElse',
-                name: executorName,
-                relationship: executorRelationship,
-                address: executorAddress
-            });
-        }
-    } else {
-        executors.push({
-            type: executor.value
-        });
-    }
-});
-
+                        if (executorName && executorRelationship && executorAddress) {
+                            executors.push({
+                                type: 'someoneElse',
+                                name: executorName,
+                                relationship: executorRelationship,
+                                address: executorAddress
+                            });
+                        }
+                    } else {
+                        executors.push({
+                            type: executor.value
+                        });
+                    }
+                });
 
                 // Children and Guardianship
                 const childrenAndGuardianship = {
@@ -305,31 +270,8 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
         const form = document.querySelector('.submit-will-form');
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            handleWillRedirect();
             submitWillData();
         });
-    </script>
-    
-
-<script>import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
-
-    // Function to get the download URL of a specific file in Firebase Storage
-    function getFileDownloadURL(filePath) {
-        const storage = getStorage(); // Get Storage instance
-        const fileRef = ref(storage, filePath); // Create reference to the file
-    
-        getDownloadURL(fileRef)
-            .then((url) => {
-                console.log('Download URL:', url);
-                // Optional: You can use the URL to download or display the file
-            })
-            .catch((error) => {
-                console.error('Error fetching download URL:', error);
-            });
-    }
-    
-    // Example usage: Call the function with the path to your file
-    getFileDownloadURL('files/file.pdf');
     </script>
 
 <script>import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
@@ -371,7 +313,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
         <div id="step1" class="container mt-5">
             <h2>General Information</h2>
             <div class="form-group">
-                <h5>Where do you live?</h5><br>
+                <h5>Where do you live?</h5>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="location" value="England" id="locationEngland">
                     <label class="form-check-label" for="locationEngland">England</label>
@@ -391,7 +333,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
             </div>
 
             <div class="form-group">
-                <h5>What is your relationship status?</h5><br>
+                <h5>What is your relationship status?</h5>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="relationship" value="Single" id="relationshipSingle">
                     <label class="form-check-label" for="relationshipSingle">Single</label>
@@ -420,9 +362,9 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
     <!-- Step 2: Who Needs a Will -->
     <div id="step2" class="hidden container mt-5">
-        <h5>Who needs a will?</h5><br>
+        <h5>Who needs a will?</h5>
         <div id="willOptions" class="form-group"></div>
-        
+        <br>
         <div class="d-flex justify-content-between">
             <button class="btn btn-secondary" onclick="goToStep1()">Previous</button>
             <button class="btn btn-primary" onclick="goToStep3()">Next</button>
@@ -482,7 +424,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
         <!-- Question: Do you have any foreign assets? -->
         <div class="form-group">
-            <h5>Do you have any foreign assets?</h5><br>
+            <h5>Do you have any foreign assets?</h5>
             <div class="form-check">
                 <input class="form-check-input" type="radio" id="foreignAssetsYes" name="foreignAssets" value="yes" onclick="showForeignAssetQuestion()">
                 <label class="form-check-label" for="foreignAssetsYes">Yes</label>
@@ -495,7 +437,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
         <!-- Include Foreign Assets -->
         <div id="foreignAssetInclude" class="form-group hidden">
-            <h5>Do you want to include your foreign assets in this will?</h5><br>
+            <h5>Do you want to include your foreign assets in this will?</h5>
             <div class="form-check">
                 <input class="form-check-input" type="radio" id="includeForeignAssetsYes" name="includeForeignAssets" value="yes">
                 <label class="form-check-label" for="includeForeignAssetsYes">Yes</label>
@@ -539,113 +481,37 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
         </div>
     </div>
 
-        <!-- Step 6: Specific Gifts or Donations -->
-        <div id="step6" class="hidden container mt-5">
-            <h5>Do You Want to Leave Specific Gifts or Donations?</h5>
-    
-            <!-- Gift Recipient List (Dynamically Populated by JS) -->
-            <div id="giftRecipientList">
-                <!-- Example for Beneficiary 1 -->
-                <div id="beneficiary1" class="beneficiary-info">
-                    <label for="beneficiaryName1">Name:</label>
-                    <input type="text" id="beneficiaryName1" name="beneficiaryName1" placeholder="Enter Beneficiary Name">
-        
-                    <label for="beneficiaryRelationship1">Relationship:</label>
-                    <input type="text" id="beneficiaryRelationship1" name="beneficiaryRelationship1" placeholder="Enter Relationship">
-        
-                    <!-- Gift Selection Card (Initial Options) -->
-                    <div id="giftSelectionCard1" class="gift-selection-card">
-                        <div class="gift-icon">
-                            <i class="lni lni-box-gift-2"></i>
-                        </div>
-        
-                        <div class="gift-options">
-                            <button class="gift-option" onclick="showGiftDetails(1, 'cash')">Cash</button>
-                            <button class="gift-option" onclick="showGiftDetails(1, 'property')">Property</button>
-                            <button class="gift-option" onclick="showGiftDetails(1, 'collection')">Collection of items</button>
-                            <button class="gift-option" onclick="showGiftDetails(1, 'item')">Item</button>
-                        </div>
-        
-                        <div class="delete-icon" onclick="removeGiftSelection(1)">
-                            <i class="fas fa-trash-alt"></i>
-                        </div>
-                    </div>
-        
-                    <!-- Cash Input Form (Initially Hidden) -->
-                    <div id="cashInputForm1" class="gift-input-form hidden">
-                        <div class="gift-icon">
-                            <i class="fas fa-money-bill-wave"></i>
-                        </div>
-                        <div class="gift-input-field">
-                            <label for="cashAmount1">Cash Amount:</label>
-                            <input type="number" id="cashAmount1" name="cashAmount1" placeholder="Enter amount">
-                            <p class="example-text">e.g. £500</p>
-                        </div>
-                        <div class="delete-icon" onclick="resetSelection(1)">
-                            <i class="fas fa-trash-alt"></i>
-                        </div>
-                    </div>
-        
-                    <!-- Property Input Form (Initially Hidden) -->
-                    <div id="propertyInputForm1" class="gift-input-form hidden">
-                        <div class="gift-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <div class="gift-input-field">
-                            <label for="propertyAddress1">My property located at</label>
-                            <input type="text" id="propertyAddress1" name="propertyAddress1" placeholder="Enter address">
-                            <p class="example-text">e.g. 12 Bridge Road W12 N34, London</p>
-                        </div>
-                        <div class="gift-input-field">
-                            <label for="propertyPercentage1">Percentage of the property</label>
-                            <input type="number" id="propertyPercentage1" name="propertyPercentage1" placeholder="Enter percentage">
-                            <p class="example-text">e.g. to split this property between two beneficiaries you can gift 50% each</p>
-                        </div>
-                        <div class="delete-icon" onclick="resetSelection(1)">
-                            <i class="fas fa-trash-alt"></i>
-                        </div>
-                    </div>
-        
-                    <!-- Collection of Items Input Form (Initially Hidden) -->
-                    <div id="collectionInputForm1" class="gift-input-form hidden">
-                        <div class="gift-icon">
-                            <i class="lni lni-box-gift-2"></i>
-                        </div>
-                        <div class="gift-input-field">
-                            <label for="collectionDescription1">All of my</label>
-                            <input type="text" id="collectionDescription1" name="collectionDescription1" placeholder="Enter collection description">
-                            <p class="example-text">e.g. all of my jewels</p>
-                        </div>
-                        <div class="delete-icon" onclick="resetSelection(1)">
-                            <i class="fas fa-trash-alt"></i>
-                        </div>
-                    </div>
-        
-                    <!-- Item Input Form (Initially Hidden) -->
-                    <div id="itemInputForm1" class="gift-input-form hidden">
-                        <div class="gift-icon">
-                            <i class="lni lni-box-gift-2"></i>
-                        </div>
-                        <div class="gift-input-field">
-                            <label for="itemDescription1">My</label>
-                            <input type="text" id="itemDescription1" name="itemDescription1" placeholder="Enter item description">
-                            <p class="example-text">e.g. my Volvo car registered WXX0000, my green necklace, etc.</p>
-                        </div>
-                        <div class="delete-icon" onclick="resetSelection(1)">
-                            <i class="fas fa-trash-alt"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"><br>
-    
-            <!-- Navigation Buttons -->
-            <div class="d-flex justify-content-between">
-                <button class="btn btn-secondary" onclick="goToStep5()">Previous</button>
-                <button class="btn btn-primary" onclick="goToStep7()">Next</button>
+    <!-- Step 6: Specific Gifts or Donations -->
+    <div id="step6" class="hidden container mt-5">
+        <h5>Do You Want to Leave Specific Gifts or Donations?</h5>
+
+        <!-- Gift Recipient List (Dynamically Populated by JS) -->
+        <div id="giftRecipientList">
+            <!-- Example for Beneficiary 1 -->
+            <div id="beneficiary1" class="beneficiary-info">
+                <label for="beneficiaryName1">Name:</label>
+                <input type="text" id="beneficiaryName1" name="beneficiaryName1" placeholder="Enter Beneficiary Name">
+
+                <label for="beneficiaryRelationship1">Relationship:</label>
+                <input type="text" id="beneficiaryRelationship1" name="beneficiaryRelationship1" placeholder="Enter Relationship">
+
+                <!-- Add Gift Button -->
+                <button class="btn btn-outline-primary mt-2" onclick="addGift(1)">Add Gift</button><br>
+
+                <!-- Placeholder for dynamically added gifts for Beneficiary 1 -->
+                <div id="giftDetailsBeneficiary1" class="mt-3"></div>
             </div>
         </div>
-    
+
+
+        <div id="giftRecipientList"></div><br>
+
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-secondary" onclick="goToStep5()">Previous</button>
+            <button class="btn btn-primary" onclick="goToStep7()">Next</button>
+        </div>
+    </div>
 
 
     <!-- Step 7: Division of Residual Estate -->
@@ -654,12 +520,11 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
         <div id="residualEstateDivisionList"></div> <!-- This is dynamically populated -->
 
-        <div class="residual-total-container">
-            <label for="totalPercentage" class="total-label">TOTAL</label>
-            <input type="text" id="totalPercentage" class="total-percentage-input" readonly value="0"><!-- Total percentage -->
+        <div class="form-group mt-3">
+            <label for="totalPercentage"></label>
+            <input type="text" id="totalPercentage" class="total-percentage-bar" readonly value="0%"><!-- Total percentage -->
         </div>
-        
-        <div id="percentageError" class="error-container hidden">
+        <div id="percentageError" class="error-container error-message hidden">
             <i class="lni lni-warning" style="color: #ad4e58; font-size: 24px; margin-right: 10px;"></i>
             Total must add up to 100%
         </div><br>
@@ -687,8 +552,8 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
     <!-- Step 9: Executors -->
     <div id="step9" class="hidden container mt-5">
         <h2>Executors</h2>
-        <h5>Who do you want to appoint as executor?</h5><br>
-        <div id="executorList"></div><br>
+        <h5>Who do you want to appoint as executor?</h5>
+        <div id="executorList"></div>
         <div class="d-flex justify-content-between">
             <button class="btn btn-secondary" onclick="goToStep8()">Previous</button>
             <button class="btn btn-primary" onclick="goToStep10()">Next</button>
@@ -701,7 +566,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
         <!-- Question 1: Do you have children under 18? -->
         <div class="mb-3">
-            <label class="form-label"><h5>Do you have any children under 18?</h5></label><br><br>
+            <label class="form-label">Do you have any children under 18?</label><br>
             <div class="form-check">
                 <input type="radio" class="form-check-input" name="hasChildren" value="yes" onclick="showChildrenFields()" id="childrenYes">
                 <label class="form-check-label" for="childrenYes">Yes</label>
@@ -715,7 +580,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
             <!-- Question 2: Executors manage inheritance? -->
             <div class="mb-3">
-                <label class="form-label"><h5>Do you want your executors to manage their inheritance until they turn 18?</h5></label><br><br>
+                <label class="form-label">Do you want your executors to manage their inheritance until they turn 18?</label><br>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="manageInheritance" value="yes" onclick="showExecutorFields()" id="manageInheritanceYes">
                     <label class="form-check-label" for="manageInheritanceYes">Yes</label>
@@ -726,7 +591,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
             <!-- Executor-related fields (hidden by default) -->
             <div id="executorFields" class="hidden mb-3">
-                <label class="form-label"><h5>Select any children under 18</h5></label><br><br>
+                <label class="form-label">Select any children under 18</label><br>
                 <div id="childrenUnder18List" class="form-check">
                     <!-- Dynamically populated with beneficiary names from Step 5 -->
                 </div>
@@ -734,7 +599,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
             <!-- Question 4: Appoint guardians -->
             <div class="mb-3">
-                <label class="form-label"><h5>Do you want to appoint guardians in case a child is still under 18 when you pass away?</h5></label><br><br>
+                <label class="form-label">Do you want to appoint guardians in case a child is still under 18 when you pass away?</label><br>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="appointGuardians" value="yes" onclick="showGuardianFields()" id="appointGuardiansYes">
                     <label class="form-check-label" for="appointGuardiansYes">Yes</label>
@@ -745,7 +610,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                         <div id="guardianList" class="form-group">
                             <!-- Multiple guardians can be added here dynamically -->
                         </div>
-                        <button class="btn btn-outline-primary" onclick="addGuardian()">Add Another Guardian</button><br>
+                        <button class="btn btn-outline-primary" onclick="addGuardian()">Add Another Guardian</button><br><br>
                     </div>
                 </div>
             </div>
@@ -765,7 +630,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
         <!-- Question 1: Do you have any pets? -->
         <div class="mb-3">
-            <label class="form-label"><h5>Do you have any pets?</h5></label><br><br>
+            <label class="form-label">Do you have any pets?</label><br>
             <div class="form-check">
                 <input type="radio" class="form-check-input" name="hasPets" value="yes" id="petsYes" onclick="showPetFields()">
                 <label class="form-check-label" for="petsYes">Yes</label>
@@ -780,7 +645,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
         <div id="petFields" class="hidden">
             <!-- Question 2: Who will take care of the pets? -->
             <div class="mb-3">
-                <h5>Who do you want to take care of your pets?</h5><br>
+                <h5>Who do you want to take care of your pets?</h5>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="petCaretaker" value="executors" id="caretakerExecutors" onclick="hideAdditionalExecutorFields()">
                     <label class="form-check-label" for="caretakerExecutors">My executors</label>
@@ -806,23 +671,14 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                             </div>
                             <div class="col-12 col-md-6 mb-2">
                                 <select name="petCaretakerRelationship" class="form-control">
-                                    <option value="Select">Relationship to you</option>
+                                    <option value="Select">Relationship</option>
                                     <option value="Spouse">Spouse</option>
                                     <option value="Civil partner">Civil partner</option>
                                     <option value="Partner">Partner</option>
                                     <option value="Mother">Mother</option>
                                     <option value="Father">Father</option>
-                                    <option value="Sister">Sister</option>
-                                    <option value="Brother">Brother</option>
-                                    <option value="Cousin">Cousin</option>
                                     <option value="Daughter">Daughter</option>
                                     <option value="Son">Son</option>
-                                    <option value="Grandson">Grandson</option>
-                                    <option value="Granddaughter">Granddaughter</option>
-                                    <option value="Great grandson">Great grandson</option>
-                                    <option value="Great granddaughter">Great granddaughter</option>
-                                    <option value="Niece">Niece</option>
-                                    <option value="Nephew">Nephew</option>
                                     <option value="Friend">Friend</option>
                                     <option value="Other">Other</option>
                                 </select><br>
@@ -834,13 +690,13 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                             </div>
                         </div>
                     </div>
-                </div><br><br>
+                </div>
             </div>
 
 
             <!-- Question 3: Leave money for pet care? -->
             <div class="mb-3">
-                <h5>Do you want to leave money to help with the care of your pets?</h5><br>
+                <h5>Do you want to leave money to help with the care of your pets?</h5>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" name="leaveMoneyForPets" value="yes" id="leaveMoneyYes" onclick="showLeaveMoneyAmount()">
                     <label class="form-check-label" for="leaveMoneyYes">Yes</label>
@@ -852,12 +708,12 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
                 <!-- Show if 'Yes' is selected -->
                 <div id="leaveMoneyAmount" class="hidden pet-care-section mt-2">
-                    <label for="petMoneyAmount"><h5>Amount of money for pet care</h5></label>
+                    <label for="petMoneyAmount">Amount of money for pet care</label>
                     <div class="modern-input-group">
                         <span class="currency-symbol">£</span>
                         <input type="number" class="modern-input no-spinne" id="petMoneyAmount" name="petMoneyAmount" placeholder="Enter amount">
                     </div>
-                </div><br>
+                </div>
             </div>
         </div>
 
@@ -876,12 +732,12 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
         <h2 class="mb-4">Digital Assets</h2>
 
         <div class="mb-3">
-            <label class="form-label"><h5>Do you want to allow your executor to deal with your digital assets?</h5></label><br><br>
+            <label class="form-label">Do you want to allow your executor to deal with your digital assets?</label><br>
             <div class="form-check">
                 <input type="radio" class="form-check-input" name="allowDigitalAssets" value="yes" id="digitalAssetsYes">
                 <label class="form-check-label" for="digitalAssetsYes">Yes</label>
                 <input type="radio" class="form-check-input" name="allowDigitalAssets" value="no" id="digitalAssetsNo">
-                <label class="form-check-label" for="digitalAssetsNo">No</label><br>
+                <label class="form-check-label" for="digitalAssetsNo">No</label><br><br>
             </div>
         </div>
 
@@ -896,7 +752,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
         <h2 class="mb-4">Funeral Plans</h2>
 
         <div class="mb-3">
-            <label class="form-label"><h5>What do you want to happen to your body?</h5></label><br><br>
+            <label class="form-label">What do you want to happen to your body?</label><br>
             <div class="form-check">
                 <input type="radio" class="form-check-input" name="funeralPlan" value="Cremation" id="funeralCremation">
                 <label class="form-check-label" for="funeralCremation">Cremation</label>
@@ -907,7 +763,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                 <input type="radio" class="form-check-input" name="funeralPlan" value="Donate to science" id="funeralScience">
                 <label class="form-check-label" for="funeralScience">Donate to science</label>
                 <input type="radio" class="form-check-input" name="funeralPlan" value="Family decide" id="funeralFamily">
-                <label class="form-check-label" for="funeralFamily">Let my family decide</label><br>
+                <label class="form-check-label" for="funeralFamily">Let my family decide</label><br><br>
             </div>
         </div>
 
@@ -920,45 +776,18 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
     <!-- Step 14: Delivery -->
     <div id="step14" class="hidden container mt-5">
         <h2 class="mb-4">Delivery</h2>
-        <div class="mb-3">
-            <label class="form-label"><h5>How would you like to get your will?</h5></label><br><br>
-            <div class="form-check-container">
-                <div class="form-check">
-                    <input type="radio" id="deliveryDigital" name="deliveryMethod" value="digitalDownload">
-                    <label class="form-check-label" for="deliveryDigital">
-                        <div class="text-container">
-                            <h5>Digital Download</h5>
-                            <p id="dateDigitalDownload">by [Date Placeholder]</p>
-                        </div>
-                        <span class="price">FREE</span>
-                    </label>
-                </div>
 
-                <div class="form-check">
-                    <input type="radio" id="delivery1stClass" name="deliveryMethod" value="1stClassPost">
-                    <label class="form-check-label" for="delivery1stClass">
-                        <div class="text-container">
-                            <h5>1st Class Post Delivery</h5>
-                            <p id="date1stClassPost">by [Date Placeholder]</p>
-                        </div>
-                        <span class="price">FREE</span>
-                    </label>
-                </div>
-                
-                <div class="form-check">
-                    <input type="radio" id="deliveryPriority" name="deliveryMethod" value="priorityReview">
-                    <label class="form-check-label" for="deliveryPriority">
-                        <div class="text-container">
-                            <h5>Priority Review & Post Delivery</h5>
-                            <p id="datePriorityReview">by [Date Placeholder]</p>
-                        </div>
-                        <span class="price">+£15</span>
-                    </label>
-                </div>
+        <div class="mb-3">
+            <label class="form-label">How would you like to get your will?</label><br>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" name="deliveryMethod" value="digitalDownload" id="deliveryDigital">
+                <label class="form-check-label" for="deliveryDigital" id="labelDigitalDownload">Digital download</label>
+                <input type="radio" class="form-check-input" name="deliveryMethod" value="1stClassPost" id="delivery1stClass">
+                <label class="form-check-label" for="delivery1stClass" id="label1stClassPost">1st class post delivery</label>
+                <input type="radio" class="form-check-input" name="deliveryMethod" value="priorityReview" id="deliveryPriority">
+                <label class="form-check-label" for="deliveryPriority" id="labelPriorityReview">Priority review & post delivery</label><br><br>
             </div>
         </div>
-        
-            
 
         <div class="d-flex justify-content-between">
             <button class="btn btn-secondary" onclick="goToStep13()">Previous</button>
@@ -966,6 +795,8 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
         </div>
     </div>
 
+    <!-- Step 15: Review Page -->
+    <!-- Step 15: Review Page -->
     <!-- Step 15: Review Page -->
     <div id="step15" class="hidden container mt-5">
         <h2>Review Your Will</h2>
@@ -1092,30 +923,29 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                         </div>
                     </div>
                     <!-- Will Review -->
-                    <div class="review-card">
-                        <div class="review-card-header">
-                            <h5>Your will is ready to be checked <i class="lni lni-checkmark-circle review-completed-icon"></i></h5>
-                        </div>
-                        <div class="review-card-body" style="padding-left: 20px;">
-                            <p><ul>
-                                <li>Pay securely</li>
-                                <li>We write your will based on your answers</li>
-                                <li id="deliveryDate">Receive your will via [Selected Delivery Method] by <strong>[Formatted Date]</strong></li>
-                            </ul></p>
-                        </div>
-                        <div class="review-card-footer">
-                            <form class="submit-will-form">
-                                <button type="submit" class="btn btn-primary btn-lg" onclick="submitWillData()">Submit Will</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="review-card">
+    <div class="review-card-header">
+        <h5>Your will is ready to be checked.</h5>
     </div>
+    <div class="review-card-body" style="padding-left: 20px;">
+        <ul>
+            <li>Pay securely</li>
+            <li>We write your will based on your answers</li>
+            <li id="deliveryDate">Receive your will via 1st Class post by <strong>Tuesday, Oct. 22</strong></li>
+        </ul>
+    </div>
+    <div class="review-card-footer">
+        <form class="submit-will-form">
+            <button type="submit" class="btn btn-primary btn-lg" onclick="submitWill()">Submit Will</button>
+        </form>
+    </div>
+</div>
 
 
 
+
+                </div>
+                </form>
 
 
 
