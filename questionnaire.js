@@ -74,6 +74,7 @@ function goToStep16() {
 
 
 
+
 // Save data to localStorage on input change
 document.querySelectorAll('input, textarea, select').forEach(input => {
     input.addEventListener('change', () => {
@@ -154,6 +155,15 @@ function handleWillRedirect() {
     }
 }
 
+function resetFormCache() {
+    localStorage.removeItem('residualEstateValues'); // Ensure specific removal of estate division data
+    localStorage.clear(); // Clear all remaining data from localStorage
+    console.log('Form cache reset'); // Debug line to indicate clearing
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    resetFormCache(); // Clear cache when the page is loaded
+});
 
 
 
@@ -190,47 +200,29 @@ function updateProgressBar(stepNumber) {
 // STEP 2
 // Functions for dynamic data population
 function updateWillOptions() {
-  const relationship = document.querySelector(
-      'input[name="relationship"]:checked',
-  )
-  const willOptionsDiv = document.getElementById("willOptions")
-  willOptionsDiv.innerHTML = ""
+    const relationship = document.querySelector('input[name="relationship"]:checked');
+    const singleOrWidowedOption = document.getElementById("singleOrWidowedOption");
+    const partnerOption = document.getElementById("partnerOption");
 
-  if (
-      relationship &&
-      (relationship.value === "Single" || relationship.value === "Widowed")
-  ) {
-      willOptionsDiv.innerHTML = `
-    <div class="form-check">
-      <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
-      <label class="form-check-label" for="whoNeedsWillJustMe">
-          <h5>Just me (£79)</h5>
-          <p>If your partner already has a will and doesn't need to update it</p>
-        </div>
-      </label>
-    </div>
-  `
-  } else if (relationship) {
-      willOptionsDiv.innerHTML = `
-    <div class="form-check">
-      <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
-     <label class="form-check-label" for="whoNeedsWillJustMe">
-          <h5>Just me (£79)</h5>
-          <p>If your partner already has a will and doesn't need to update it</p>
-        </div>
-      </label>
-    </div>
-    <div class="form-check">
-      <input type="radio" id="whoNeedsWillPartner" name="whoNeedsWill" value="Me and my partner">
-      <label class="form-check-label" for="whoNeedsWillPartner">
-          <h5>Me and my partner (£129)</h5>
-          <p>If you are married, partnered, or just with someone</p>
-        </div>
-      </label>
-    </div>
-  `
-  }
+    // Hide both options initially
+    singleOrWidowedOption.style.display = "none";
+    partnerOption.style.display = "none";
+
+    if (relationship && (relationship.value === "Single" || relationship.value === "Widowed")) {
+        // Show the "Just me" option if the relationship is Single or Widowed
+        singleOrWidowedOption.style.display = "block";
+    } else if (relationship) {
+        // Show both options if the relationship is not Single or Widowed
+        singleOrWidowedOption.style.display = "block";
+        partnerOption.style.display = "block";
+    }
 }
+
+// Add an event listener to update options when a relationship input is checked
+document.querySelectorAll('input[name="relationship"]').forEach(input => {
+    input.addEventListener('change', updateWillOptions);
+});
+
 
 // STEP 4 - FOREIGN ASSETS
 // Show the foreign asset inclusion question when "Yes" is selected
@@ -397,6 +389,8 @@ function populateGiftRecipientList() {
       })
   }
 
+
+
   // Create a list for charities
   if (charities.length > 0) {
       charities.forEach((charity, index) => {
@@ -549,350 +543,375 @@ function removeEntity(index, type) {
     }
 }
 
+// Function to save gift data to localStorage
+function saveGiftData() {
+    const gifts = [];
+    document.querySelectorAll('.beneficiary-info').forEach((beneficiary, index) => {
+        const beneficiaryData = {
+            name: beneficiary.querySelector(`#beneficiaryName${index + 1}`)?.value || '',
+            relationship: beneficiary.querySelector(`#beneficiaryRelationship${index + 1}`)?.value || '',
+            gifts: []
+        };
+
+        // Collect gift data (cash, property, collection, item)
+        ['cash', 'property', 'collection', 'item'].forEach((type) => {
+            const inputForm = beneficiary.querySelector(`#${type}InputForm${index + 1}`);
+            if (inputForm && !inputForm.classList.contains('hidden')) {
+                beneficiaryData.gifts.push({
+                    type: type,
+                    value: [...inputForm.querySelectorAll('input')].map(input => ({
+                        id: input.id,
+                        value: input.value
+                    }))
+                });
+            }
+        });
+
+        gifts.push(beneficiaryData);
+    });
+
+    localStorage.setItem('giftData', JSON.stringify(gifts));
+}
+
+// Function to load gift data from localStorage
+function loadGiftData() {
+    const giftData = JSON.parse(localStorage.getItem('giftData'));
+    if (giftData && Array.isArray(giftData)) {
+        giftData.forEach((data, index) => {
+            const beneficiary = document.querySelector(`#beneficiary${index + 1}`);
+            if (beneficiary) {
+                if (data.name) beneficiary.querySelector(`#beneficiaryName${index + 1}`).value = data.name;
+                if (data.relationship) beneficiary.querySelector(`#beneficiaryRelationship${index + 1}`).value = data.relationship;
+
+                data.gifts.forEach((gift) => {
+                    const form = beneficiary.querySelector(`#${gift.type}InputForm${index + 1}`);
+                    if (form) {
+                        form.classList.remove('hidden');
+                        beneficiary.querySelector(`#giftSelectionCard${index + 1}`).classList.add('hidden');
+
+                        gift.value.forEach(input => {
+                            const inputElement = form.querySelector(`#${input.id}`);
+                            if (inputElement) {
+                                inputElement.value = input.value;
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+}
+
+// Event listener to save form data on input change
+document.querySelectorAll('.beneficiary-info input').forEach(input => {
+    input.addEventListener('input', saveGiftData);
+});
+
+// Load the form data when the document is ready
+document.addEventListener('DOMContentLoaded', loadGiftData);
 
 // STEP 7 - RESIDUAL ESTATE
+document.addEventListener('DOMContentLoaded', () => {
+    populateResidualEstateDivisionList();
+    loadSavedValues();
+});
+
 function populateResidualEstateDivisionList() {
-  const divisionList = document.getElementById("residualEstateDivisionList")
-  divisionList.innerHTML = "" // Clear previous content
+    const divisionList = document.getElementById("residualEstateDivisionList");
+    const template = document.getElementById("residualItemTemplate");
+    const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
+    const charities = document.querySelectorAll('input[name="charityName"]');
 
-  const beneficiaries = document.querySelectorAll(
-      'input[name="beneficiaryName"]',
-  )
-  const charities = document.querySelectorAll('input[name="charityName"]')
+    divisionList.innerHTML = ""; // Clear any existing content
 
-  // Add inputs for beneficiaries
-  beneficiaries.forEach((beneficiary, index) => {
-      const div = document.createElement("div")
-      div.classList.add("residual-item-container")
-      div.innerHTML = `
-    <div class="residual-item">
-        <div class="icon-container">
-          <i class="lni lni-user" style="color: #28a745; font-size: 24px;"></i>
-        </div>
-        <span class="beneficiary-name">${beneficiary.value}</span>
-        <div class="input-group">
-          <input type="number" class="form-control residual-input" id="beneficiaryPercentage${index}" name="beneficiaryPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
-          <span class="percent-sign">%</span>
-        </div>
-      </div>
-      `
-      divisionList.appendChild(div)
-  })
+    // Populate with beneficiary items
+    beneficiaries.forEach((beneficiary, index) => {
+        const clone = template.cloneNode(true);
+        clone.classList.remove("hidden");
+        clone.querySelector('.item-name').textContent = beneficiary.value;
+        clone.querySelector('.icon-container i').classList.replace('lni-world', 'lni-user');
+        const input = clone.querySelector('.residual-input');
+        input.id = `beneficiaryPercentage${index}`;
+        input.name = `beneficiaryPercentage${index}`;
+        input.value = loadInputValue(input.name); // Load saved value if present
 
-  // Add inputs for charities
-  charities.forEach((charity, index) => {
-      const div = document.createElement("div")
-      div.classList.add("residual-item-container")
-      div.innerHTML = `
-      <div class="residual-item">
-        <div class="icon-container">
-          <i class="lni lni-world" style="color: #28a745; font-size: 24px;"></i>
-        </div>
-        <span class="charity-name">${charity.value}</span>
-        <div class="input-group">
-          <input type="number" class="form-control residual-input" id="charityPercentage${index}" name="charityPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
-          <span class="percent-sign">%</span>
-        </div>
-      </div>
-      `
-      divisionList.appendChild(div)
-  })
+        divisionList.appendChild(clone);
+    });
+
+    // Populate with charity items
+    charities.forEach((charity, index) => {
+        const clone = template.cloneNode(true);
+        clone.classList.remove("hidden");
+        clone.querySelector('.item-name').textContent = charity.value;
+        clone.querySelector('.icon-container i').classList.replace('lni-user', 'lni-world');
+        const input = clone.querySelector('.residual-input');
+        input.id = `charityPercentage${index}`;
+        input.name = `charityPercentage${index}`;
+        input.value = loadInputValue(input.name); // Load saved value if present
+
+        divisionList.appendChild(clone);
+    });
 }
 
-// Function to calculate total percentage
 function calculateTotalPercentage() {
-  let total = 0
+    let total = 0;
 
-  // Sum the percentages from beneficiaries
-  const beneficiaryPercentages = document.querySelectorAll(
-      'input[name^="beneficiaryPercentage"]',
-  )
-  beneficiaryPercentages.forEach((input) => {
-      total += parseFloat(input.value || 0)
-  })
+    // Sum the percentages from all residual inputs
+    const allPercentages = document.querySelectorAll('.residual-input');
+    allPercentages.forEach(input => {
+        total += parseFloat(input.value || 0);
+        saveInputValue(input.name, input.value); // Save the value when input changes
+    });
 
-  // Sum the percentages from charities
-  const charityPercentages = document.querySelectorAll(
-      'input[name^="charityPercentage"]',
-  )
-  charityPercentages.forEach((input) => {
-      total += parseFloat(input.value || 0)
-  })
+    // Display the total percentage
+    document.getElementById("totalPercentage").value = total.toFixed(2) + "%";
 
-  // Display the total percentage
-  document.getElementById("totalPercentage").value = total.toFixed(2) + "%"
-
-  return total // Return the total percentage
+    return total; // Return the total percentage
 }
 
-// Validate that the total percentage equals 100%
 function validatePercentage() {
-  const total = calculateTotalPercentage() // Get the total percentage
+    const total = calculateTotalPercentage(); // Get the total percentage
 
-  // Allow for a small floating-point margin (e.g., 99.99 - 100.01)
-  if (Math.abs(total - 100) <= 0.01) {
-      document.getElementById("percentageError").classList.add("hidden")
-      goToStep8() // Proceed to the next step
-  } else {
-      document.getElementById("percentageError").classList.remove("hidden")
-  }
+    // Allow for a small floating-point margin (e.g., 99.99 - 100.01)
+    if (Math.abs(total - 100) <= 0.01) {
+        document.getElementById("percentageError").classList.add("hidden");
+        goToStep8(); // Proceed to the next step
+    } else {
+        document.getElementById("percentageError").classList.remove("hidden");
+    }
 }
+
+// Function to save input value in localStorage
+function saveInputValue(name, value) {
+    const savedValues = JSON.parse(localStorage.getItem('residualEstateValues')) || {};
+    savedValues[name] = value;
+    localStorage.setItem('residualEstateValues', JSON.stringify(savedValues));
+}
+
+// Function to load input value from localStorage
+function loadInputValue(name) {
+    const savedValues = JSON.parse(localStorage.getItem('residualEstateValues')) || {};
+    return savedValues[name] || 0;
+}
+
+// Function to load all saved values when the page is loaded
+function loadSavedValues() {
+    const allInputs = document.querySelectorAll('.residual-input');
+    allInputs.forEach(input => {
+        const savedValue = loadInputValue(input.name);
+        input.value = savedValue;
+    });
+}
+
+  
+
+// Call the population function on DOM load or when needed
+document.addEventListener('DOMContentLoaded', () => {
+    populateResidualEstateDivisionList();
+});
+
 
 // STEP 8 - CONTINGENCY
+document.addEventListener('DOMContentLoaded', () => {
+    populateContingencyList();
+    loadContingencySelections();
+});
+
+let contingencySelections = {}; // To store selections for each beneficiary
+
 function populateContingencyList() {
-  const contingencyList = document.getElementById("contingencyList")
-  if (!contingencyList) {
-      console.error("Contingency list container not found.")
-      return
-  }
+    const contingencyList = document.getElementById("contingencyList");
+    const template = document.getElementById("contingencyTemplate");
+    const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
 
-  contingencyList.innerHTML = "" // Clear previous content
+    contingencyList.innerHTML = ""; // Clear previous content
 
-  const beneficiaries = document.querySelectorAll(
-      'input[name="beneficiaryName"]',
-  )
+    if (beneficiaries.length > 0) {
+        beneficiaries.forEach((beneficiary, index) => {
+            // Clone the template
+            const clone = template.cloneNode(true);
+            clone.classList.remove("hidden");
 
-  if (beneficiaries.length > 0) {
-      beneficiaries.forEach((beneficiary, index) => {
-          const contingencyDiv = document.createElement("div")
-          contingencyDiv.innerHTML = `
-                <h4>${beneficiary.value}</h4>
-                <label>What should happen to ${beneficiary.value}'s share if they pass away before you?</label><br><br>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" id="contingencyChildren${index}" name="contingency${index}" value="children">
-                    <label for="contingencyChildren${index}" class="form-check-label">Children</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" id="contingencySpouse${index}" name="contingency${index}" value="spouse">
-                    <label for="contingencySpouse${index}" class="form-check-label">Spouse</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" id="contingencyShare${index}" name="contingency${index}" value="share" onclick="hideSpecificPersonFields(${index})">
-                    <label for="contingencyShare${index}" class="form-check-label">Distribute with others beneficiaries</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" id="contingencySpecific${index}" name="contingency${index}" value="specific" onclick="showSpecificPersonFields(${index})">
-                    <label for="contingencySpecific${index}" class="form-check-label">Specific Person</label>
-                </div>
+            // Set the beneficiary name and label
+            clone.querySelector('.beneficiary-name').textContent = beneficiary.value;
+            clone.querySelector('.contingency-question').textContent = `What should happen to ${beneficiary.value}'s share if they pass away before you?`;
 
-      <!-- Specific Person Details Card (Initially Hidden) within beneficiary-card -->
-                <div id="specificPersonFields${index}" class="beneficiary-card hidden mt-3">
-                <div class="row align-items-center">
-            <!-- Avatar placeholder -->
-              <div class="col-3 col-md-2 text-center">
-                  <div class="avatar-placeholder">
-                      <i class="lni lni-users"></i> <!-- LineIcon Users Icon -->
-                  </div>
-              </div>
-                       <!-- Specific Person input fields -->
-            <div class="col-8 col-md-9">
-                <div class="row">
-                    <!-- Full name field -->
-                    <div class="col-12 col-md-6 mb-2">
-                        <input type="text" class="form-control" name="specificFullName${index}" placeholder="Full Name"><br>
-                    </div>
-                    <!-- Relationship dropdown -->
-                    <div class="col-12 col-md-6 mb-2">
-                        <select name="specificRelationship${index}" class="form-control">
-                            <option value="Select">Relationship to you</option>
-                            <option value="Spouse">Spouse</option>
-                            <option value="Civil partner">Civil partner</option>
-                            <option value="Partner">Partner</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Father">Father</option>
-                            <option value="Sister">Sister</option>
-                            <option value="Brother">Brother</option>
-                            <option value="Cousin">Cousin</option>
-                            <option value="Daughter">Daughter</option>
-                            <option value="Son">Son</option>
-                            <option value="Grandson">Grandson</option>
-                            <option value="Granddaughter">Granddaughter</option>
-                            <option value="Great grandson">Great grandson</option>
-                            <option value="Great granddaughter">Great granddaughter</option>
-                            <option value="Niece">Niece</option>
-                            <option value="Nephew">Nephew</option>
-                            <option value="Friend">Friend</option>
-                            <option value="Other">Other</option>
-                        </select><br>
-                    </div>
-                </div>
-                <!-- Address field -->
-                <div class="row">
-                    <div class="col-12 mb-2">
-                        <input type="text" class="form-control" name="specificAddress${index}" placeholder="Address or City">
-                    </div>
-                </div>
-            </div>
-             <!-- Optional Remove button for specific person entry -->
-            <div class="col-1 text-right">
-                <button class="btn-danger btn-sm" onclick="removeSpecificPerson(${index})">
-                    <i class="lni lni-trash-can"></i>
-                </button>
-            </div>
-        </div>
-      </div>
-            `
-          contingencyList.appendChild(contingencyDiv)
-      })
-  } else {
-      console.warn("No beneficiaries found to populate contingency.")
-      contingencyList.innerHTML =
-          "<p>No beneficiaries available to set contingency for.</p>"
-  }
+            // Make radio buttons unique per beneficiary
+            clone.querySelectorAll('.form-check-input').forEach((input) => {
+                input.name = `contingency${index}`; // Unique name per beneficiary
+                input.id = `${input.value}Option${index}`; // Unique ID per input
+                input.dataset.beneficiaryIndex = index; // Store index for easy reference
+
+                // Load any saved state for this beneficiary's selection
+                if (contingencySelections[`beneficiary${index}`] === input.value) {
+                    input.checked = true;
+                    if (input.value === 'specific') {
+                        clone.querySelector('.specific-person-fields').classList.remove('hidden');
+                    }
+                }
+
+                input.addEventListener('change', (e) => saveContingencySelection(index, e.target.value));
+            });
+
+            // Update labels to correspond with input IDs
+            clone.querySelectorAll('.form-check-label').forEach((label) => {
+                label.setAttribute('for', label.previousElementSibling.id);
+            });
+
+            // Append the clone to the contingency list
+            contingencyList.appendChild(clone);
+        });
+    } else {
+        contingencyList.innerHTML = "<p>No beneficiaries available to set contingency for.</p>";
+    }
 }
 
-function showSpecificPersonFields(index) {
-  document
-      .getElementById(`specificPersonFields${index}`)
-      .classList.remove("hidden")
+function saveContingencySelection(index, value) {
+    // Save selection for each individual beneficiary
+    contingencySelections[`beneficiary${index}`] = value;
+    localStorage.setItem('contingencySelections', JSON.stringify(contingencySelections));
+
+    const specificPersonFields = document.querySelector(`#contingencyList .contingency-item:nth-child(${index + 1}) .specific-person-fields`);
+    if (value === 'specific') {
+        specificPersonFields.classList.remove('hidden');
+    } else {
+        specificPersonFields.classList.add('hidden');
+    }
 }
 
-function hideSpecificPersonFields(index) {
-  document
-      .getElementById(`specificPersonFields${index}`)
-      .classList.add("hidden")
+function loadContingencySelections() {
+    // Load selections from local storage if available
+    const storedSelections = JSON.parse(localStorage.getItem('contingencySelections'));
+    if (storedSelections) {
+        contingencySelections = storedSelections;
+        const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
+
+        beneficiaries.forEach((beneficiary, index) => {
+            const selectedValue = contingencySelections[`beneficiary${index}`];
+            if (selectedValue) {
+                const radioButton = document.querySelector(`input[name="contingency${index}"][value="${selectedValue}"]`);
+                if (radioButton) {
+                    radioButton.checked = true;
+                    if (selectedValue === 'specific') {
+                        document.querySelector(`#contingencyList .contingency-item:nth-child(${index + 1}) .specific-person-fields`).classList.remove('hidden');
+                    }
+                }
+            }
+        });
+    }
 }
 
-// Optional function to remove the specific person card
-function removeSpecificPerson(index) {
-  const specificPersonFields = document.getElementById(
-      `specificPersonFields${index}`,
-  )
-  specificPersonFields.remove()
-}
+
+
+
+
+
 
 // STEP 9 - EXECUTOR
 // STEP 9 - EXECUTOR
+document.addEventListener('DOMContentLoaded', () => {
+    populateExecutorOptions();
+});
+
 function populateExecutorOptions() {
-  const executorList = document.getElementById("executorList")
-  executorList.innerHTML = ""
+    const executorList = document.getElementById("executorList");
+    executorList.innerHTML = ''; // Clear any existing content
 
-  // Option for Swiftwills
-  executorList.innerHTML += `
-    <div class="form-check">
-        <input type="checkbox" id="swiftwills" name="executor" value="Swiftwills">
-        <label class="form-check-label" for="swiftwills">Swiftwills</label>
-    </div>
-`
+    // Example dynamic data - replace this with actual data logic
+    const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
+    beneficiaries.forEach((beneficiary, idx) => {
+        executorList.innerHTML += `
+            <div class="form-check">
+                <input type="checkbox" id="executor${idx}" name="executor" value="${beneficiary.value}">
+                <label class="form-check-label" for="executor${idx}">${beneficiary.value}</label>
+            </div>
+        `;
+    });
 
-  // Options for beneficiaries as executors (from Step 5)
-  const beneficiaries = document.querySelectorAll(
-      'input[name="beneficiaryName"]',
-  )
-  beneficiaries.forEach((beneficiary, idx) => {
-      // <-- idx is used as the index here
-      executorList.innerHTML += `
-        <div class="form-check">
-            <input type="checkbox" id="executor${idx}" name="executor" value="${beneficiary.value}">
-            <label class="form-check-label" for="executor${idx}">${beneficiary.value}</label>
-        </div>
-    `
-  })
-
-  // Option for someone else
-  executorList.innerHTML += `
-    <div class="form-check">
-        <input type="checkbox" id="someoneElse" name="executor" value="someoneElse" onclick="toggleAdditionalExecutorFields(this)">
-        <label class="form-check-label" for="someoneElse">Someone else</label>
-    </div>
-    <div id="additionalExecutorFieldsContainer" class="hidden">
-        <!-- Initial executor fields and Add/Remove buttons -->
-        ${generateExecutorCard(0)}  <!-- Ensure the function is returning a valid card with 0 as the index -->
-        <button type="button" class="btn btn-outline-primary btn-sm mt-3" onclick="addNewExecutor()">Add Another Executor</button>
-    </div>
-`
+    // Restore selection from localStorage
+    const storedExecutors = JSON.parse(localStorage.getItem('selectedExecutors')) || [];
+    storedExecutors.forEach(value => {
+        const selectedInput = document.querySelector(`input[name="executor"][value="${value}"]`);
+        if (selectedInput) {
+            selectedInput.checked = true;
+        }
+    });
 }
 
-// Function to generate executor card structure, passing idx to ensure defined scope
-function generateExecutorCard(idx) {
-  return `
-  <div id="executorCard${idx}" class="beneficiary-card mt-3 p-3 shadow-sm">
-      <div class="row align-items-center">
-          <!-- Avatar Icon -->
-          <div class="col-3 col-md-2 text-center">
-              <div class="avatar-placeholder">
-                  <i class="lni lni-users"></i>
-              </div>
-          </div>
-          <!-- Executor Input Fields -->
-          <div class="col-8 col-md-9">
-              <div class="row">
-                  <div class="col-12 col-md-6 mb-2">
-                      <input type="text" class="form-control mt-2" name="executorFullName${idx}" placeholder="Full Name"><br>
-                  </div>
-                  <div class="col-12 col-md-6 mb-2">
-                      <select name="executorRelationship${idx}" class="form-control mt-2">
-                          <option value="Select">Relationship to you</option>
-                            <option value="Spouse">Spouse</option>
-                            <option value="Civil partner">Civil partner</option>
-                            <option value="Partner">Partner</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Father">Father</option>
-                            <option value="Sister">Sister</option>
-                            <option value="Brother">Brother</option>
-                            <option value="Cousin">Cousin</option>
-                            <option value="Daughter">Daughter</option>
-                            <option value="Son">Son</option>
-                            <option value="Grandson">Grandson</option>
-                            <option value="Granddaughter">Granddaughter</option>
-                            <option value="Great grandson">Great grandson</option>
-                            <option value="Great granddaughter">Great granddaughter</option>
-                            <option value="Niece">Niece</option>
-                            <option value="Nephew">Nephew</option>
-                            <option value="Friend">Friend</option>
-                            <option value="Other">Other</option>
-                      </select><br>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-12 mb-2">
-                      <input type="text" class="form-control mt-2" name="executorAddress${idx}" placeholder="Address or City">
-                  </div>
-              </div>
-          </div>
-          <div class="col-1 text-right">
-              <button type="button" class="btn-danger btn-sm" onclick="removeExecutor(${idx})">
-                  <i class="lni lni-trash-can"></i>
-              </button>
-          </div>
-      </div>
-  </div>
-`
-}
+// Save selected executors to localStorage
+document.addEventListener('change', (e) => {
+    if (e.target.name === 'executor') {
+        const selectedValues = Array.from(document.querySelectorAll('input[name="executor"]:checked')).map(input => input.value);
+        localStorage.setItem('selectedExecutors', JSON.stringify(selectedValues));
+    }
+});
 
-// Function to add a new executor card
-let executorCount = 1
+// Ensure selected executors are shown correctly on DOM load
+window.addEventListener('DOMContentLoaded', () => {
+    populateExecutorOptions();
+});
+
+
+function toggleAdditionalExecutorFields(checkbox) {
+    const container = document.getElementById("additionalExecutorFieldsContainer");
+    const addButton = document.getElementById("addExecutorButton");
+    if (checkbox.checked) {
+        container.classList.remove("hidden");
+        addButton.classList.remove("hidden");
+        addNewExecutor(); // Add the initial executor card
+    } else {
+        container.classList.add("hidden");
+        addButton.classList.add("hidden");
+        container.innerHTML = ''; // Clear existing executor cards
+    }
+}
 
 function addNewExecutor() {
-  const additionalExecutorFieldsContainer = document.getElementById(
-      "additionalExecutorFieldsContainer",
-  )
-  additionalExecutorFieldsContainer.insertAdjacentHTML(
-      "beforeend",
-      generateExecutorCard(executorCount),
-  )
-  executorCount++
+    const container = document.getElementById("additionalExecutorFieldsContainer");
+    const newIdx = container.children.length; // Get the current count for unique IDs
+    const newExecutorCard = `
+        <div id="executorCard${newIdx}" class="beneficiary-card mt-3 p-3 shadow-sm">
+            <div class="row align-items-center">
+                <div class="col-3 col-md-2 text-center">
+                    <div class="avatar-placeholder"><i class="lni lni-users"></i></div>
+                </div>
+                <div class="col-8 col-md-9">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-2">
+                            <input type="text" class="form-control mt-2" name="executorFullName${newIdx}" placeholder="Full Name">
+                        </div>
+                        <div class="col-12 col-md-6 mb-2">
+                            <select name="executorRelationship${newIdx}" class="form-control mt-2">
+                                <option value="Select">Relationship to you</option>
+                                <option value="Spouse">Spouse</option>
+                                <option value="Civil partner">Civil partner</option>
+                                <option value="Partner">Partner</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <input type="text" class="form-control mt-2" name="executorAddress${newIdx}" placeholder="Address or City">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1 text-right">
+                    <button type="button" class="btn-danger btn-sm" onclick="removeExecutor(${newIdx})">
+                        <i class="lni lni-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    container.insertAdjacentHTML('beforeend', newExecutorCard);
 }
 
-// Function to remove a specific executor card by index
 function removeExecutor(idx) {
-  const executorCard = document.getElementById(`executorCard${idx}`)
-  if (executorCard) {
-      executorCard.remove()
-  }
+    const executorCard = document.getElementById(`executorCard${idx}`);
+    if (executorCard) executorCard.remove();
 }
 
-// Toggle the additional executor fields when 'Someone else' is selected
-function toggleAdditionalExecutorFields(checkbox) {
-  const container = document.getElementById("additionalExecutorFieldsContainer")
-  if (checkbox.checked) {
-      container.classList.remove("hidden")
-  } else {
-      container.classList.add("hidden")
-      container.innerHTML = generateExecutorCard(0) // Reset to the first card
-      executorCount = 1 // Reset counter
-  }
-}
 
 // STEP 10 - CHILDREN
 // Show or hide children fields based on user selection (Children under 18)

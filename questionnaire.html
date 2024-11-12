@@ -421,13 +421,31 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
     <!-- Step 2: Who Needs a Will -->
     <div id="step2" class="hidden container mt-5">
         <h5>Who needs a will?</h5><br>
-        <div id="willOptions" class="form-group"></div>
-        
+        <div id="willOptions" class="form-group d-flex flex-column align-items-center">
+            <div class="form-check" id="singleOrWidowedOption">
+                <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
+                <label class="form-check-label" for="whoNeedsWillJustMe">
+                    <h5>Just me (£79)</h5>
+                    <p>If your partner already has a will and doesn't need to update it</p>
+                </label>
+            </div>
+            <div class="form-check" id="partnerOption">
+                <input type="radio" id="whoNeedsWillPartner" name="whoNeedsWill" value="Me and my partner">
+                <label class="form-check-label" for="whoNeedsWillPartner">
+                    <h5>Me and my partner (£129)</h5>
+                    <p>If you are married, partnered, or just with someone</p>
+                </label>
+            </div>
+        </div>
         <div class="d-flex justify-content-between">
             <button class="btn btn-secondary" onclick="goToStep1()">Previous</button>
             <button class="btn btn-primary" onclick="goToStep3()">Next</button>
         </div>
     </div>
+
+        
+       
+
 
     <!-- Step 3: Contact Information -->
     <div id="step3" class="hidden container mt-5">
@@ -649,47 +667,147 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
 
 
     <!-- Step 7: Division of Residual Estate -->
-    <div id="step7" class="hidden container mt-5">
-        <h2 class="mt-4">Division of Residual Estate</h2>
+   <!-- Step 7: Division of Residual Estate -->
+<div id="step7" class="hidden container mt-5">
+    <h2 class="mt-4">Division of Residual Estate</h2>
+    <div id="residualEstateDivisionList">
+        <!-- Placeholder for JS to populate with beneficiary and charity items -->
+    </div>
+    
+    <div class="residual-total-container mt-3">
+        <label for="totalPercentage" class="total-label">TOTAL</label>
+        <input type="text" id="totalPercentage" class="total-percentage-input form-control" readonly value="0">
+    </div>
+    
+    <div id="percentageError" class="error-container hidden mt-2">
+        <i class="lni lni-warning" style="color: #ad4e58; font-size: 24px; margin-right: 10px;"></i>
+        Total must add up to 100%
+    </div><br>
+    
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" onclick="goToStep6()">Previous</button>
+        <button class="btn btn-primary" onclick="validatePercentage()">Next</button>
+    </div>
+</div>
 
-        <div id="residualEstateDivisionList"></div> <!-- This is dynamically populated -->
-
-        <div class="residual-total-container">
-            <label for="totalPercentage" class="total-label">TOTAL</label>
-            <input type="text" id="totalPercentage" class="total-percentage-input" readonly value="0"><!-- Total percentage -->
+<!-- Template for a residual item -->
+<div id="residualItemTemplate" class="residual-item-container hidden">
+    <div class="residual-item">
+        <div class="icon-container">
+            <i class="lni lni-user" style="color: #28a745; font-size: 24px;"></i>
         </div>
-        
-        <div id="percentageError" class="error-container hidden">
-            <i class="lni lni-warning" style="color: #ad4e58; font-size: 24px; margin-right: 10px;"></i>
-            Total must add up to 100%
-        </div><br>
-
-        <div class="d-flex justify-content-between">
-            <button class="btn btn-secondary" onclick="goToStep6()">Previous Page</button>
-            <button class="btn btn-primary" onclick="validatePercentage()">Next Page</button> <!-- Validation before moving -->
+        <span class="item-name"></span>
+        <div class="input-group">
+            <input type="number" class="form-control residual-input" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
+            <span class="percent-sign">%</span>
         </div>
     </div>
+</div><br>
+</div>
+
 
 
     <!-- Step 8: Contingency Planning -->
-    <div id="step8" class="hidden container mt-5">
-        <h2 class="mb-4">Contingency Planning</h2>
-        <h5>If one of the following beneficiaries dies before you, what should happen to their gifts and share of your inheritance?</h5>
+<!-- Step 8: Contingency Planning -->
+<div id="step8" class="hidden container mt-5">
+    <h2 class="mb-4">Contingency Planning</h2>
+    <h5>If one of the following beneficiaries dies before you, what should happen to their gifts and share of your inheritance?</h5>
 
-        <div id="contingencyList" class="mb-4"></div> <!-- This is where the beneficiaries will be dynamically inserted -->
+    <!-- Container for dynamically managed content -->
+    <div id="contingencyList" class="mb-4">
+        <!-- Placeholders for JS to populate -->
+    </div>
 
-        <div class="d-flex justify-content-between">
-            <button class="btn btn-secondary" onclick="goToStep7()">Previous</button>
-            <button class="btn btn-primary" onclick="goToStep9()">Next</button>
+    <!-- Template for a single contingency item (to be cloned by JS) -->
+    <div id="contingencyTemplate" class="contingency-item hidden">
+        <h4 class="beneficiary-name"></h4>
+        <label class="contingency-question"></label><br><br>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" value="children">
+            <label class="form-check-label">Children</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" value="spouse">
+            <label class="form-check-label">Spouse</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" value="share">
+            <label class="form-check-label">Distribute with other beneficiaries</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" value="specific">
+            <label class="form-check-label">Specific Person</label>
+        </div>
+        <div class="beneficiary-card specific-person-fields hidden mt-3">
+            <div class="row align-items-center">
+                <div class="col-3 col-md-2 text-center">
+                    <div class="avatar-placeholder">
+                        <i class="lni lni-users"></i>
+                    </div>
+                </div>
+                <div class="col-8 col-md-9">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-2">
+                            <input type="text" class="form-control" placeholder="Full Name">
+                        </div>
+                        <div class="col-12 col-md-6 mb-2">
+                            <select class="form-control">
+                                <option value="Select">Relationship to you</option>
+                                <option value="Spouse">Spouse</option>
+                                <option value="Civil partner">Civil partner</option>
+                                <option value="Partner">Partner</option>
+                                <!-- Add more options as needed -->
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <input type="text" class="form-control" placeholder="Address or City">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1 text-right">
+                    <button type="button" class="btn-danger btn-sm remove-specific-person">
+                        <i class="lni lni-trash-can"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" onclick="goToStep7()">Previous</button>
+        <button class="btn btn-primary" onclick="goToStep9()">Next</button>
+    </div>
+</div>
+
+
+        
 
     <!-- Step 9: Executors -->
     <div id="step9" class="hidden container mt-5">
         <h2>Executors</h2>
         <h5>Who do you want to appoint as executor?</h5><br>
-        <div id="executorList"></div><br>
-        <div class="d-flex justify-content-between">
+        
+        <div class="form-check">
+            <input type="checkbox" id="swiftwills" name="executor" value="Swiftwills">
+            <label class="form-check-label" for="swiftwills">Swiftwills</label>
+        </div>
+    
+        <div id="executorList"></div> <!-- Dynamically generated checkboxes will be placed here -->
+    
+        <div class="form-check">
+            <input type="checkbox" id="someoneElse" name="executor" value="someoneElse" onclick="toggleAdditionalExecutorFields(this)">
+            <label class="form-check-label" for="someoneElse">Add someone else</label>
+        </div>
+    
+        <div id="additionalExecutorFieldsContainer" class="hidden">
+            <!-- Executor cards will be appended here dynamically -->
+        </div>
+    
+        <button id="addExecutorButton" class="btn btn-outline-primary mt-3 hidden" onclick="addNewExecutor()">Add another executor</button>
+        <br>
+        <div class="d-flex justify-content-between"></div>
             <button class="btn btn-secondary" onclick="goToStep8()">Previous</button>
             <button class="btn btn-primary" onclick="goToStep10()">Next</button>
         </div>
