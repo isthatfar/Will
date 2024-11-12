@@ -688,8 +688,26 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
     <div id="step9" class="hidden container mt-5">
         <h2>Executors</h2>
         <h5>Who do you want to appoint as executor?</h5><br>
-        <div id="executorList"></div><br>
-        <div class="d-flex justify-content-between">
+        
+        <div class="form-check">
+            <input type="checkbox" id="swiftwills" name="executor" value="Swiftwills">
+            <label class="form-check-label" for="swiftwills">Swiftwills</label>
+        </div>
+    
+        <div id="executorList"></div> <!-- Dynamically generated checkboxes will be placed here -->
+    
+        <div class="form-check">
+            <input type="checkbox" id="someoneElse" name="executor" value="someoneElse" onclick="toggleAdditionalExecutorFields(this)">
+            <label class="form-check-label" for="someoneElse">Add someone else</label>
+        </div>
+    
+        <div id="additionalExecutorFieldsContainer" class="hidden">
+            <!-- Executor cards will be appended here dynamically -->
+        </div>
+    
+        <button id="addExecutorButton" class="btn btn-outline-primary mt-3 hidden" onclick="addNewExecutor()">Add another executor</button>
+        <br>
+        <div class="d-flex justify-content-between"></div>
             <button class="btn btn-secondary" onclick="goToStep8()">Previous</button>
             <button class="btn btn-primary" onclick="goToStep10()">Next</button>
         </div>

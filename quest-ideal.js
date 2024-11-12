@@ -24,6 +24,8 @@ function goToStep5() {
 function goToStep6() {
   populateGiftRecipientList()
   showStep(6)
+  loadSavedGiftValues()
+  attachGiftSaveListeners()
 }
 
 function goToStep7() {
@@ -146,7 +148,7 @@ window.addEventListener('DOMContentLoaded', () => {
     loadInputData();
     loadContingencyData();
     loadExecutorData();
-
+    populateExecutorOptions();
     console.log('All data loaded successfully.');
 });
 
@@ -599,82 +601,43 @@ function removeEntity(index, type) {
     }
 }
 
+// Function to save input value in localStorage for Step 6
+function saveGiftInputValue(name, value) {
+    const savedGiftValues = JSON.parse(localStorage.getItem('giftFormValues')) || {};
+    savedGiftValues[name] = value;
+    localStorage.setItem('giftFormValues', JSON.stringify(savedGiftValues));
+}
+
+// Function to load input value from localStorage for Step 6
+function loadGiftInputValue(name) {
+    const savedGiftValues = JSON.parse(localStorage.getItem('giftFormValues')) || {};
+    return savedGiftValues[name] || '';
+}
+
+// Attach event listeners to all gift inputs in Step 6
+function attachGiftSaveListeners() {
+    document.querySelectorAll('.gift-input').forEach(input => {
+        input.addEventListener('input', () => {
+            saveGiftInputValue(input.name, input.value);
+        });
+        input.addEventListener('change', () => {
+            saveGiftInputValue(input.name, input.value);
+        });
+    });
+}
+
+
+hfgshdh
+hdhgshfjd
+gfhdhdhf
+hdhdfgd
+hshdhgfhdj
+dhfhghfjd
+
+
+
 
 // STEP 7 - RESIDUAL ESTATE
-function populateResidualEstateDivisionList() {
-  const divisionList = document.getElementById("residualEstateDivisionList")
-  divisionList.innerHTML = "" // Clear previous content
-
-  const beneficiaries = document.querySelectorAll(
-      'input[name="beneficiaryName"]',
-  )
-  const charities = document.querySelectorAll('input[name="charityName"]')
-
-  // Add inputs for beneficiaries
-  beneficiaries.forEach((beneficiary, index) => {
-      const div = document.createElement("div")
-      div.classList.add("residual-item-container")
-      div.innerHTML = `
-    <div class="residual-item">
-        <div class="icon-container">
-          <i class="lni lni-user" style="color: #28a745; font-size: 24px;"></i>
-        </div>
-        <span class="beneficiary-name">${beneficiary.value}</span>
-        <div class="input-group">
-          <input type="number" class="form-control residual-input" id="beneficiaryPercentage${index}" name="beneficiaryPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
-          <span class="percent-sign">%</span>
-        </div>
-      </div>
-      `
-      divisionList.appendChild(div)
-  })
-
-  // Add inputs for charities
-  charities.forEach((charity, index) => {
-      const div = document.createElement("div")
-      div.classList.add("residual-item-container")
-      div.innerHTML = `
-      <div class="residual-item">
-        <div class="icon-container">
-          <i class="lni lni-world" style="color: #28a745; font-size: 24px;"></i>
-        </div>
-        <span class="charity-name">${charity.value}</span>
-        <div class="input-group">
-          <input type="number" class="form-control residual-input" id="charityPercentage${index}" name="charityPercentage${index}" min="0" max="100" value="0" oninput="calculateTotalPercentage()">
-          <span class="percent-sign">%</span>
-        </div>
-      </div>
-      `
-      divisionList.appendChild(div)
-  })
-}
-
-// Function to calculate total percentage
-function calculateTotalPercentage() {
-  let total = 0
-
-  // Sum the percentages from beneficiaries
-  const beneficiaryPercentages = document.querySelectorAll(
-      'input[name^="beneficiaryPercentage"]',
-  )
-  beneficiaryPercentages.forEach((input) => {
-      total += parseFloat(input.value || 0)
-  })
-
-  // Sum the percentages from charities
-  const charityPercentages = document.querySelectorAll(
-      'input[name^="charityPercentage"]',
-  )
-  charityPercentages.forEach((input) => {
-      total += parseFloat(input.value || 0)
-  })
-
-  // Display the total percentage
-  document.getElementById("totalPercentage").value = total.toFixed(2) + "%"
-
-  return total // Return the total percentage
-}
-
 // Validate that the total percentage equals 100%
 function validatePercentage() {
   const total = calculateTotalPercentage() // Get the total percentage
@@ -686,109 +649,320 @@ function validatePercentage() {
   } else {
       document.getElementById("percentageError").classList.remove("hidden")
   }
+}// Function to populate the residual estate division list
+
+// Function to populate the residual estate division list
+function populateResidualEstateDivisionList() {
+    const divisionList = document.getElementById("residualEstateDivisionList");
+    divisionList.innerHTML = ""; // Clear previous content
+
+    const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
+    const charities = document.querySelectorAll('input[name="charityName"]');
+
+    // Add inputs for beneficiaries
+    beneficiaries.forEach((beneficiary, index) => {
+        const div = document.createElement("div");
+        div.classList.add("residual-item-container");
+        div.innerHTML = `
+            <div class="residual-item">
+                <div class="icon-container">
+                    <i class="lni lni-user" style="color: #28a745; font-size: 24px;"></i>
+                </div>
+                <span class="beneficiary-name">${beneficiary.value}</span>
+                <div class="input-group">
+                    <input type="number" class="form-control residual-input" id="beneficiaryPercentage${index}" name="beneficiaryPercentage${index}" min="0" max="100" value="${loadInputValue(`beneficiaryPercentage${index}`)}" oninput="calculateTotalPercentage()">
+                    <span class="percent-sign">%</span>
+                </div>
+            </div>
+        `;
+        divisionList.appendChild(div);
+    });
+
+    // Add inputs for charities
+    charities.forEach((charity, index) => {
+        const div = document.createElement("div");
+        div.classList.add("residual-item-container");
+        div.innerHTML = `
+            <div class="residual-item">
+                <div class="icon-container">
+                    <i class="lni lni-world" style="color: #28a745; font-size: 24px;"></i>
+                </div>
+                <span class="charity-name">${charity.value}</span>
+                <div class="input-group">
+                    <input type="number" class="form-control residual-input" id="charityPercentage${index}" name="charityPercentage${index}" min="0" max="100" value="${loadInputValue(`charityPercentage${index}`)}" oninput="calculateTotalPercentage()">
+                    <span class="percent-sign">%</span>
+                </div>
+            </div>
+        `;
+        divisionList.appendChild(div);
+    });
+
+    // Attach listeners to save data on change
+    attachSaveListeners();
+
+    // Load initial values
+    loadSavedValues();
 }
 
+// Function to calculate total percentage
+function calculateTotalPercentage() {
+    let total = 0;
+
+    // Sum the percentages from beneficiaries
+    const beneficiaryPercentages = document.querySelectorAll('input[name^="beneficiaryPercentage"]');
+    beneficiaryPercentages.forEach((input) => {
+        total += parseFloat(input.value || 0);
+    });
+
+    // Sum the percentages from charities
+    const charityPercentages = document.querySelectorAll('input[name^="charityPercentage"]');
+    charityPercentages.forEach((input) => {
+        total += parseFloat(input.value || 0);
+    });
+
+    // Display the total percentage
+    document.getElementById("totalPercentage").value = total.toFixed(2) + "%";
+
+    return total; // Return the total percentage
+}
+
+// Initialize the population function on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    populateResidualEstateDivisionList();
+    populateContingencyList();
+    loadSavedValues();
+    loadSavedGiftValues();
+    attachGiftSaveListeners();
+});
+
+
+// Function to save input value in localStorage
+function saveInputValue(name, value) {
+    const savedValues = JSON.parse(localStorage.getItem('formValues')) || {};
+    savedValues[name] = value;
+    localStorage.setItem('formValues', JSON.stringify(savedValues));
+}
+
+// Function to load input value from localStorage
+function loadInputValue(name) {
+    const savedValues = JSON.parse(localStorage.getItem('formValues')) || {};
+    return savedValues[name] || '';
+}
+
+// Function to load all saved values when the page is loaded
+function loadSavedValues() {
+    const allInputs = document.querySelectorAll('.residual-input, .contingency-input, .executor-input .gift-input');
+    allInputs.forEach(input => {
+        const savedValue = loadInputValue(input.name);
+        if (savedValue) {
+            if (input.type === 'checkbox' || input.type === 'radio') {
+                input.checked = (input.value === savedValue || savedValue === 'true');
+            } else {
+                input.value = savedValue;
+            }
+        }
+    });
+}
+
+// Add event listeners to save changes on input
+function attachSaveListeners() {
+    document.querySelectorAll('.residual-input, .contingency-input, .executor-input .gift-input').forEach(input => {
+        input.addEventListener('input', () => {
+            saveInputValue(input.name, input.value);
+        });
+        input.addEventListener('change', () => {
+            saveInputValue(input.name, input.value);
+        });
+    });
+}
+
+// Initialize population functions on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    populateResidualEstateDivisionList();
+    populateContingencyList();
+    loadSavedValues();
+    loadSavedGiftValues(); // Load saved gifts data specifically
+    attachSaveListeners();
+    attachGiftSaveListeners();
+});
+
+// Function to save input value in localStorage
+function saveInputValue(name, value) {
+    const savedValues = JSON.parse(localStorage.getItem('formValues')) || {};
+    savedValues[name] = value;
+    localStorage.setItem('formValues', JSON.stringify(savedValues));
+}
+
+// Function to load input value from localStorage
+function loadInputValue(name) {
+    const savedValues = JSON.parse(localStorage.getItem('formValues')) || {};
+    return savedValues[name] || '';
+}
+
+// Function to load all saved values for residual, contingency, and executor sections
+function loadSavedValues() {
+    const allInputs = document.querySelectorAll('.residual-input, .contingency-input, .executor-input');
+    allInputs.forEach(input => {
+        const savedValue = loadInputValue(input.name);
+        if (savedValue) {
+            if (input.type === 'checkbox' || input.type === 'radio') {
+                input.checked = (input.value === savedValue || savedValue === 'true');
+            } else {
+                input.value = savedValue;
+            }
+        }
+    });
+}
+
+// Function to load saved gift values from localStorage
+function loadSavedGiftValues() {
+    const savedGifts = JSON.parse(localStorage.getItem('giftValues')) || {};
+    Object.keys(savedGifts).forEach(giftKey => {
+        const giftData = savedGifts[giftKey];
+        const giftInput = document.querySelector(`[name="${giftKey}"]`);
+        if (giftInput) {
+            if (giftInput.type === 'radio' || giftInput.type === 'checkbox') {
+                giftInput.checked = (giftInput.value === giftData || giftData === 'true');
+            } else {
+                giftInput.value = giftData;
+            }
+        }
+    });
+}
+
+// Function to save gift-specific input values in localStorage
+function saveGiftValue(name, value) {
+    const savedGifts = JSON.parse(localStorage.getItem('giftValues')) || {};
+    savedGifts[name] = value;
+    localStorage.setItem('giftValues', JSON.stringify(savedGifts));
+}
+
+// Add event listeners to save changes on input for general inputs
+function attachSaveListeners() {
+    document.querySelectorAll('.residual-input, .contingency-input, .executor-input').forEach(input => {
+        input.addEventListener('input', () => {
+            saveInputValue(input.name, input.value);
+        });
+        input.addEventListener('change', () => {
+            saveInputValue(input.name, input.value);
+        });
+    });
+}
+
+// Add event listeners to save changes on gift inputs specifically
+function attachGiftSaveListeners() {
+    document.querySelectorAll('.gift-input').forEach(input => {
+        input.addEventListener('input', () => {
+            saveGiftValue(input.name, input.value);
+        });
+        input.addEventListener('change', () => {
+            saveGiftValue(input.name, input.value);
+        });
+    });
+}
+
+
+
+
 // STEP 8 - CONTINGENCY
+
 function populateContingencyList() {
-  const contingencyList = document.getElementById("contingencyList")
-  if (!contingencyList) {
-      console.error("Contingency list container not found.")
-      return
-  }
+    const contingencyList = document.getElementById("contingencyList");
+    if (!contingencyList) {
+        console.error("Contingency list container not found.");
+        return;
+    }
 
-  contingencyList.innerHTML = "" // Clear previous content
+    contingencyList.innerHTML = ""; // Clear previous content
 
-  const beneficiaries = document.querySelectorAll(
-      'input[name="beneficiaryName"]',
-  )
+    const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
 
-  if (beneficiaries.length > 0) {
-      beneficiaries.forEach((beneficiary, index) => {
-          const contingencyDiv = document.createElement("div")
-          contingencyDiv.innerHTML = `
+    if (beneficiaries.length > 0) {
+        beneficiaries.forEach((beneficiary, index) => {
+            const contingencyDiv = document.createElement("div");
+            contingencyDiv.innerHTML = `
                 <h4>${beneficiary.value}</h4>
                 <label>What should happen to ${beneficiary.value}'s share if they pass away before you?</label><br><br>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" id="contingencyChildren${index}" name="contingency${index}" value="children">
+                    <input class="form-check-input contingency-input" type="radio" id="contingencyChildren${index}" name="contingency${index}" value="children">
                     <label for="contingencyChildren${index}" class="form-check-label">Children</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" id="contingencySpouse${index}" name="contingency${index}" value="spouse">
+                    <input class="form-check-input contingency-input" type="radio" id="contingencySpouse${index}" name="contingency${index}" value="spouse">
                     <label for="contingencySpouse${index}" class="form-check-label">Spouse</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" id="contingencyShare${index}" name="contingency${index}" value="share" onclick="hideSpecificPersonFields(${index})">
-                    <label for="contingencyShare${index}" class="form-check-label">Distribute with others beneficiaries</label>
+                    <input class="form-check-input contingency-input" type="radio" id="contingencyShare${index}" name="contingency${index}" value="share" onclick="hideSpecificPersonFields(${index})">
+                    <label for="contingencyShare${index}" class="form-check-label">Distribute with other beneficiaries</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" id="contingencySpecific${index}" name="contingency${index}" value="specific" onclick="showSpecificPersonFields(${index})">
+                    <input class="form-check-input contingency-input" type="radio" id="contingencySpecific${index}" name="contingency${index}" value="specific" onclick="showSpecificPersonFields(${index})">
                     <label for="contingencySpecific${index}" class="form-check-label">Specific Person</label>
                 </div>
 
-      <!-- Specific Person Details Card (Initially Hidden) within beneficiary-card -->
+                <!-- Specific Person Details Card (Initially Hidden) -->
                 <div id="specificPersonFields${index}" class="beneficiary-card hidden mt-3">
-                <div class="row align-items-center">
-            <!-- Avatar placeholder -->
-              <div class="col-3 col-md-2 text-center">
-                  <div class="avatar-placeholder">
-                      <i class="lni lni-users"></i> <!-- LineIcon Users Icon -->
-                  </div>
-              </div>
-                       <!-- Specific Person input fields -->
-            <div class="col-8 col-md-9">
-                <div class="row">
-                    <!-- Full name field -->
-                    <div class="col-12 col-md-6 mb-2">
-                        <input type="text" class="form-control" name="specificFullName${index}" placeholder="Full Name"><br>
-                    </div>
-                    <!-- Relationship dropdown -->
-                    <div class="col-12 col-md-6 mb-2">
-                        <select name="specificRelationship${index}" class="form-control">
-                            <option value="Select">Relationship to you</option>
-                            <option value="Spouse">Spouse</option>
-                            <option value="Civil partner">Civil partner</option>
-                            <option value="Partner">Partner</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Father">Father</option>
-                            <option value="Sister">Sister</option>
-                            <option value="Brother">Brother</option>
-                            <option value="Cousin">Cousin</option>
-                            <option value="Daughter">Daughter</option>
-                            <option value="Son">Son</option>
-                            <option value="Grandson">Grandson</option>
-                            <option value="Granddaughter">Granddaughter</option>
-                            <option value="Great grandson">Great grandson</option>
-                            <option value="Great granddaughter">Great granddaughter</option>
-                            <option value="Niece">Niece</option>
-                            <option value="Nephew">Nephew</option>
-                            <option value="Friend">Friend</option>
-                            <option value="Other">Other</option>
-                        </select><br>
+                    <div class="row align-items-center">
+                        <div class="col-3 col-md-2 text-center">
+                            <div class="avatar-placeholder">
+                                <i class="lni lni-users"></i>
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-9">
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-2">
+                                    <input type="text" class="form-control contingency-input" name="specificFullName${index}" placeholder="Full Name" value="${loadInputValue(`specificFullName${index}`)}">
+                                </div>
+                                <div class="col-12 col-md-6 mb-2">
+                                    <select name="specificRelationship${index}" class="form-control contingency-input">
+                                        <option value="Select">Relationship to you</option>
+                                        <option value="Spouse">Spouse</option>
+                                        <option value="Civil partner">Civil partner</option>
+                                        <option value="Partner">Partner</option>
+                                        <option value="Mother">Mother</option>
+                                        <option value="Father">Father</option>
+                                        <option value="Sister">Sister</option>
+                                        <option value="Brother">Brother</option>
+                                        <option value="Cousin">Cousin</option>
+                                        <option value="Daughter">Daughter</option>
+                                        <option value="Son">Son</option>
+                                        <option value="Grandson">Grandson</option>
+                                        <option value="Granddaughter">Granddaughter</option>
+                                        <option value="Great grandson">Great grandson</option>
+                                        <option value="Great granddaughter">Great granddaughter</option>
+                                        <option value="Niece">Niece</option>
+                                        <option value="Nephew">Nephew</option>
+                                        <option value="Friend">Friend</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 mb-2">
+                                    <input type="text" class="form-control contingency-input" name="specificAddress${index}" placeholder="Address or City" value="${loadInputValue(`specificAddress${index}`)}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1 text-right">
+                            <button class="btn-danger btn-sm" onclick="removeSpecificPerson(${index})">
+                                <i class="lni lni-trash-can"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <!-- Address field -->
-                <div class="row">
-                    <div class="col-12 mb-2">
-                        <input type="text" class="form-control" name="specificAddress${index}" placeholder="Address or City">
-                    </div>
-                </div>
-            </div>
-             <!-- Optional Remove button for specific person entry -->
-            <div class="col-1 text-right">
-                <button class="btn-danger btn-sm" onclick="removeSpecificPerson(${index})">
-                    <i class="lni lni-trash-can"></i>
-                </button>
-            </div>
-        </div>
-      </div>
-            `
-          contingencyList.appendChild(contingencyDiv)
-      })
-  } else {
-      console.warn("No beneficiaries found to populate contingency.")
-      contingencyList.innerHTML =
-          "<p>No beneficiaries available to set contingency for.</p>"
-  }
+            `;
+            contingencyList.appendChild(contingencyDiv);
+        });
+    } else {
+        console.warn("No beneficiaries found to populate contingency.");
+        contingencyList.innerHTML = "<p>No beneficiaries available to set contingency for.</p>";
+    }
+
+    // Attach listeners to save data on change
+    attachSaveListeners();
+
+    // Load initial values
+    loadSavedValues();
 }
 
 function showSpecificPersonFields(index) {
@@ -811,138 +985,109 @@ function removeSpecificPerson(index) {
   specificPersonFields.remove()
 }
 
+
 // STEP 9 - EXECUTOR
 // STEP 9 - EXECUTOR
+// Function to populate executor options
 function populateExecutorOptions() {
-  const executorList = document.getElementById("executorList")
-  executorList.innerHTML = ""
+    const executorList = document.getElementById("executorList");
+    executorList.innerHTML = ''; // Clear any existing content
 
-  // Option for Swiftwills
-  executorList.innerHTML += `
-    <div class="form-check">
-        <input type="checkbox" id="swiftwills" name="executor" value="Swiftwills">
-        <label class="form-check-label" for="swiftwills">Swiftwills</label>
-    </div>
-`
+    // Example dynamic data - replace this with actual data logic
+    const beneficiaries = document.querySelectorAll('input[name="beneficiaryName"]');
+    beneficiaries.forEach((beneficiary, idx) => {
+        executorList.innerHTML += `
+            <div class="form-check">
+                <input type="checkbox" id="executor${idx}" name="executor" value="${beneficiary.value}">
+                <label class="form-check-label" for="executor${idx}">${beneficiary.value}</label>
+            </div>
+        `;
+    });
 
-  // Options for beneficiaries as executors (from Step 5)
-  const beneficiaries = document.querySelectorAll(
-      'input[name="beneficiaryName"]',
-  )
-  beneficiaries.forEach((beneficiary, idx) => {
-      // <-- idx is used as the index here
-      executorList.innerHTML += `
-        <div class="form-check">
-            <input type="checkbox" id="executor${idx}" name="executor" value="${beneficiary.value}">
-            <label class="form-check-label" for="executor${idx}">${beneficiary.value}</label>
-        </div>
-    `
-  })
-
-  // Option for someone else
-  executorList.innerHTML += `
-    <div class="form-check">
-        <input type="checkbox" id="someoneElse" name="executor" value="someoneElse" onclick="toggleAdditionalExecutorFields(this)">
-        <label class="form-check-label" for="someoneElse">Someone else</label>
-    </div>
-    <div id="additionalExecutorFieldsContainer" class="hidden">
-        <!-- Initial executor fields and Add/Remove buttons -->
-        ${generateExecutorCard(0)}  <!-- Ensure the function is returning a valid card with 0 as the index -->
-        <button type="button" class="btn btn-outline-primary btn-sm mt-3" onclick="addNewExecutor()">Add Another Executor</button>
-    </div>
-`
+    // Restore selection from localStorage
+    const storedExecutors = JSON.parse(localStorage.getItem('selectedExecutors')) || [];
+    storedExecutors.forEach(value => {
+        const selectedInput = document.querySelector(`input[name="executor"][value="${value}"]`);
+        if (selectedInput) {
+            selectedInput.checked = true;
+        }
+    });
 }
 
-// Function to generate executor card structure, passing idx to ensure defined scope
-function generateExecutorCard(idx) {
-  return `
-  <div id="executorCard${idx}" class="beneficiary-card mt-3 p-3 shadow-sm">
-      <div class="row align-items-center">
-          <!-- Avatar Icon -->
-          <div class="col-3 col-md-2 text-center">
-              <div class="avatar-placeholder">
-                  <i class="lni lni-users"></i>
-              </div>
-          </div>
-          <!-- Executor Input Fields -->
-          <div class="col-8 col-md-9">
-              <div class="row">
-                  <div class="col-12 col-md-6 mb-2">
-                      <input type="text" class="form-control mt-2" name="executorFullName${idx}" placeholder="Full Name"><br>
-                  </div>
-                  <div class="col-12 col-md-6 mb-2">
-                      <select name="executorRelationship${idx}" class="form-control mt-2">
-                          <option value="Select">Relationship to you</option>
-                            <option value="Spouse">Spouse</option>
-                            <option value="Civil partner">Civil partner</option>
-                            <option value="Partner">Partner</option>
-                            <option value="Mother">Mother</option>
-                            <option value="Father">Father</option>
-                            <option value="Sister">Sister</option>
-                            <option value="Brother">Brother</option>
-                            <option value="Cousin">Cousin</option>
-                            <option value="Daughter">Daughter</option>
-                            <option value="Son">Son</option>
-                            <option value="Grandson">Grandson</option>
-                            <option value="Granddaughter">Granddaughter</option>
-                            <option value="Great grandson">Great grandson</option>
-                            <option value="Great granddaughter">Great granddaughter</option>
-                            <option value="Niece">Niece</option>
-                            <option value="Nephew">Nephew</option>
-                            <option value="Friend">Friend</option>
-                            <option value="Other">Other</option>
-                      </select><br>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-12 mb-2">
-                      <input type="text" class="form-control mt-2" name="executorAddress${idx}" placeholder="Address or City">
-                  </div>
-              </div>
-          </div>
-          <div class="col-1 text-right">
-              <button type="button" class="btn-danger btn-sm" onclick="removeExecutor(${idx})">
-                  <i class="lni lni-trash-can"></i>
-              </button>
-          </div>
-      </div>
-  </div>
-`
-}
+// Save selected executors to localStorage
+document.addEventListener('change', (e) => {
+    if (e.target.name === 'executor') {
+        const selectedValues = Array.from(document.querySelectorAll('input[name="executor"]:checked')).map(input => input.value);
+        localStorage.setItem('selectedExecutors', JSON.stringify(selectedValues));
+    }
+});
 
-// Function to add a new executor card
-let executorCount = 1
+// Ensure selected executors are shown correctly on DOM load
+window.addEventListener('DOMContentLoaded', () => {
+    populateExecutorOptions();
+});
+
+
+function toggleAdditionalExecutorFields(checkbox) {
+    const container = document.getElementById("additionalExecutorFieldsContainer");
+    const addButton = document.getElementById("addExecutorButton");
+    if (checkbox.checked) {
+        container.classList.remove("hidden");
+        addButton.classList.remove("hidden");
+        addNewExecutor(); // Add the initial executor card
+    } else {
+        container.classList.add("hidden");
+        addButton.classList.add("hidden");
+        container.innerHTML = ''; // Clear existing executor cards
+    }
+}
 
 function addNewExecutor() {
-  const additionalExecutorFieldsContainer = document.getElementById(
-      "additionalExecutorFieldsContainer",
-  )
-  additionalExecutorFieldsContainer.insertAdjacentHTML(
-      "beforeend",
-      generateExecutorCard(executorCount),
-  )
-  executorCount++
+    const container = document.getElementById("additionalExecutorFieldsContainer");
+    const newIdx = container.children.length; // Get the current count for unique IDs
+    const newExecutorCard = `
+        <div id="executorCard${newIdx}" class="beneficiary-card mt-3 p-3 shadow-sm">
+            <div class="row align-items-center">
+                <div class="col-3 col-md-2 text-center">
+                    <div class="avatar-placeholder"><i class="lni lni-users"></i></div>
+                </div>
+                <div class="col-8 col-md-9">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-2">
+                            <input type="text" class="form-control mt-2" name="executorFullName${newIdx}" placeholder="Full Name">
+                        </div>
+                        <div class="col-12 col-md-6 mb-2">
+                            <select name="executorRelationship${newIdx}" class="form-control mt-2">
+                                <option value="Select">Relationship to you</option>
+                                <option value="Spouse">Spouse</option>
+                                <option value="Civil partner">Civil partner</option>
+                                <option value="Partner">Partner</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <input type="text" class="form-control mt-2" name="executorAddress${newIdx}" placeholder="Address or City">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1 text-right">
+                    <button type="button" class="btn-danger btn-sm" onclick="removeExecutor(${newIdx})">
+                        <i class="lni lni-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    container.insertAdjacentHTML('beforeend', newExecutorCard);
 }
 
-// Function to remove a specific executor card by index
 function removeExecutor(idx) {
-  const executorCard = document.getElementById(`executorCard${idx}`)
-  if (executorCard) {
-      executorCard.remove()
-  }
+    const executorCard = document.getElementById(`executorCard${idx}`);
+    if (executorCard) executorCard.remove();
 }
 
-// Toggle the additional executor fields when 'Someone else' is selected
-function toggleAdditionalExecutorFields(checkbox) {
-  const container = document.getElementById("additionalExecutorFieldsContainer")
-  if (checkbox.checked) {
-      container.classList.remove("hidden")
-  } else {
-      container.classList.add("hidden")
-      container.innerHTML = generateExecutorCard(0) // Reset to the first card
-      executorCount = 1 // Reset counter
-  }
-}
 
 // STEP 10 - CHILDREN
 // Show or hide children fields based on user selection (Children under 18)
