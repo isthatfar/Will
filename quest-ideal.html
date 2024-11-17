@@ -308,6 +308,12 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
             handleWillRedirect();
             submitWillData();
         });
+
+        form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await submitWillData();
+});
+
     </script>
     
 
@@ -418,16 +424,32 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
         </div>
     </div>
 
+
     <!-- Step 2: Who Needs a Will -->
     <div id="step2" class="hidden container mt-5">
         <h5>Who needs a will?</h5><br>
-        <div id="willOptions" class="form-group"></div>
-        
+        <div id="willOptions" class="form-group d-flex flex-column align-items-center">
+            <div class="form-check" id="singleOrWidowedOption">
+                <input type="radio" id="whoNeedsWillJustMe" name="whoNeedsWill" value="Just me">
+                <label class="form-check-label" for="whoNeedsWillJustMe">
+                    <h5>Just me</h5>
+                    <p>If your partner already has a will and doesn't need to update it</p>
+                </label>
+            </div>
+            <div class="form-check" id="partnerOption">
+                <input type="radio" id="whoNeedsWillPartner" name="whoNeedsWill" value="Me and my partner">
+                <label class="form-check-label" for="whoNeedsWillPartner">
+                    <h5>Me and my partner</h5>
+                    <p>If you are married, partnered, or just with someone</p>
+                </label>
+            </div>
+        </div>
         <div class="d-flex justify-content-between">
             <button class="btn btn-secondary" onclick="goToStep1()">Previous</button>
             <button class="btn btn-primary" onclick="goToStep3()">Next</button>
         </div>
     </div>
+
 
     <!-- Step 3: Contact Information -->
     <div id="step3" class="hidden container mt-5">
@@ -763,7 +785,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                         <div id="guardianList" class="form-group">
                             <!-- Multiple guardians can be added here dynamically -->
                         </div>
-                        <button class="btn btn-outline-primary" onclick="addGuardian()">Add Another Guardian</button><br>
+                        <button id="addGuardianButton"  class="btn btn-outline-primary" onclick="addGuardian()">Add Another Guardian</button><br>
                     </div>
                 </div>
             </div>
