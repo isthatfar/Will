@@ -298,10 +298,46 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="questionnaire.js"></script>
+    <script src="3q.js"></script>
     <script src="questionnaire.css"></script>
 
-
+<script>/* Step 6 Gift Cards */
+    .gift-card {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .gift-card h6 {
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+    
+    .btn-group-toggle .btn {
+        border-radius: 20px;
+        padding: 10px 20px;
+    }
+    
+    #giftDetails input, #giftDetails .input-group {
+        margin-top: 10px;
+    }
+    
+    .btn-outline-primary.active, .btn-outline-primary:active {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 10px 30px;
+        font-size: 16px;
+    }
+    
+    .d-flex .btn {
+        width: 120px;
+    }
+    </script>
     <!-- Progress Bar -->
     <div class="container mt-4">
         <div class="progress">
@@ -482,36 +518,70 @@
     </div>
 
     <!-- Step 6: Specific Gifts or Donations -->
-    <div id="step6" class="hidden container mt-5">
-        <h5>Do You Want to Leave Specific Gifts or Donations?</h5>
+    <!-- Step 6: Specific Gifts or Donations -->
+<div id="step6" class="hidden container mt-5">
+    <h5>Do You Want to Leave Specific Gifts or Donations?</h5>
 
-        <!-- Gift Recipient List (Dynamically Populated by JS) -->
-        <div id="giftRecipientList">
-            <!-- Example for Beneficiary 1 -->
-            <div id="beneficiary1" class="beneficiary-info">
-                <label for="beneficiaryName1">Name:</label>
-                <input type="text" id="beneficiaryName1" name="beneficiaryName1" placeholder="Enter Beneficiary Name">
+    <!-- Gift Recipient List (Static HTML for each gift type) -->
+    <div id="giftRecipientList">
 
-                <label for="beneficiaryRelationship1">Relationship:</label>
-                <input type="text" id="beneficiaryRelationship1" name="beneficiaryRelationship1" placeholder="Enter Relationship">
+        <!-- Example Beneficiary Gift Section -->
+        <div class="beneficiary mt-3" id="beneficiary1">
+            <h4>John Doe</h4>
+            
+            <!-- Gift Selection Options -->
+            <div class="gift-selection mt-2">
+                <strong>Gift Type:</strong><br>
+                <button class="gift-option" data-type="cash" data-recipient="beneficiary1">Cash</button>
+                <button class="gift-option" data-type="property" data-recipient="beneficiary1">Property</button>
+                <button class="gift-option" data-type="collection" data-recipient="beneficiary1">Collection of Items</button>
+                <button class="gift-option" data-type="item" data-recipient="beneficiary1">Item</button>
+            </div>
+            
+            <!-- Hidden sections for each gift type, shown based on selection -->
+            <div class="gift-details mt-3">
+                
+                <!-- Cash Gift Input (Initially Hidden) -->
+                <div class="gift-input hidden" data-type="cash">
+                    <label>Cash Amount:</label>
+                    <input type="number" id="cashAmountBeneficiary1" placeholder="Enter amount">
+                    <p class="example-text">e.g., £500</p>
+                </div>
 
-                <!-- Add Gift Button -->
-                <button class="btn btn-outline-primary mt-2" onclick="addGift(1)">Add Gift</button><br>
+                <!-- Property Gift Input (Initially Hidden) -->
+                <div class="gift-input hidden" data-type="property">
+                    <label>Property Address:</label>
+                    <input type="text" id="propertyAddressBeneficiary1" placeholder="Enter address">
+                    <label>Percentage:</label>
+                    <input type="number" id="propertyPercentageBeneficiary1" placeholder="Enter percentage">
+                    <p class="example-text">e.g., 50%</p>
+                </div>
 
-                <!-- Placeholder for dynamically added gifts for Beneficiary 1 -->
-                <div id="giftDetailsBeneficiary1" class="mt-3"></div>
+                <!-- Collection of Items Gift Input (Initially Hidden) -->
+                <div class="gift-input hidden" data-type="collection">
+                    <label>Collection Description:</label>
+                    <input type="text" id="collectionDescriptionBeneficiary1" placeholder="Describe collection">
+                    <p class="example-text">e.g., all of my books</p>
+                </div>
+
+                <!-- Specific Item Gift Input (Initially Hidden) -->
+                <div class="gift-input hidden" data-type="item">
+                    <label>Item Description:</label>
+                    <input type="text" id="itemDescriptionBeneficiary1" placeholder="Describe item">
+                    <p class="example-text">e.g., my gold ring</p>
+                </div>
             </div>
         </div>
-
-
-        <div id="giftRecipientList"></div><br>
-
-        <!-- Navigation Buttons -->
-        <div class="d-flex justify-content-between">
-            <button class="btn btn-secondary" onclick="goToStep5()">Previous</button>
-            <button class="btn btn-primary" onclick="goToStep7()">Next</button>
-        </div>
     </div>
+
+    <!-- Navigation Buttons -->
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary" onclick="goToStep5()">Previous</button>
+        <button class="btn btn-primary" onclick="goToStep7()">Next</button>
+    </div>
+</div>
+
+      
 
 
     <!-- Step 7: Division of Residual Estate -->

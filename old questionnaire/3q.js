@@ -315,96 +315,107 @@ function goToStep1() {
   
   // STEP 6 - GIFTS
   //Function to add a gift for a recipient (either beneficiary or charity)
-  let giftCounters = {
-    beneficiary: {},
-    charity: {}
-  } // Track gift counts separately
-  
-  function addGift(index, type) {
-    const giftDiv = document.getElementById(
-        `giftDetails${capitalizeFirstLetter(type)}${index}`,
-    )
-    const recipientName = type === "beneficiary" ? "Beneficiary" : "Charity"
-  
-    if (!giftCounters[type][index]) {
-        giftCounters[type][index] = 0
-    }
-  
-    const giftId = giftCounters[type][index]++
-    const newGiftDiv = document.createElement("div")
-    newGiftDiv.id = `giftDiv${type}${index}${giftId}`
-    newGiftDiv.classList.add("mt-3")
-  
-    newGiftDiv.innerHTML = `
-        <label>Select a gift type:</label><br>
-        <div class="form-check">
-            <input type="radio" id="giftCash${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="cash" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'cash')">
-            <label class="form-check-label" for="giftCash${type}${index}${giftId}">Cash</label>
-        </div>
-        <div class="form-check">
-            <input type="radio" id="giftProperty${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="property" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'property')">
-            <label class="form-check-label" for="giftProperty${type}${index}${giftId}">Property</label>
-        </div>
-        <div class="form-check">
-            <input type="radio" id="giftCollection${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="collection" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'collection')">
-            <label class="form-check-label" for="giftCollection${type}${index}${giftId}">Collection of items</label>
-        </div>
-        <div class="form-check">
-            <input type="radio" id="giftItem${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="item" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'item')">
-            <label class="form-check-label" for="giftItem${type}${index}${giftId}">Item</label>
-        </div>
-  
-        <div id="giftDetails${type}${index}${giftId}" class="gift-details mt-2"></div>
-        <button class="btn btn-danger mt-2" onclick="removeGift(${index}, ${giftId}, '${type}')">Remove Gift</button>
-        <hr>
-    `
-    giftDiv.appendChild(newGiftDiv)
+// STEP 6 - GIFTS
+//Function to add a gift for a recipient (either beneficiary or charity)
+let giftCounters = {
+  beneficiary: {},
+  charity: {}
+} // Track gift counts separately
+
+function addGift(index, type) {
+  const giftDiv = document.getElementById(
+      `giftDetails${capitalizeFirstLetter(type)}${index}`,
+  )
+  const recipientName = type === "beneficiary" ? "Beneficiary" : "Charity"
+
+  if (!giftCounters[type][index]) {
+      giftCounters[type][index] = 0
   }
-  
-  // Function to handle gift details based on the selected type
-  function showGiftDetails(index, giftId, type, giftType) {
-    const giftDetailsDiv = document.getElementById(
-        `giftDetails${type}${index}${giftId}`,
-    )
-    giftDetailsDiv.innerHTML = "" // Clear previous content
-  
-    if (giftType === "cash") {
-        giftDetailsDiv.innerHTML = `
-            <label for="cashAmount${type}${index}${giftId}">Cash Amount:</label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">£</span>
-                </div>
-                <input type="number" class="form-control" id="cashAmount${type}${index}${giftId}" name="cashAmount${type}${index}${giftId}" placeholder="Enter amount">
-            </div>
-        `
-    } else if (giftType === "property") {
-        giftDetailsDiv.innerHTML = `
-            <label for="propertyAddress${type}${index}${giftId}">Property Address:</label>
-            <input type="text" id="propertyAddress${type}${index}${giftId}" name="propertyAddress${type}${index}${giftId}" class="form-control" placeholder="Enter property address">
-            <label for="propertyPercentage${type}${index}${giftId}" class="mt-2">Percentage:</label>
-            <input type="number" class="form-control" id="propertyPercentage${type}${index}${giftId}" name="propertyPercentage${type}${index}${giftId}" placeholder="Enter percentage">
-        `
-    } else if (giftType === "collection") {
-        giftDetailsDiv.innerHTML = `
-            <label for="collectionDescription${type}${index}${giftId}">Collection Description:</label>
-            <input type="text" id="collectionDescription${type}${index}${giftId}" name="collectionDescription${type}${index}${giftId}" class="form-control" placeholder="Describe the collection">
-        `
-    } else if (giftType === "item") {
-        giftDetailsDiv.innerHTML = `
-            <label for="itemDescription${type}${index}${giftId}">Item Description:</label>
-            <input type="text" id="itemDescription${type}${index}${giftId}" name="itemDescription${type}${index}${giftId}" class="form-control" placeholder="Describe the item">
-        `
-    }
+
+  const giftId = giftCounters[type][index]++
+  const newGiftDiv = document.createElement("div")
+  newGiftDiv.id = `giftDiv${type}${index}${giftId}`
+  newGiftDiv.classList.add("mt-3")
+
+  newGiftDiv.innerHTML = `
+      <label>Select a gift type:</label><br>
+      <div class="form-check">
+          <input type="radio" id="giftCash${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="cash" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'cash')">
+          <label class="form-check-label" for="giftCash${type}${index}${giftId}">Cash</label>
+      </div>
+      <div class="form-check">
+          <input type="radio" id="giftProperty${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="property" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'property')">
+          <label class="form-check-label" for="giftProperty${type}${index}${giftId}">Property</label>
+      </div>
+      <div class="form-check">
+          <input type="radio" id="giftCollection${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="collection" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'collection')">
+          <label class="form-check-label" for="giftCollection${type}${index}${giftId}">Collection of items</label>
+      </div>
+      <div class="form-check">
+          <input type="radio" id="giftItem${type}${index}${giftId}" name="giftType${type}${index}${giftId}" value="item" onchange="showGiftDetails(${index}, ${giftId}, '${type}', 'item')">
+          <label class="form-check-label" for="giftItem${type}${index}${giftId}">Item</label>
+      </div>
+
+      <div id="giftDetails${type}${index}${giftId}" class="gift-details mt-2"></div>
+      <button class="btn btn-danger mt-2" onclick="removeGift(${index}, ${giftId}, '${type}')">Remove Gift</button>
+      <hr>
+  `
+  giftDiv.appendChild(newGiftDiv)
+}
+
+// Function to handle gift details based on the selected type
+function showGiftDetails(index, giftId, type, giftType) {
+  const giftDetailsDiv = document.getElementById(
+      `giftDetails${type}${index}${giftId}`,
+  )
+  giftDetailsDiv.innerHTML = "" // Clear previous content
+
+  if (giftType === "cash") {
+      giftDetailsDiv.innerHTML = `
+          <label for="cashAmount${type}${index}${giftId}">Cash Amount:</label>
+          <div class="input-group">
+              <div class="input-group-prepend">
+                  <span class="input-group-text">£</span>
+              </div>
+              <input type="number" class="form-control" id="cashAmount${type}${index}${giftId}" name="cashAmount${type}${index}${giftId}" placeholder="Enter amount">
+          </div>
+      `
+  } else if (giftType === "property") {
+      giftDetailsDiv.innerHTML = `
+          <label for="propertyAddress${type}${index}${giftId}">Property Address:</label>
+          <input type="text" id="propertyAddress${type}${index}${giftId}" name="propertyAddress${type}${index}${giftId}" class="form-control" placeholder="Enter property address">
+          <label for="propertyPercentage${type}${index}${giftId}" class="mt-2">Percentage:</label>
+          <input type="number" class="form-control" id="propertyPercentage${type}${index}${giftId}" name="propertyPercentage${type}${index}${giftId}" placeholder="Enter percentage">
+      `
+  } else if (giftType === "collection") {
+      giftDetailsDiv.innerHTML = `
+          <label for="collectionDescription${type}${index}${giftId}">Collection Description:</label>
+          <input type="text" id="collectionDescription${type}${index}${giftId}" name="collectionDescription${type}${index}${giftId}" class="form-control" placeholder="Describe the collection">
+      `
+  } else if (giftType === "item") {
+      giftDetailsDiv.innerHTML = `
+          <label for="itemDescription${type}${index}${giftId}">Item Description:</label>
+          <input type="text" id="itemDescription${type}${index}${giftId}" name="itemDescription${type}${index}${giftId}" class="form-control" placeholder="Describe the item">
+      `
   }
-  
-  
-  
-  // Function to remove a gift
-  function removeGift(index, giftId, type) {
-    const giftDiv = document.getElementById(`giftDiv${type}${index}${giftId}`)
-    giftDiv.remove()
-  }
+}
+
+
+
+// Function to remove a gift
+function removeGift(index, giftId, type) {
+  const giftDiv = document.getElementById(`giftDiv${type}${index}${giftId}`)
+  giftDiv.remove()
+}
+
+
+
+
+
+
+
+
+
   
   // STEP 7 - RESIDUAL ESTATE
   function populateResidualEstateDivisionList() {
