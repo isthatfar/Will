@@ -247,9 +247,9 @@ function goToStep1() {
     const whoNeedsWill = document.querySelector('input[name="whoNeedsWill"]:checked')?.value;
 
     if (whoNeedsWill === 'Just me') {
-        window.location.href = 'https://buy.stripe.com/00gg2DgUU1sbbqUfYZ';
+        window.location.href = 'x';
     } else if (whoNeedsWill === 'Me and my partner') {
-        window.location.href = 'https://buy.stripe.com/5kAaIj6ggeeX1Qk288';
+        window.location.href = 'x';
     } else {
         alert('Please select an option for who needs a will.');
     }
@@ -597,10 +597,10 @@ function goToStep1() {
           <div id="giftSelectionCard${type}${index}${giftId}" class="gift-selection-card">
               <div class="gift-icon"><i class="fas fa-gift"></i></div>
               <div class="gift-options">
-                  <button class="gift-option" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'cash', '${name}')">Cash</button>
-                  <button class="gift-option" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'property', '${name}')">Property</button>
+                  <button class="gift-option" id="giftTypebeneficiary${index}${giftId}" name="giftTypebeneficiary${index}${giftId}"  onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'cash', '${name}')">Cash</button>
+                  <button class="gift-option" id="giftTypebeneficiary${index}${giftId}" name="giftTypebeneficiary${index}${giftId}" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'property', '${name}')">Property</button>
                   <button class="gift-option" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'collection', '${name}')">Collection of items</button>
-                  <button class="gift-option" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'item', '${name}')">Item</button>
+                  <button class="gift-option" id="giftTypebeneficiary${index}${giftId}" name="giftTypebeneficiary${index}${giftId}" onclick="showGiftDetails(${index}, ${giftId}, '${type}', 'item', '${name}')">Item</button>
               </div>
               <div class="delete-icon" onclick="removeGift(${index}, ${giftId}, '${type}')"><i class="fas fa-trash-alt"></i></div>
           </div>
@@ -758,16 +758,7 @@ function goToStep1() {
       }
   }
   
-  
-  
-  hfgshdh
-  hdhgshfjd
-  gfhdhdhf
-  hdhdfgd
-  hshdhgfhdj
-  dhfhghfjd
-  
-  
+
   
   
   // STEP 7 - RESIDUAL ESTATE

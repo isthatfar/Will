@@ -25,31 +25,24 @@
 
 <body>
     <script type="module">
-        import {
-            initializeApp
-        } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-        import {
-            getFirestore,
-            collection,
-            addDoc
-        } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
-        import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
-
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+        import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+    
         // Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDdR0ZKYGac95o6pqlSw1bwGmNKy_xh3GA",
-            authDomain: "swift-7c667.firebaseapp.com",
-            projectId: "swift-7c667",
-            storageBucket: "swift-7c667.appspot.com",
-            messagingSenderId: "253052443224",
-            appId: "1:253052443224:web:7f106735bfd5bf436cc82d",
-            measurementId: "G-TQMV7C75D3"
+            apiKey: "x",
+            authDomain: "x",
+            projectId: "x",
+            storageBucket: "x",
+            messagingSenderId: "x",
+            appId: "x",
+            measurementId: "x"
         };
-
+    
         // Initialize Firebase app
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
+    
         // Function to collect form data and submit to Firestore
         async function submitWillData() {
             try {
@@ -58,101 +51,70 @@
                 const lastName = document.getElementById('lastName')?.value || '';
                 const email = document.getElementById('email')?.value || '';
                 const relationship = document.querySelector('input[name="relationship"]:checked')?.value || '';
-
+    
                 // Who Needs a Will
                 const whoNeedsWill = document.querySelector('input[name="whoNeedsWill"]:checked')?.value || '';
-
+    
                 // Collect gifts for beneficiaries and charities
                 const gifts = [];
-
+    
                 // Beneficiaries data collection
                 document.querySelectorAll('input[name="beneficiaryName"]').forEach((beneficiary, index) => {
-    const name = beneficiary?.value || '';
-    const relationship = document.getElementById(`beneficiaryRelationship${index}`)?.value || '';
-    const address = document.getElementById(`beneficiaryAddress${index}`)?.value || '';
-
-    const beneficiaryGifts = [];
-    document.querySelectorAll(`#giftDetailsBeneficiary${index} > div`).forEach((giftDiv, giftIndex) => {
-        const giftType = document.querySelector(`input[name="giftTypebeneficiary${index}${giftIndex}"]:checked`)?.value || '';
-        let giftDetails = '';
-
-        if (giftType === 'cash') {
-            giftDetails = document.getElementById(`cashAmountbeneficiary${index}${giftIndex}`)?.value || '';
-        } else if (giftType === 'property') {
-            const propertyAddress = document.getElementById(`propertyAddressbeneficiary${index}${giftIndex}`)?.value || '';
-            const propertyPercentage = document.getElementById(`propertyPercentagebeneficiary${index}${giftIndex}`)?.value || '';
-            giftDetails = `${propertyAddress} (Percentage: ${propertyPercentage}%)`;
-        } else if (giftType === 'collection') {
-            giftDetails = document.getElementById(`collectionDescriptionbeneficiary${index}${giftIndex}`)?.value || '';
-        } else if (giftType === 'item') {
-            giftDetails = document.getElementById(`itemDescriptionbeneficiary${index}${giftIndex}`)?.value || '';
-        }
-
-        if (giftType && giftDetails) {
-            beneficiaryGifts.push({
-                giftType,
-                giftDetails
-            });
-        }
-
-        // Log the collected gift details for debugging
-        console.log(`Beneficiary ${index} Gift ${giftIndex}:`, { giftType, giftDetails });
-    });
-
-    if (name || relationship || address) {
-        gifts.push({
-            type: 'beneficiary',
-            name,
-            relationship,
-            address,
-            beneficiaryGifts
-        });
-    }
-});
-
+                    const name = beneficiary?.value || '';
+                    const relationship = document.getElementById(`beneficiaryRelationship${index}`)?.value || '';
+                    const address = document.getElementById(`beneficiaryAddress${index}`)?.value || '';
+    
+                    const beneficiaryGifts = [];
+                    document.querySelectorAll(`#giftDetailsBeneficiary${index} > div`).forEach((giftDiv, giftIndex) => {
+                        const giftType = document.querySelector(`input[name="giftTypebeneficiary${index}${giftIndex}"]:checked`)?.value || '';
+                        let giftDetails = '';
+    
+                        if (giftType === 'cash') {
+                            giftDetails = document.getElementById(`cashAmountbeneficiary${index}${giftIndex}`)?.value || '';
+                        } else if (giftType === 'property') {
+                            const propertyAddress = document.getElementById(`propertyAddressbeneficiary${index}${giftIndex}`)?.value || '';
+                            const propertyPercentage = document.getElementById(`propertyPercentagebeneficiary${index}${giftIndex}`)?.value || '';
+                            giftDetails = `${propertyAddress} (Percentage: ${propertyPercentage}%)`;
+                        } else if (giftType === 'collection') {
+                            giftDetails = document.getElementById(`collectionDescriptionbeneficiary${index}${giftIndex}`)?.value || '';
+                        } else if (giftType === 'item') {
+                            giftDetails = document.getElementById(`itemDescriptionbeneficiary${index}${giftIndex}`)?.value || '';
+                        }
+    
+                        beneficiaryGifts.push({ giftType, giftDetails });
+                    });
+    
+                    gifts.push({ type: 'beneficiary', name, relationship, address, beneficiaryGifts });
+                });
+    
                 // Collect gifts for charities
                 document.querySelectorAll('input[name="charityName"]').forEach((charity, index) => {
-    const name = charity?.value || '';
-    const address = document.getElementById(`charityAddress${index}`)?.value || '';
-
-    const charityGifts = [];
-    document.querySelectorAll(`#giftDetailsCharity${index} > div`).forEach((giftDiv, giftIndex) => {
-        const giftType = document.querySelector(`input[name="giftTypecharity${index}${giftIndex}"]:checked`)?.value || '';
-        let giftDetails = '';
-
-        if (giftType === 'cash') {
-            giftDetails = document.getElementById(`cashAmountcharity${index}${giftIndex}`)?.value || '';
-        } else if (giftType === 'property') {
-            const propertyAddress = document.getElementById(`propertyAddresscharity${index}${giftIndex}`)?.value || '';
-            const propertyPercentage = document.getElementById(`propertyPercentagecharity${index}${giftIndex}`)?.value || '';
-            giftDetails = `${propertyAddress} (Percentage: ${propertyPercentage}%)`;
-        } else if (giftType === 'collection') {
-            giftDetails = document.getElementById(`collectionDescriptioncharity${index}${giftIndex}`)?.value || '';
-        } else if (giftType === 'item') {
-            giftDetails = document.getElementById(`itemDescriptioncharity${index}${giftIndex}`)?.value || '';
-        }
-
-        if (giftType && giftDetails) {
-            charityGifts.push({
-                giftType,
-                giftDetails
-            });
-        }
-
-        // Log the collected gift details for debugging
-        console.log(`Charity ${index} Gift ${giftIndex}:`, { giftType, giftDetails });
-    });
-
-    if (name || address) {
-        gifts.push({
-            type: 'charity',
-            name,
-            address,
-            charityGifts
-        });
-    }
-});
-
+                    const name = charity?.value || '';
+                    const address = document.getElementById(`charityAddress${index}`)?.value || '';
+                    
+                    const charityGifts = [];
+                    document.querySelectorAll(`#giftDetailsCharity${index} > div`).forEach((giftDiv, giftIndex) => {
+                        const giftType = document.querySelector(`input[name="giftTypecharity${index}${giftIndex}"]:checked`)?.value || '';
+                        let giftDetails = '';
+    
+                        if (giftType === 'cash') {
+                            giftDetails = document.getElementById(`cashAmountcharity${index}${giftIndex}`)?.value || '';
+                        } else if (giftType === 'property') {
+                            const propertyAddress = document.getElementById(`propertyAddresscharity${index}${giftIndex}`)?.value || '';
+                            const propertyPercentage = document.getElementById(`propertyPercentagecharity${index}${giftIndex}`)?.value || '';
+                            giftDetails = `${propertyAddress} (Percentage: ${propertyPercentage}%)`;
+                        } else if (giftType === 'collection') {
+                            giftDetails = document.getElementById(`collectionDescriptioncharity${index}${giftIndex}`)?.value || '';
+                        } else if (giftType === 'item') {
+                            giftDetails = document.getElementById(`itemDescriptioncharity${index}${giftIndex}`)?.value || '';
+                        }
+    
+                        charityGifts.push({ giftType, giftDetails });
+                    });
+    
+                    gifts.push({ type: 'charity', name, address, charityGifts });
+                });
+    
                 // Residual Estate
                 const residualEstate = [];
                 document.querySelectorAll('input[name^="beneficiaryPercentage"]').forEach((input, index) => {
@@ -167,59 +129,37 @@
                         percentage: input?.value || ''
                     });
                 });
-
+    
                 // Contingency Planning
                 const contingencies = [];
-document.querySelectorAll('input[name="beneficiaryName"]').forEach((beneficiary, index) => {
-    const plan = document.querySelector(`input[name="contingency${index}"]:checked`)?.value || '';
-    let specificPersonDetails = {};
-
-    if (plan === 'specific') {
-        const specificName = document.querySelector(`input[name="specificFullName${index}"]`)?.value || '';
-        const specificRelationship = document.querySelector(`select[name="specificRelationship${index}"]`)?.value || '';
-        const specificAddress = document.querySelector(`input[name="specificAddress${index}"]`)?.value || '';
-
-        if (specificName && specificRelationship && specificAddress) {
-            specificPersonDetails = {
-                name: specificName,
-                relationship: specificRelationship,
-                address: specificAddress
-            };
-        }
-    }
-
-    contingencies.push({
-        beneficiary: beneficiary?.value || '',
-        plan,
-        specificPerson: plan === 'specific' ? specificPersonDetails : null
-    });
-});
-
-
+                document.querySelectorAll('input[name="beneficiaryName"]').forEach((beneficiary, index) => {
+                    contingencies.push({
+                        beneficiary: beneficiary?.value || '',
+                        plan: document.querySelector(`input[name="contingency${index}"]:checked`)?.value || ''
+                    });
+                });
+    
                 // Executors
                 const executors = [];
-document.querySelectorAll('input[name="executor"]:checked').forEach((executor, idx) => {
-    if (executor.value === 'someoneElse') {
-        const executorName = document.querySelector(`input[name="executorFullName${idx}"]`)?.value || '';
-        const executorRelationship = document.querySelector(`select[name="executorRelationship${idx}"]`)?.value || '';
-        const executorAddress = document.querySelector(`input[name="executorAddress${idx}"]`)?.value || '';
-
-        if (executorName && executorRelationship && executorAddress) {
-            executors.push({
-                type: 'someoneElse',
-                name: executorName,
-                relationship: executorRelationship,
-                address: executorAddress
-            });
-        }
-    } else {
-        executors.push({
-            type: executor.value
-        });
-    }
-});
-
-
+                document.querySelectorAll('input[name="executor"]:checked').forEach((executor) => {
+                    if (executor.value === 'someoneElse') {
+                        const executorName = document.querySelector('input[name="executorFullName"]')?.value || '';
+                        const executorRelationship = document.querySelector('select[name="executorRelationship"]')?.value || '';
+                        const executorAddress = document.querySelector('input[name="executorAddress"]')?.value || '';
+                        
+                        if (executorName && executorRelationship && executorAddress) {
+                            executors.push({
+                                type: 'someoneElse',
+                                name: executorName,
+                                relationship: executorRelationship,
+                                address: executorAddress
+                            });
+                        }
+                    } else {
+                        executors.push({ type: executor.value });
+                    }
+                });
+    
                 // Children and Guardianship
                 const childrenAndGuardianship = {
                     hasChildren: document.querySelector('input[name="hasChildren"]:checked')?.value || '',
@@ -232,7 +172,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                         address: document.querySelector(`input[name="guardianAddress${index}"]`)?.value || ''
                     });
                 });
-
+    
                 // Pets
                 const pets = {
                     hasPets: document.querySelector('input[name="hasPets"]:checked')?.value || '',
@@ -245,24 +185,19 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                     leaveMoney: document.querySelector('input[name="leaveMoneyForPets"]:checked')?.value || '',
                     amount: document.querySelector('input[name="petMoneyAmount"]')?.value || ''
                 };
-
+    
                 // Digital Assets
                 const digitalAssets = document.querySelector('input[name="allowDigitalAssets"]:checked')?.value || '';
-
+    
                 // Funeral Plans
                 const funeralPlans = document.querySelector('input[name="funeralPlan"]:checked')?.value || '';
-
+    
                 // Delivery Method
-                const deliverydates = document.querySelector('input[name="deliveryMethod"]:checked')?.value || '';
-
+                const delivery = document.querySelector('input[name="deliveryMethod"]:checked')?.value || '';
+    
                 // Create the final data object to submit
                 const willData = {
-                    generalInfo: {
-                        firstName,
-                        lastName,
-                        email,
-                        relationship
-                    },
+                    generalInfo: { firstName, lastName, email, relationship },
                     whoNeedsWill,
                     gifts,
                     residualEstate,
@@ -272,50 +207,30 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                     pets,
                     digitalAssets,
                     funeralPlans,
-                    deliverydates,
-                    timestamp: new Date(),
-                    to: ["farhan.b@hotmail.co.uk"],  // Add this line to specify the recipient
-                    message: {
-                        subject: 'Will Submission Confirmation',
-                        html: `<p>Dear Swiftwills,</p>
-                       <p>Thank you for submitting your will. Here are the details:</p>
-                       <ul>
-                         <li>Name: ${firstName} ${lastName}</li>
-                         <li>Who Needs Will: ${whoNeedsWill}</li>
-                       </ul>
-                       <p>Best regards,<br/>Swiftwills Team</p>`
-                    },
-                    
+                    delivery,
+                    timestamp: new Date()
                 };
-
+    
                 // Submit the data to Firestore
                 await addDoc(collection(db, 'wills'), willData);
-                console.log("Successfully submitted to Firestore and email triggered");
-
-
+                console.log("Successfully submitted to Firestore");
+    
                 // Reset the form after submission
                 document.querySelector('.submit-will-form').reset();
             } catch (error) {
                 console.error("Error submitting data to Firestore:", error);
                 alert("Submission failed! Please check the console for errors.");
             }
-        };
-
+        }
+    
         // Attach event listener to the form submission
         const form = document.querySelector('.submit-will-form');
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            handleWillRedirect();
             submitWillData();
         });
-
-        form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    await submitWillData();
-});
-
     </script>
-    
+
 
 <script>import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
 
@@ -1145,7 +1060,7 @@ document.querySelectorAll('input[name="executor"]:checked').forEach((executor, i
                         </div>
                         <div class="review-card-footer">
                             <form class="submit-will-form">
-                                <button type="submit" class="btn btn-primary btn-lg" onclick="submitWillData()">Submit Will</button>
+                                <button type="submit" class="btn btn-primary btn-lg" onclick="submitWill()">Submit Will</button>
                             </form>
                         </div>
                     </div>
