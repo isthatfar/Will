@@ -14,6 +14,16 @@ function goToStep1() {
   }
   
   function goToStep4() {
+    //activates the function to send email and start saving progress
+    let email = document.querySelector("#email")?.value || "";
+    //email validation
+    if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        let event = new CustomEvent("sendLoginEmail",{
+            detail: email
+        })
+        window.dispatchEvent(event) //dispatches event which calls the email sending & data saving function 
+    }
+
     showStep(4)
   }
   
@@ -21,8 +31,10 @@ function goToStep1() {
     showStep(5)
   }
   
-  function goToStep6() {  
-    populateGiftRecipientList() //creates the gifts HTML and loads gift data if available
+  function goToStep6(populate = true) {
+    if(populate){
+        populateGiftRecipientList() //creates the gifts HTML and loads gift data if available
+    }
     showStep(6)
     //removed the load function and attach listeners function from here as we are doing everything inside populating function
   }
@@ -869,6 +881,9 @@ function goToStep1() {
       if (beneficiaries.length > 0) {
           beneficiaries.forEach((beneficiary, index) => {
               const contingencyDiv = document.createElement("div");
+              let id = beneficiary.value.replaceAll(" ","-");
+              id += index;
+              contingencyDiv.id = id;
               contingencyDiv.innerHTML = `
                   <h4>${beneficiary.value}</h4>
                   <label>What should happen to ${beneficiary.value}'s share if they pass away before you?</label><br><br>
@@ -1624,4 +1639,3 @@ function goToStep1() {
     // Collect all the data and submit it, possibly using Firebase as demonstrated in your previous code.
     alert("Your will has been submitted successfully!")
   }
-  
