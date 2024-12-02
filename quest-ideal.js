@@ -1639,3 +1639,4 @@ function goToStep1() {
     // Collect all the data and submit it, possibly using Firebase as demonstrated in your previous code.
     alert("Your will has been submitted successfully!")
   }
+  
