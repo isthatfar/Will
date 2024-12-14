@@ -1,9 +1,8 @@
 const admin = require('firebase-admin');
-const handlebars = require('handlebars');
-const puppeteer = require('puppeteer');
+const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
-const mime = require('mime-types');
+const handlebars = require('handlebars');
 
 // Initialize Firebase Admin
 admin.initializeApp({
@@ -14,75 +13,70 @@ admin.initializeApp({
 const db = admin.firestore();
 const bucket = admin.storage().bucket();
 
-// Function to generate a PDF
+// Function to generate PDF using PDFKit
 async function generatePDF(data) {
-    // Load the HTML template
+    const doc = new PDFDocument();
+    const pdfPath = path.resolve(__dirname, `${data.firstName}_${data.lastName}_Will.pdf`);
+    const stream = fs.createWriteStream(pdfPath);
+
+    // Load and compile the HTML template
     const templatePath = path.resolve(__dirname, 'template.html');
     const templateHtml = fs.readFileSync(templatePath, 'utf8');
-
-    // Compile the template with Handlebars
     const template = handlebars.compile(templateHtml);
     const filledHtml = template(data);
 
-    // Use Puppeteer to convert the filled HTML to PDF
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setContent(filledHtml, { waitUntil: 'networkidle0' });
-
-    // Save the PDF as a buffer
-    const pdfBuffer = await page.pdf({ format: 'A4' });
-    await browser.close();
-
-    return pdfBuffer;
-}
-
-// Function to upload a PDF to Firebase Storage
-async function uploadPDF(buffer, fileName) {
-    const file = bucket.file(`wills/${fileName}`);
-    const stream = file.createWriteStream({
-        metadata: {
-            contentType: mime.lookup('pdf'),
-        }
-    });
+    // Write content to PDF (you can customize this part as needed)
+    doc.pipe(stream);
+    doc.fontSize(20).text('Last Will and Testament', { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(12).text(filledHtml, { align: 'left' });
+    doc.end();
 
     return new Promise((resolve, reject) => {
+        stream.on('finish', () => resolve(pdfPath));
         stream.on('error', reject);
-        stream.on('finish', async () => {
-            const publicUrl = await file.getSignedUrl({
-                action: 'read',
-                expires: '03-01-2030'
-            });
-            resolve(publicUrl[0]);
-        });
-        stream.end(buffer);
     });
 }
 
-// Listen for changes in the Firestore database
-db.collection('wills').onSnapshot(snapshot => {
-    snapshot.docChanges().forEach(async change => {
+// Function to upload PDF to Firebase Storage
+async function uploadPDF(filePath, fileName) {
+    const file = bucket.file(`wills/${fileName}`);
+    return new Promise((resolve, reject) => {
+        fs.createReadStream(filePath)
+            .pipe(file.createWriteStream({ contentType: 'application/pdf' }))
+            .on('finish', async () => {
+                const [url] = await file.getSignedUrl({
+                    action: 'read',
+                    expires: '03-01-2030',
+                });
+                resolve(url);
+            })
+            .on('error', reject);
+    });
+}
+
+// Listen for Firestore Changes
+db.collection('wills').onSnapshot((snapshot) => {
+    snapshot.docChanges().forEach(async (change) => {
         if (change.type === 'added') {
             const data = change.doc.data();
             console.log('New will detected:', data);
 
             try {
-                // Generate the PDF
-                const pdfBuffer = await generatePDF(data);
-
-                // Generate a file name
+                const pdfPath = await generatePDF(data);
                 const fileName = `${data.firstName}_${data.lastName}_Will.pdf`;
+                const downloadUrl = await uploadPDF(pdfPath, fileName);
 
-                // Upload the PDF to Firebase Storage
-                const downloadUrl = await uploadPDF(pdfBuffer, fileName);
                 console.log('PDF uploaded:', downloadUrl);
 
-                // (Optional) Update Firestore with the PDF URL
+                // Update Firestore with the PDF URL
                 await change.doc.ref.update({ pdfUrl: downloadUrl });
-                console.log('Firestore updated with PDF URL');
+
+                // Clean up the local file after uploading
+                fs.unlinkSync(pdfPath);
             } catch (error) {
-                console.error('Error generating PDF:', error);
+                console.error('Error generating or uploading PDF:', error);
             }
         }
     });
 });
-
