@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Will Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+        p, ul {
+            margin: 10px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        ul li {
+            margin: 5px 0;
+        }
+        .signature {
+            margin-top: 20px;
+        }
+        .signature p {
+            margin: 5px 0;
+        }
+        .attestation {
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>THIS WILL is made by me {{firstName}} {{lastName}} of {{address1}}, {{address2}}, {{city}}, {{postcode}}.</h1>
+
+    <h2>1. Revocation</h2>
+    <p>I {{firstName}} {{lastName}} revoke all earlier wills and declare this to be my last will.</p>
+
+    <h2>2. Relationships</h2>
+    <p>At the time of making this will, I am {{relationship}}.</p>
+
+    <h2>3. Funeral Directions</h2>
+    <p>a. I wish my body to be {{funeralPlans}}.</p>
+
+    <h2>4. Appointment of Executors and Trustees</h2>
+    <p>a. I appoint as the Executors and Trustees of this my will:</p>
+    <ul>
+        {{#each executors}}
+        <li>my {{relationship}} {{name}} of {{address}}</li>
+        {{/each}}
+    </ul>
+    <p>b. {{#if backupExecutors}}If all my above-appointed Executors and Trustees are unable or unwilling to act or if they shall die before proving my will, I revoke their appointment and I make the following further appointments instead:</p>
+    <ul>
+        {{#each backupExecutors}}
+        <li>I appoint {{name}} as my backup Executor and Trustee.</li>
+        {{/each}}
+    </ul>
+    {{/if}}
+    
+    <h2>5. Definition of My Estate</h2>
+    <p>In my will, where the context so admits, 'my Estate' shall mean:</p>
+    <ul>
+        <li>All of my property of every kind wherever situated.</li>
+        <li>All my property of every kind wherever situated over which I have a general power of appointment.</li>
+        <li>The money, investments, and property from time to time representing all such property.</li>
+    </ul>
+
+    <h2>6. Administration of My Estate</h2>
+    <p>a. My Trustees must hold my estate on trust. My Trustees must pay from my estate:</p>
+    <ul>
+        <li>my funeral expenses;</li>
+        <li>my testamentary expenses;</li>
+        <li>any debts accrued by me during my lifetime;</li>
+        <li>all gifts and legacies made in this Will;</li>
+        <li>any inheritance tax payable in respect of my estate.</li>
+    </ul>
+
+    <h2>7. Specific Gifts of Chattels and Other Personal Property</h2>
+    <ul>
+        {{#each gifts}}
+        <li>I give to my {{relationship}} {{name}} of {{address}} my {{#each beneficiaryGifts}}{{giftType}} {{giftDetails}}{{#unless @last}}, {{/unless}}{{/each}}.</li>
+        {{/each}}
+    </ul>
+
+    <h2>8. Gift of Residue</h2>
+    <p>My Trustees distribute my Residuary Estate as follows:</p>
+    <ul>
+        {{#each residualEstate}}
+        <li>To {{#if beneficiary}}{{beneficiary}}{{else}}{{charity}}{{/if}} a {{percentage}}% share.</li>
+        {{/each}}
+    </ul>
+
+    <h2>9. Guardianship Appointment</h2>
+    <p>If I am the sole surviving parent with parental responsibility for my children, then I make the following appointments:</p>
+    <ul>
+        {{#each childrenAndGuardianship.guardians}}
+        <li>I appoint my {{relationship}} {{name}} of {{address}} to be the guardian of my children {{#each children}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}.</li>
+        {{/each}}
+    </ul>
+
+    <h2>10. Trusts for Minors</h2>
+    <p>All residuary gifts are subject to the recipient attaining twenty-one years of age.</p>
+
+    <h2>11. Provision for Pets</h2>
+    <p>If my pet shall predecease me, it is my wish that any pets in my possession at the date of my death shall be provided with a good home for the remainder of their natural lives. I give my pets together with the sum of {{pets.amount}} to my {{pets.caretakerDetails.relationship}} {{pets.caretakerDetails.fullName}} of {{pets.caretakerDetails.address}}.</p>
+
+    <h2>12. Digital Assets</h2>
+    <p>a. Definition of Digital Assets:</p>
+    <ul>
+        <li>Email accounts</li>
+        <li>Social media accounts</li>
+        <li>Domain names</li>
+        <li>Digital photographs and videos</li>
+        <li>Cryptocurrency</li>
+        <li>Online banking accounts or digital wallets</li>
+        <li>Files stored in cloud services</li>
+        <li>Subscription services</li>
+    </ul>
+    <p>b. Instructions for Digital Assets:</p>
+    <ul>
+        <li>I direct my Trustees to manage my digital assets as per my wishes.</li>
+    </ul>
+
+    <h2>13. Administration Provisions</h2>
+    <p>The Standard Provisions and all of the Special Provisions of the Society of Trust and Estate Practitioners (2nd Edition) shall apply.</p>
+
+    <h2>Attestation</h2>
+    <p>Dated this {{date}} day of {{month}} Two Thousand and {{year}}</p>
+
+    <p>SIGNED by the above named {{firstName}} {{lastName}} as and for their last Will in our presence and attested by us in the presence of {{firstName}} {{lastName}} and of each other.</p>
+    <div class="signature">
+        <p>Signature of Testator: ____________________________</p>
+        <p>Signature of first witness: ____________________________</p>
+        <p>Name of first witness: {{witness1.name}}</p>
+        <p>Address of first witness: {{witness1.address}}</p>
+        <p>Signature of second witness: ____________________________</p>
+        <p>Name of second witness: {{witness2.name}}</p>
+        <p>Address of second witness: {{witness2.address}}</p>
+    </div>
+</body>
+</html>
