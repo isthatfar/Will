@@ -1,3 +1,87 @@
+
+
+
+// This is your test secret API key.
+const stripe = require('stripe')('sk_test_51QEzOZKQ7pECBtXLn75fymEXXTbwtwYhLfA3S9ZSzJuyWQmUeIXNt5124lXxXNt6cskw0G5K3dvrHmZhr7s3VZA4007RWFvMgE');
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+// Middleware
+app.use(express.static('public'));
+app.use(express.json()); // Parse JSON bodies
+app.use(cors({ origin: 'http://127.0.0.1:5501' })); // Allow requests from your live server
+
+const YOUR_DOMAIN = 'http://127.0.0.1:5501';
+
+// Create Checkout Session
+app.post('/create-checkout-session', async (req, res) => {
+  const { willType, deliveryMethod } = req.body;
+
+  // Determine the price ID based on user selections
+  let priceId = '';
+  if (willType === 'single' && (deliveryMethod === 'digitalDownload' || deliveryMethod === '1stClassPost')) {
+    priceId = 'price_1QPS6EKQ7pECBtXLvFR2C9Nj'; // Replace with actual Price ID for single will + digital/postage
+  } else if (willType === 'couple' && (deliveryMethod === 'digitalDownload' || deliveryMethod === '1stClassPost')) {
+    priceId = 'price_1QPS6FKQ7pECBtXLvFR2C9Nj'; // Replace with actual Price ID for couple will + digital/postage
+  } else if (willType === 'single' && deliveryMethod === 'priorityReview') {
+    priceId = 'price_1QPS6GKQ7pECBtXLvFR2C9Nj'; // Replace with actual Price ID for single will + priority review
+  } else if (willType === 'couple' && deliveryMethod === 'priorityReview') {
+    priceId = 'price_1QPS6HKQ7pECBtXLvFR2C9Nj'; // Replace with actual Price ID for couple will + priority review
+  } else {
+    res.status(400).send({ error: 'Invalid selection' });
+    return;
+  }
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      ui_mode: 'embedded',
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      return_url: `${YOUR_DOMAIN}/return.html?session_id={CHECKOUT_SESSION_ID}`,
+    });
+
+    res.send({ clientSecret: session.client_secret });
+  } catch (error) {
+    console.error('Error creating checkout session:', error);
+    res.status(500).send({ error: 'Failed to create checkout session' });
+  }
+});
+
+// Get Session Status
+app.get('/session-status', async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
+
+    res.send({
+      status: session.status,
+      customer_email: session.customer_details.email,
+    });
+  } catch (error) {
+    console.error('Error retrieving session status:', error);
+    res.status(500).send({ error: 'Failed to retrieve session status' });
+  }
+});
+
+// Start the server
+app.listen(5501, () => console.log('Running on port 4242'));
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
