@@ -1646,10 +1646,9 @@ p {
 
 /* ====== Banner CSS ======= */
 .ud-page-banner {
-  padding-top: 130px;
-  padding-bottom: 80px;
+  padding-top: 10px;
+  padding-bottom: 63px;
   background: var(--primary-color);
-  background-image: url("../images/banner/banner-bg.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
